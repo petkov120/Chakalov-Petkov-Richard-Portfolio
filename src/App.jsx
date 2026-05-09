@@ -1,0 +1,34 @@
+import Hero from './components/Hero'
+import ProjectIntro from './components/ProjectIntro'
+import Chapter from './components/Chapter'
+import OtherWork from './components/OtherWork'
+import About from './components/About'
+import Footer from './components/Footer'
+import { chapters } from './data/chapters'
+
+export default function App() {
+  return (
+    <main className="min-h-screen bg-paper text-ink">
+      <Hero />
+      <ProjectIntro />
+
+      {chapters.map((ch) => (
+        <Chapter
+          key={ch.number}
+          number={ch.number}
+          title={ch.title}
+          decision={ch.decision}
+          images={ch.images}
+        >
+          {ch.paragraphs.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+        </Chapter>
+      ))}
+
+      <OtherWork />
+      <About />
+      <Footer />
+    </main>
+  )
+}
