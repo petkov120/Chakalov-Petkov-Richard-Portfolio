@@ -108,8 +108,8 @@ export default function Chapter({ number, title, children, decision, images }) {
 
           {images && images.length > 0 && (
             <div className="pt-6 space-y-4 md:pt-8 md:space-y-5 md:-mx-8 lg:-mx-12">
-              <p className="text-[11px] font-mono uppercase tracking-widest text-muted/90 px-1">
-                Click any screenshot to expand
+              <p className="text-xs font-mono tracking-wide text-muted/80 px-1">
+                Tap to enlarge. Use arrows or swipe to browse.
               </p>
               {images.map((img, i) => {
                 const resolvedSrc = getResolvedSrc(img)

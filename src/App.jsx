@@ -1,10 +1,12 @@
 import Hero from './components/Hero'
 import ProjectIntro from './components/ProjectIntro'
 import Chapter from './components/Chapter'
+import Showcase from './components/Showcase'
 import OtherWork from './components/OtherWork'
 import About from './components/About'
 import Footer from './components/Footer'
 import { chapters } from './data/chapters'
+import { showcaseItems } from './data/showcase'
 
 export default function App() {
   return (
@@ -26,6 +28,7 @@ export default function App() {
         </Chapter>
       ))}
 
+      <Showcase items={showcaseItems} />
       <OtherWork />
       <About />
       <Footer />

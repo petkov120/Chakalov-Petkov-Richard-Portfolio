@@ -59,14 +59,18 @@ export const chapters = [
     ],
     images: [
       {
-        src: 'PLACEHOLDER',
+        src: '/images/schedule-batch.png?v=2',
         label: 'Schedule Batch — channel selection',
         hint: 'public/images/schedule-batch.png',
+        alt: 'Schedule batch screen with channel selection options',
+        caption: 'Schedule Batch — channel selection',
       },
       {
-        src: 'PLACEHOLDER',
+        src: '/images/ai-agent-calls.png?v=2',
         label: 'AI Agent Calls — review queue',
         hint: 'public/images/ai-agent-calls.png',
+        alt: 'AI agent calls queue with call preparation dialog',
+        caption: 'AI Agent Calls — review queue',
       },
     ],
     decision:
