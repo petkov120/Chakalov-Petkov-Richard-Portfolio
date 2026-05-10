@@ -59,7 +59,7 @@ export default function AboutPage() {
           <div className="md:col-span-7 md:col-start-5 space-y-4">
             <figure className="rounded-md overflow-hidden border border-rule bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.06)]">
               <img
-                src="/images/hackathon.jpg?v=2"
+                src="/images/hackathon.webp?v=3"
                 alt="Petkov and team holding Hackaholics 5.0 3rd Runner Up award"
                 className="w-full h-auto"
               />
