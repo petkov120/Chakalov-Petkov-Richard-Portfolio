@@ -25,13 +25,11 @@ export default function Footer() {
           >
             GitHub ↗
           </a>
-          <a href="#" className="hover:text-ink transition-colors">Read.cv ↗</a>
         </div>
       </div>
 
-      <div className="rule mt-16 pt-6 flex justify-between font-mono text-xs text-muted">
+      <div className="rule mt-16 pt-6 font-mono text-xs text-muted">
         <span>© 2026 Petkov Chakalov</span>
-        <span>Built in Cursor. Hosted on Vercel.</span>
       </div>
     </footer>
   )
