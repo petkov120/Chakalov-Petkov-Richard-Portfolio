@@ -9,15 +9,14 @@ export default function Footer() {
             Let's talk.
           </h2>
           <a
-            href="mailto:hello@example.com"
+            href="mailto:petkovrichard8@gmail.com"
             className="display text-3xl md:text-4xl italic text-accent hover:underline underline-offset-4"
           >
-            hello@example.com
+            petkovrichard8@gmail.com
           </a>
         </div>
 
         <div className="md:col-span-5 flex flex-col md:items-end gap-2 font-mono text-sm text-muted">
-          <a href="#" className="hover:text-ink transition-colors">LinkedIn ↗</a>
           <a
             href="https://github.com/petkov120"
             target="_blank"
@@ -26,7 +25,6 @@ export default function Footer() {
           >
             GitHub ↗
           </a>
-          <a href="#" className="hover:text-ink transition-colors">Twitter / X ↗</a>
           <a href="#" className="hover:text-ink transition-colors">Read.cv ↗</a>
         </div>
       </div>
