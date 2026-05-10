@@ -5,7 +5,7 @@ export default function Hero() {
     <section className="px-6 md:px-12 pt-12 md:pt-20 pb-24 md:pb-32 max-w-wide mx-auto">
       <div className="flex items-center justify-between mb-16 md:mb-24 text-sm">
         <span className="font-mono text-muted rise rise-1">Petkov Chakalov</span>
-        <nav className="flex gap-6 md:gap-8 font-mono text-muted rise rise-1">
+        <nav className="flex gap-5 md:gap-8 font-mono text-muted rise rise-1">
           <a
             href="#work"
             aria-current="page"
@@ -19,7 +19,7 @@ export default function Hero() {
       </div>
 
       <h1 className="display text-[12vw] md:text-[8vw] lg:text-[6.5vw] leading-[1] mb-8 md:mb-10 text-balance rise rise-2">
-        I took a US healthcare AI product
+        I took an AI product
         <br />
         <span className="italic text-muted">from MVP to paying companies.</span>
       </h1>
@@ -38,7 +38,7 @@ export default function Hero() {
         <div className="md:col-span-7 md:col-start-2 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 font-mono text-xs text-muted">
           <div>
             <div className="text-ink text-base md:text-lg font-sans">10M</div>
-            <div>member records</div>
+            <div>user records</div>
           </div>
           <div>
             <div className="text-ink text-base md:text-lg font-sans">2</div>

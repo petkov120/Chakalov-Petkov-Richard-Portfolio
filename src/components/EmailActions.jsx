@@ -33,7 +33,7 @@ export default function EmailActions() {
       <button
         type="button"
         onClick={handleCopy}
-        className="text-[11px] uppercase tracking-wide text-muted/80 hover:text-ink transition-colors"
+        className="hidden md:inline-block text-[11px] uppercase tracking-wide text-muted/80 hover:text-ink transition-colors"
         aria-live="polite"
       >
         {copied ? 'Copied' : 'Copy'}

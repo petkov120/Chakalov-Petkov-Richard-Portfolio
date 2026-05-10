@@ -6,7 +6,7 @@ export default function AboutPage() {
       <section className="px-6 md:px-12 pt-12 md:pt-20 pb-24 md:pb-32 max-w-wide mx-auto">
         <div className="flex items-center justify-between mb-16 md:mb-24 text-sm">
           <span className="font-mono text-muted rise rise-1">Petkov Chakalov</span>
-          <nav className="flex gap-6 md:gap-8 font-mono text-muted rise rise-1">
+          <nav className="flex gap-5 md:gap-8 font-mono text-muted rise rise-1">
             <a href="/" className="hover:text-ink transition-colors">Home</a>
             <a href="/#work" className="hover:text-ink transition-colors">Work</a>
             <span
