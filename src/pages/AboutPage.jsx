@@ -72,6 +72,36 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
+
+        <div className="rule my-14 md:my-16" />
+
+        <div className="grid md:grid-cols-12 gap-8 md:gap-12">
+          <div className="md:col-span-3">
+            <div className="font-mono text-xs uppercase tracking-widest text-muted">
+              A note
+            </div>
+          </div>
+          <div className="md:col-span-7 md:col-start-5 space-y-5 text-base md:text-xl leading-relaxed text-pretty">
+            <p className="font-serif display text-xl md:text-2xl leading-snug">
+              I'll save us both some time.
+            </p>
+            <p>
+              Yes, Lagos 🇳🇬. No, it didn't slow the work down.
+            </p>
+            <p>
+              One startup, one founding designer role, 18 months. Zero to
+              paying B2B customers. Brand, design system, production UI —
+              all of it built and shipped from Lagos, for a US healthcare
+              company.
+            </p>
+            <p className="font-serif display text-xl md:text-2xl italic leading-snug text-muted">
+              Talent doesn't have a postcode.
+            </p>
+            <p className="text-muted">
+              Open globally. Willing to relocate. Ready to talk.
+            </p>
+          </div>
+        </div>
       </section>
     </main>
   )
