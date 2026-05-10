@@ -4,8 +4,14 @@ export default function Hero() {
   return (
     <section className="px-6 md:px-12 pt-12 md:pt-20 pb-24 md:pb-32 max-w-wide mx-auto">
       <div className="flex items-center justify-between mb-16 md:mb-24 text-sm">
-        <span className="font-mono text-muted rise rise-1">Petkov Chakalov</span>
-        <nav className="flex gap-5 md:gap-8 font-mono text-muted rise rise-1">
+        <span
+          className="font-mono text-muted rise rise-1 shrink-0"
+          aria-label="Petkov Chakalov"
+        >
+          <span className="md:hidden" aria-hidden="true">P.C.</span>
+          <span className="hidden md:inline" aria-hidden="true">Petkov Chakalov</span>
+        </span>
+        <nav className="flex items-center gap-4 md:gap-8 font-mono text-muted rise rise-1">
           <a
             href="#work"
             aria-current="page"

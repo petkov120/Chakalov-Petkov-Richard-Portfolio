@@ -9,7 +9,7 @@ export const chapters = [
     images: [
     ],
     decision:
-      'I committed to a design system at three screens because consistency debt was already forming, and every later feature shipped faster for it.',
+      'Waited too long and every AI component locks in a wrong assumption. Defined the token system at three screens — no reference existed for AI UI patterns, so I had to invent the conventions before I had enough screens to extract them from.',
   },
   {
     number: '02',
@@ -41,8 +41,9 @@ export const chapters = [
         caption: 'Member Overview, light mode',
       },
     ],
+    signals: ['10 million records in the live system', 'HIPAA: care managers can\'t browse other patients\'s records', 'a list would have been a compliance failure'],
     decision:
-      'ID first search came from a security need: users could not be allowed to browse other members records. The guardrail kept lookup fast for care teams.',
+      'The obvious answer was a list. With 10 million records and a HIPAA boundary, a list is a compliance failure. I had to understand the data model before I could design the entry point. ID-first wasn\'t a UX preference — it was the only shape the constraint allowed.',
   },
   {
     number: '03',
@@ -67,8 +68,9 @@ export const chapters = [
         caption: 'AI Agent Calls, review queue',
       },
     ],
+    signals: ['email, SMS, and AI voice calls from one flow', 'care managers scheduling across large member cohorts', 'mid-flow decisions caused full reruns'],
     decision:
-      'I put channel selection first so teams made one clear decision up front, then moved through scheduling without doubting each step.',
+      'Channel selection mid-batch sounds logical until a care manager changes their mind after building a large AI voice schedule. I learned that by watching it happen. Moved the decision to step one — channel first, then everything else follows from that choice.',
   },
   {
     number: '04',
@@ -104,8 +106,9 @@ export const chapters = [
         caption: 'ROI Simulator, Monte Carlo distribution',
       },
     ],
+    signals: ['thousands of simulation runs as raw output', 'care leads presenting to CFOs in 2-minute windows', 'a data table is not a decision tool'],
     decision:
-      'I showed the Monte Carlo output as a chart instead of a table. Decision makers needed to read uncertainty at a glance, and the visual built trust faster without changing the math.',
+      'The simulation output was a decision tool for people who had two minutes in a meeting. I worked with the researcher to understand what the distribution was saying, then shaped the interface around the numbers that drove the decision — not the full export. The engineers built the model. I made sure the right numbers were visible.',
   },
   {
     number: '06',

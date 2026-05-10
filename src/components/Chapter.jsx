@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-export default function Chapter({ number, title, children, decision, images }) {
+export default function Chapter({ number, title, children, decision, images, signals }) {
   const [activeImageIndex, setActiveImageIndex] = useState(null)
 
   const closeImagePreview = () => setActiveImageIndex(null)
@@ -160,8 +160,29 @@ export default function Chapter({ number, title, children, decision, images }) {
             </div>
           )}
 
-          {decision && (
+          {signals && signals.length > 0 && (
             <div className="pt-6 mt-6 border-t border-rule">
+              <div className="font-mono text-xs uppercase tracking-widest text-muted mb-1">
+                Constraints
+              </div>
+              <p className="font-mono text-xs text-muted mb-3">
+                What ruled out the obvious approach
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {signals.map((s, i) => (
+                  <span
+                    key={i}
+                    className="font-mono text-xs text-ink border border-rule rounded px-2.5 py-1 bg-white"
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {decision && (
+            <div className={`pt-6 mt-6 ${!signals || signals.length === 0 ? 'border-t border-rule' : ''}`}>
               <div className="font-mono text-xs uppercase tracking-widest text-muted mb-2">
                 The decision I'm proud of
               </div>
