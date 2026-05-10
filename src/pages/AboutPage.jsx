@@ -8,6 +8,7 @@ export default function AboutPage() {
           <span className="font-mono text-muted rise rise-1">Petkov Chakalov</span>
           <nav className="flex gap-6 md:gap-8 font-mono text-muted rise rise-1">
             <a href="/" className="hover:text-ink transition-colors">Home</a>
+            <a href="/#work" className="hover:text-ink transition-colors">Work</a>
             <span
               aria-current="page"
               className="text-ink border-b border-ink pb-0.5"
