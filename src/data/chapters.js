@@ -26,7 +26,7 @@ export const chapters = [
         src: '/images/Member-ID%20SEARCH.png?v=2',
         label: 'Member Search, ID first lookup',
         hint: 'public/images/Member-ID SEARCH.png',
-        alt: 'Member Search screen with ID-first lookup',
+        alt: 'Member Search screen with ID first lookup',
         caption: 'Member Search, ID first lookup',
       },
       {
@@ -74,7 +74,7 @@ export const chapters = [
       },
     ],
     decision:
-      'I put channel selection first so teams could make one clear decision up front, then move faster through the rest of scheduling without second-guessing each step.',
+      'I put channel selection first so teams could make one clear decision up front, then move faster through the rest of scheduling without doubting each step.',
   },
   {
     number: '04',
@@ -83,7 +83,7 @@ export const chapters = [
       'Figma became a bottleneck. Handoff was getting expensive, every small inconsistency cost the dev team time, and collaboration on long flows broke down.',
       'I took the leap. HTML, CSS, React basics. The unlock was components and state management. Once I saw them as design layers, everything clicked.',
       'I started living in the IDE more than Figma. Cursor changed how I work. I use ask mode constantly to understand the codebase before I touch it, and I ship features one at a time without breaking the system.',
-      'I\u2019m not a senior engineer. I still ask my lead for help on harsh merge conflicts, and I\u2019ve fixed self-inflicted bugs more than once. But I design and build now, and the speed difference is real.',
+      'I\u2019m not a senior engineer. I still ask my lead for help on harsh merge conflicts, and I\u2019ve fixed my own bugs more than once. But I design and build now, and the speed difference is real.',
     ],
     images: [],
     decision:
@@ -97,7 +97,7 @@ export const chapters = [
       'The first lets care management programs optimize capacity, costs, and investment priorities across roles like Care Managers, Pharmacists, PCPs, and Community Health Workers. It runs bottleneck analysis and surfaces an optimized enrollment list with impact scores and cost estimates.',
       'The second runs Monte Carlo simulations across program outcomes, net savings, ROI, hospital admissions avoided, and capacity needed.',
       'I\u2019m not a healthcare practitioner. I designed both by working closely with the AI researcher and clinical advisors, asking dumb questions until I understood what each number actually meant.',
-      'The interface is a translation layer. Take dense, statistical, healthcare-economics output. Make it readable to a care management lead who has to decide in two minutes.',
+      'The interface is a translation layer. Take dense, statistical, healthcare economics output. Make it readable to a care management lead who has to decide in two minutes.',
     ],
     images: [
       {
@@ -116,7 +116,7 @@ export const chapters = [
       },
     ],
     decision:
-      'I showed the Monte Carlo output as a chart instead of a table because decision-makers needed to read uncertainty at a glance, and the visual built trust faster without changing the math.',
+      'I showed the Monte Carlo output as a chart instead of a table because decision makers needed to read uncertainty at a glance, and the visual built trust faster without changing the math.',
   },
   {
     number: '06',

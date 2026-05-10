@@ -33,7 +33,7 @@ export default function AboutPage() {
             <p>
               While backend engineers focused on API structure and data systems,
               I focused on the product face and flow: design system, user
-              journeys, and production-ready front-end features.
+              journeys, and production ready front end features.
             </p>
           </div>
         </div>
@@ -60,7 +60,7 @@ export default function AboutPage() {
             <p className="text-lg md:text-xl leading-relaxed text-pretty">
               This was where I learned to build practical education solutions
               under pressure, before I later transitioned into health tech and
-              applied the same product mindset to higher-stakes workflows.
+              applied the same product mindset to higher stakes workflows.
             </p>
           </div>
         </div>
