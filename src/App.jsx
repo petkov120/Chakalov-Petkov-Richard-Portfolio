@@ -3,7 +3,6 @@ import ProjectIntro from './components/ProjectIntro'
 import Chapter from './components/Chapter'
 import Showcase from './components/Showcase'
 import OtherWork from './components/OtherWork'
-import About from './components/About'
 import Footer from './components/Footer'
 import AboutPage from './pages/AboutPage'
 import { chapters } from './data/chapters'
@@ -37,7 +36,6 @@ export default function App() {
 
       <Showcase items={showcaseItems} />
       <OtherWork />
-      <About />
       <Footer />
     </main>
   )
