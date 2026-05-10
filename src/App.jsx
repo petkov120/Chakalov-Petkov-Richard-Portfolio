@@ -2,6 +2,7 @@ import Hero from './components/Hero'
 import ProjectIntro from './components/ProjectIntro'
 import Chapter from './components/Chapter'
 import Showcase from './components/Showcase'
+import Stack from './components/Stack'
 import OtherWork from './components/OtherWork'
 import Footer from './components/Footer'
 import AboutPage from './pages/AboutPage'
@@ -35,6 +36,7 @@ export default function App() {
       ))}
 
       <Showcase items={showcaseItems} />
+      <Stack />
       <OtherWork />
       <Footer />
     </main>
