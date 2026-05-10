@@ -5,7 +5,7 @@ export default function Hero() {
         <span className="font-mono text-muted rise rise-1">Petkov Chakalov</span>
         <nav className="flex gap-6 md:gap-8 font-mono text-muted rise rise-1">
           <a href="#work" className="hover:text-ink transition-colors">Work</a>
-          <a href="#about" className="hover:text-ink transition-colors">About</a>
+          <a href="/about" className="hover:text-ink transition-colors">About</a>
           <a href="mailto:petkovrichard8@gmail.com" className="hover:text-ink transition-colors">Email</a>
         </nav>
       </div>

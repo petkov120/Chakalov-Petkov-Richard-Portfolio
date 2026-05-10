@@ -5,10 +5,17 @@ import Showcase from './components/Showcase'
 import OtherWork from './components/OtherWork'
 import About from './components/About'
 import Footer from './components/Footer'
+import AboutPage from './pages/AboutPage'
 import { chapters } from './data/chapters'
 import { showcaseItems } from './data/showcase'
 
 export default function App() {
+  const pathname = window.location.pathname
+
+  if (pathname === '/about') {
+    return <AboutPage />
+  }
+
   return (
     <main className="min-h-screen bg-paper text-ink">
       <Hero />
