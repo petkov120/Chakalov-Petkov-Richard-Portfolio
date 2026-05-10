@@ -9,7 +9,7 @@ export default function ProjectIntro() {
             Selected work
           </div>
           <div className="font-mono text-xs text-muted space-y-1">
-            <div>2024 — Now</div>
+            <div>2024 to now</div>
             <div>Founding Product Designer</div>
             <div>& Design Engineer</div>
           </div>
@@ -22,8 +22,8 @@ export default function ProjectIntro() {
           </h2>
           <p className="text-lg md:text-xl leading-relaxed text-pretty max-w-prose">
             Anonymized for the portfolio. The product is an agentic CRM for
-            healthcare — a platform where care managers, payers, and clinical
-            teams work alongside AI agents that handle drug-drug interactions,
+            healthcare, a platform where care managers, payers, and clinical
+            teams work alongside AI agents that handle drug to drug interactions,
             population insights, and member outreach via voice and SMS.
           </p>
           <p className="text-lg md:text-xl leading-relaxed text-pretty max-w-prose mt-5">

@@ -14,9 +14,9 @@ export default function About() {
           <p>I'm a product designer who codes.</p>
           <p>
             I started in design and grew into the codebase because the work
-            demanded it. I'm most useful at early-stage companies where one
+            demanded it. I'm most useful at early stage companies where one
             person needs to own the brand, the system, and the shipped features
-            — and where the product is technical enough that designers usually
+            and where the product is technical enough that designers usually
             flinch.
           </p>
           <p className="text-muted">

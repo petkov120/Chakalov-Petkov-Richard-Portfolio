@@ -54,7 +54,7 @@ export default function AboutPage() {
                 className="w-full h-auto"
               />
               <figcaption className="text-xs font-mono text-muted px-4 py-3 border-t border-rule">
-                Hackaholics 5.0 — 3rd Runner Up (University Track)
+                Hackaholics 5.0, 3rd Runner Up (University Track)
               </figcaption>
             </figure>
             <p className="text-lg md:text-xl leading-relaxed text-pretty">
@@ -79,7 +79,7 @@ export default function AboutPage() {
               parts that teams often avoid until they become painful.
             </p>
             <p>
-              Give me messy workflows, operational edge cases, trust-heavy
+              Give me messy workflows, operational edge cases, high trust
               interfaces, and dense data that still needs to feel clear for
               everyday users. That is where I do my best work.
             </p>
