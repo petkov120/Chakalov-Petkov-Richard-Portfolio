@@ -10,7 +10,7 @@ export const chapters = [
     images: [
     ],
     decision:
-      'Committing to a design system when there were only three screens to apply it to. Every later decision moved faster because of it.',
+      'I committed to a design system when there were only three screens because consistency debt was already forming, and that choice made every later feature faster to design and ship.',
   },
   {
     number: '02',
@@ -45,7 +45,7 @@ export const chapters = [
       },
     ],
     decision:
-      'Making ID-first search the primary path with name/advanced search as a secondary tab \u2014 instead of dumping every filter on the user upfront.',
+      'I made ID-first search the primary path because security came first — we could not risk users browsing into other members’ records — and that guardrail still kept lookup fast for care teams.',
   },
   {
     number: '03',
@@ -74,7 +74,7 @@ export const chapters = [
       },
     ],
     decision:
-      'Putting channel selection at the start of the flow instead of burying it in settings. It made the rest of the scheduling feel obvious.',
+      'I put channel selection first so teams could make one clear decision up front, then move faster through the rest of scheduling without second-guessing each step.',
   },
   {
     number: '04',
@@ -87,7 +87,7 @@ export const chapters = [
     ],
     images: [],
     decision:
-      'Learning to code in the middle of a job, on a live codebase, instead of waiting for a better time.',
+      'I learned to code because our startup dev team was overloaded and focused on API structure, so I took ownership of the product face and feel to help ship faster where design work was blocking progress.',
   },
   {
     number: '05',
@@ -101,18 +101,22 @@ export const chapters = [
     ],
     images: [
       {
-        src: 'PLACEHOLDER',
+        src: '/images/health-allocation.png?v=2',
         label: 'Health Resource Allocation — optimization view',
-        hint: 'public/images/resource-allocation.png',
+        hint: 'public/images/health-allocation.png',
+        alt: 'Health resource allocation optimization dashboard',
+        caption: 'Health Resource Allocation — optimization view',
       },
       {
-        src: 'PLACEHOLDER',
+        src: '/images/roi-simulator.png?v=2',
         label: 'ROI Simulator — Monte Carlo distribution',
         hint: 'public/images/roi-simulator.png',
+        alt: 'ROI simulator with Monte Carlo net savings distribution chart',
+        caption: 'ROI Simulator — Monte Carlo distribution',
       },
     ],
     decision:
-      'Showing the Monte Carlo distribution as a chart instead of a table. The math is the same. The trust it builds is completely different.',
+      'I showed the Monte Carlo output as a chart instead of a table because decision-makers needed to read uncertainty at a glance, and the visual built trust faster without changing the math.',
   },
   {
     number: '06',
@@ -123,6 +127,7 @@ export const chapters = [
       'That\u2019s the next chapter. This one was about getting from zero to a working, paid, used product. I did that.',
     ],
     images: [],
-    decision: null,
+    decision:
+      'I treated this chapter as an honest retrospective because credibility matters more than polish at this stage, and naming the gaps clearly helped define the next product priorities.',
   },
 ]
