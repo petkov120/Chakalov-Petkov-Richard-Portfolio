@@ -17,10 +17,15 @@ export default function ProjectIntro() {
 
         <div className="md:col-span-7 md:col-start-5">
           <h2 className="display text-4xl md:text-6xl leading-[1] mb-6 text-balance">
-            AI agents that call patients about their meds.
-            <span className="italic text-muted"> Used by care teams every morning.</span>
+            A US healthcare AI platform
+            <span className="italic text-muted"> care teams open every morning.</span>
           </h2>
-          <p className="text-base md:text-lg leading-relaxed text-pretty max-w-prose text-muted">
+          <p className="text-base md:text-lg leading-relaxed text-pretty max-w-prose mb-3">
+            10M member records. Multi-channel outreach including AI voice
+            agents. ML tools that translate dense models into decisions
+            clinicians make in two minutes.
+          </p>
+          <p className="font-mono text-xs text-muted">
             Anonymized for the portfolio. Six chapters of decisions below.
           </p>
         </div>
