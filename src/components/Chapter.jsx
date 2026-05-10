@@ -103,7 +103,7 @@ export default function Chapter({ number, title, children, decision, images }) {
           </h2>
         </div>
 
-        <div className="md:col-span-7 md:col-start-5 space-y-5 text-lg leading-relaxed text-pretty">
+        <div className="md:col-span-7 md:col-start-5 space-y-4 md:space-y-5 text-base md:text-lg leading-relaxed text-pretty">
           {children}
 
           {images && images.length > 0 && (
@@ -165,7 +165,7 @@ export default function Chapter({ number, title, children, decision, images }) {
               <div className="font-mono text-xs uppercase tracking-widest text-muted mb-2">
                 The decision I'm proud of
               </div>
-              <p className="font-serif text-xl italic leading-snug">
+              <p className="font-serif text-lg md:text-xl italic leading-snug">
                 {decision}
               </p>
             </div>
