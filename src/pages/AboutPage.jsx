@@ -5,7 +5,13 @@ export default function AboutPage() {
         <div className="flex items-center justify-between mb-16 md:mb-24 text-sm">
           <span className="font-mono text-muted rise rise-1">Petkov Chakalov</span>
           <nav className="flex gap-6 md:gap-8 font-mono text-muted rise rise-1">
-            <a href="/" className="hover:text-ink transition-colors">Work</a>
+            <a href="/" className="hover:text-ink transition-colors">Home</a>
+            <span
+              aria-current="page"
+              className="text-ink border-b border-ink pb-0.5"
+            >
+              About
+            </span>
             <a href="mailto:petkovrichard8@gmail.com" className="hover:text-ink transition-colors">Email</a>
           </nav>
         </div>
@@ -22,8 +28,9 @@ export default function AboutPage() {
           </div>
           <div className="md:col-span-7 md:col-start-5 space-y-5 text-lg md:text-xl leading-relaxed text-pretty">
             <p>
-              I joined a healthcare AI startup at MVP stage and helped shape the
-              product from zero to active usage with paying customers.
+              I joined a healthcare AI startup at MVP stage as lead product
+              designer and wore multiple hats to help shape the product from
+              zero to active usage with paying customers.
             </p>
             <p>
               My work started in brand and product design, then expanded into
@@ -31,9 +38,12 @@ export default function AboutPage() {
               reduce bottlenecks and ship UI directly.
             </p>
             <p>
-              While backend engineers focused on API structure and data systems,
-              I focused on the product face and flow: design system, user
-              journeys, and production ready front end features.
+              While full stack engineers and AI researchers focused on API
+              structure and data systems, I focused on the product face and
+              flow: design system, user journeys, and production ready front
+              end features. That collaboration shaped me into a product
+              developer who connects product thinking, design, and
+              implementation.
             </p>
           </div>
         </div>
@@ -58,9 +68,10 @@ export default function AboutPage() {
               </figcaption>
             </figure>
             <p className="text-lg md:text-xl leading-relaxed text-pretty">
-              This was where I learned to build practical education solutions
-              under pressure, before I later transitioned into health tech and
-              applied the same product mindset to higher stakes workflows.
+              This was where I learned product management and how to build
+              practical education solutions under pressure, before I later
+              transitioned into health tech and applied the same product
+              mindset to higher stakes workflows.
             </p>
           </div>
         </div>

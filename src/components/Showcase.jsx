@@ -128,7 +128,7 @@ function Tile({ item, onClick }) {
           <img
             src={item.src}
             alt={item.alt || item.label}
-            className="w-full h-auto transition-transform duration-700 ease-out group-hover:scale-[1.01] pointer-events-none"
+            className="w-full h-auto transition-transform duration-200 ease-out group-hover:scale-[1.005] pointer-events-none"
             loading="lazy"
             draggable={false}
           />

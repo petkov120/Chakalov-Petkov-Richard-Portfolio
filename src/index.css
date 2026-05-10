@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --motion-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --motion-duration-fast: 140ms;
+    --motion-duration-medium: 180ms;
+    --motion-duration-enter: 300ms;
+  }
+
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -58,13 +65,24 @@
 }
 
 .rise {
-  animation: rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: rise var(--motion-duration-enter) var(--motion-ease-standard) both;
 }
 
-.rise-1 { animation-delay: 0.05s; }
-.rise-2 { animation-delay: 0.15s; }
-.rise-3 { animation-delay: 0.25s; }
-.rise-4 { animation-delay: 0.35s; }
+.rise-1 { animation-delay: 0.04s; }
+.rise-2 { animation-delay: 0.1s; }
+.rise-3 { animation-delay: 0.16s; }
+.rise-4 { animation-delay: 0.22s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+
+  .image-preview-backdrop,
+  .image-preview-content {
+    animation: none;
+  }
+}
 
 @keyframes imagePreviewBackdropFade {
   from {
@@ -91,5 +109,5 @@
 }
 
 .image-preview-content {
-  animation: imagePreviewContentPop 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: imagePreviewContentPop var(--motion-duration-medium) var(--motion-ease-standard) both;
 }

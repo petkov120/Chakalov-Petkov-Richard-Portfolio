@@ -136,7 +136,7 @@ export default function Chapter({ number, title, children, decision, images }) {
                     tabIndex={0}
                     role="button"
                     aria-label={`Open image preview: ${img.alt ?? img.label ?? 'case study screenshot'}`}
-                    className="border border-rule rounded-md md:rounded-lg overflow-hidden bg-white shadow-[0_1px_0_rgba(0,0,0,0.03)] transition duration-200 ease-out hover:scale-[1.01] hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] active:scale-[0.995] cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
+                    className="border border-rule rounded-md md:rounded-lg overflow-hidden bg-white shadow-[0_1px_0_rgba(0,0,0,0.03)] transition duration-200 ease-out hover:scale-[1.005] hover:-translate-y-px hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] active:scale-[0.995] cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
                   >
                     {img.srcLight && img.srcDark ? (
                       <picture>
