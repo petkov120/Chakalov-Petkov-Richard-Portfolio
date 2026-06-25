@@ -89,10 +89,9 @@ export default function AboutPage() {
               Yes, Lagos 🇳🇬. No, it didn't slow the work down.
             </p>
             <p>
-              One startup, one founding designer role, 18 months. Zero to
-              paying B2B customers. Brand, design system, production UI —
-              all of it built and shipped from Lagos, for a US healthcare
-              company.
+              One startup, one founding role, 18 months. From zero to paying
+              B2B customers. Brand, design system, production UI — all built
+              and shipped from Lagos, for a US healthcare company.
             </p>
             <p className="font-serif display text-xl md:text-2xl italic leading-snug text-muted">
               Talent doesn't have a postcode.
