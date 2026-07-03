@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import ClinifyExhibitStrip from '../components/clinify/ClinifyExhibitStrip'
 import ClinifyHeroAnnotation from '../components/clinify/ClinifyHeroAnnotation'
 import ClinifyIndexGlyph from '../components/glyphs/ClinifyIndexGlyph'
@@ -41,6 +41,23 @@ function handleHeroPreviewLeave(e) {
 
 export default function IndexPage() {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+
+  const orderedInvestigations = useMemo(() => {
+    if (!isMobile) return investigations
+    const clinify = investigations.find((inv) => inv.accent === 'clinify')
+    if (!clinify) return investigations
+    const rest = investigations.filter((inv) => inv.id !== clinify.id)
+    return [clinify, ...rest]
+  }, [isMobile])
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 767px)')
+    const syncMode = () => setIsMobile(media.matches)
+    syncMode()
+    media.addEventListener('change', syncMode)
+    return () => media.removeEventListener('change', syncMode)
+  }, [])
 
   useEffect(() => {
     const sections = document.querySelectorAll('[data-index-section]')
@@ -92,7 +109,7 @@ export default function IndexPage() {
 
         <div className="hidden lg:block absolute inset-y-0 right-0 w-1.5 pointer-events-none">
           <div className="sticky top-1/2 -translate-y-1/2 flex flex-col gap-3 pointer-events-auto">
-            {investigations.map((inv, i) => (
+            {orderedInvestigations.map((inv, i) => (
               <a
                 key={inv.id}
                 href={`#inv-${inv.slug}`}
@@ -106,7 +123,7 @@ export default function IndexPage() {
         </div>
 
         <div className="space-y-0">
-          {investigations.map((inv, i) => {
+          {orderedInvestigations.map((inv, i) => {
             const isDraft = inv.status === 'draft'
             const isClinify = inv.accent === 'clinify'
             const isUniversityX = inv.accent === 'universityx'
@@ -160,10 +177,11 @@ export default function IndexPage() {
                       />
                     </div>
                     <div className="index-hero-compose__text">
-                      <div className="flex flex-wrap items-center gap-3 mb-6">
+                      <div className="hidden sm:flex flex-col items-start gap-2 mb-6">
                         <div className={`font-mono text-xs ${accentClass} tracking-widest`}>
                           {inv.id}
                         </div>
+                        <span className="font-mono text-xs text-vault-muted">{inv.name}</span>
                         {isDraft && (
                           <span className="font-mono text-[10px] uppercase tracking-wider text-vault-muted border border-vault-rule rounded-full px-2.5 py-0.5 sr-only">
                             In progress
@@ -178,6 +196,11 @@ export default function IndexPage() {
                           inv.question
                         )}
                       </h1>
+
+                      <div className="sm:hidden mb-6 space-y-2">
+                        <div className={`font-mono text-xs ${accentClass} tracking-widest`}>{inv.id}</div>
+                        <span className="font-mono text-xs text-vault-muted">{inv.name}</span>
+                      </div>
 
                   {isClinify ? (
                     <StakesWithAccent
@@ -198,17 +221,16 @@ export default function IndexPage() {
 
                   {!inv.lens && <div className="mb-10 md:mb-12" />}
 
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+                      <div className="flex flex-col md:flex-row md:items-center gap-6">
                         <a
                           href={inv.href}
-                          className={`group inline-flex items-center gap-3 font-mono text-sm border rounded-full px-6 py-3 transition-all duration-300 ${ctaClass}`}
+                          className={`group inline-flex w-full md:w-auto items-center justify-between md:justify-center gap-3 font-mono text-sm border rounded-full px-6 py-3 transition-all duration-300 ${ctaClass}`}
                         >
                           {isDraft ? 'Preview investigation' : 'Enter investigation'}
                           <span className="group-hover:translate-x-1 transition-transform" aria-hidden>
                             →
                           </span>
                         </a>
-                        <span className="font-mono text-xs text-vault-muted">{inv.name}</span>
                       </div>
                     </div>
                   </div>
