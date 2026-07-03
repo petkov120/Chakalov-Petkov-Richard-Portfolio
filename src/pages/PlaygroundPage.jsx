@@ -69,6 +69,7 @@ function mapPlaygroundItemToCard(item) {
 
 export default function PlaygroundPage() {
   const [cards, setCards] = useState(() => playgroundItems.map(mapPlaygroundItemToCard))
+  const [isMobileShowcase, setIsMobileShowcase] = useState(false)
   const [targetOffset, setTargetOffset] = useState(INITIAL_OFFSET)
   const [renderOffset, setRenderOffset] = useState(INITIAL_OFFSET)
   const [activeItem, setActiveItem] = useState(null)
@@ -79,11 +80,21 @@ export default function PlaygroundPage() {
   const [showCursor, setShowCursor] = useState(false)
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
   const [showGuide, setShowGuide] = useState(true)
+  const [isRailDragging, setIsRailDragging] = useState(false)
+  const [canScrollRailPrev, setCanScrollRailPrev] = useState(false)
+  const [canScrollRailNext, setCanScrollRailNext] = useState(true)
   const [stackOrder, setStackOrder] = useState(() => playgroundItems.map((item) => item.id))
   const viewportRef = useRef(null)
+  const mobileRailRef = useRef(null)
   const targetOffsetRef = useRef(INITIAL_OFFSET)
   const spaceHeldRef = useRef(false)
   const suppressClickIdRef = useRef(null)
+  const mobileRailDragRef = useRef({
+    pointerId: null,
+    startX: 0,
+    startScrollLeft: 0,
+    moved: false,
+  })
   const interactionRef = useRef({
     mode: null,
     pointerId: null,
@@ -278,6 +289,10 @@ export default function PlaygroundPage() {
   }
 
   function handleCardClick(card, event) {
+    if (suppressClickIdRef.current === '__mobile-rail__') {
+      suppressClickIdRef.current = null
+      return
+    }
     if (suppressClickIdRef.current === card.id) {
       suppressClickIdRef.current = null
       return
@@ -288,6 +303,68 @@ export default function PlaygroundPage() {
       y: ((rect.top + rect.height / 2) / window.innerHeight) * 100,
     })
     setActiveItem(card)
+  }
+
+  function handleMobileRailPointerDown(event) {
+    if (!isMobileShowcase) return
+    const rail = mobileRailRef.current
+    if (!rail) return
+    rail.setPointerCapture(event.pointerId)
+    mobileRailDragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startScrollLeft: rail.scrollLeft,
+      moved: false,
+    }
+    setIsRailDragging(true)
+  }
+
+  function handleMobileRailPointerMove(event) {
+    const rail = mobileRailRef.current
+    const drag = mobileRailDragRef.current
+    if (!rail || drag.pointerId !== event.pointerId) return
+    const dx = event.clientX - drag.startX
+    if (Math.abs(dx) > 4) {
+      drag.moved = true
+    }
+    rail.scrollLeft = drag.startScrollLeft - dx
+    if (drag.moved) {
+      event.preventDefault()
+    }
+  }
+
+  function clearMobileRailPointer(event) {
+    const rail = mobileRailRef.current
+    const drag = mobileRailDragRef.current
+    if (!rail || drag.pointerId !== event.pointerId) return
+    if (drag.moved) {
+      suppressClickIdRef.current = '__mobile-rail__'
+    }
+    mobileRailDragRef.current = {
+      pointerId: null,
+      startX: 0,
+      startScrollLeft: 0,
+      moved: false,
+    }
+    setIsRailDragging(false)
+  }
+
+  function updateMobileRailButtons() {
+    const rail = mobileRailRef.current
+    if (!rail) return
+    const maxScrollLeft = rail.scrollWidth - rail.clientWidth
+    setCanScrollRailPrev(rail.scrollLeft > 8)
+    setCanScrollRailNext(rail.scrollLeft < maxScrollLeft - 8)
+  }
+
+  function scrollMobileRail(direction) {
+    const rail = mobileRailRef.current
+    if (!rail) return
+    const step = Math.max(rail.clientWidth * 0.82, 220)
+    rail.scrollBy({
+      left: direction === 'next' ? step : -step,
+      behavior: 'smooth',
+    })
   }
 
   function handleViewportWheel(event) {
@@ -319,8 +396,31 @@ export default function PlaygroundPage() {
   }
 
   useEffect(() => {
+    const media = window.matchMedia('(max-width: 767px)')
+    const syncMode = () => setIsMobileShowcase(media.matches)
+    syncMode()
+    media.addEventListener('change', syncMode)
+    return () => media.removeEventListener('change', syncMode)
+  }, [])
+
+  useEffect(() => {
+    if (!isMobileShowcase) return
+    const rail = mobileRailRef.current
+    if (!rail) return
+    updateMobileRailButtons()
+    const handleScroll = () => updateMobileRailButtons()
+    const handleResize = () => updateMobileRailButtons()
+    rail.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleResize)
+    return () => {
+      rail.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [isMobileShowcase, stackedCards.length])
+
+  useEffect(() => {
     const onKeyDown = (event) => {
-      if (activeItem) return
+      if (activeItem || isMobileShowcase) return
       if (event.code === 'Space' && !event.repeat) {
         event.preventDefault()
         spaceHeldRef.current = true
@@ -367,7 +467,7 @@ export default function PlaygroundPage() {
       window.removeEventListener('keydown', onKeyDown)
       window.removeEventListener('keyup', onKeyUp)
     }
-  }, [activeItem])
+  }, [activeItem, isMobileShowcase])
 
   useEffect(() => {
     targetOffsetRef.current = targetOffset
@@ -394,7 +494,7 @@ export default function PlaygroundPage() {
 
   return (
     <main className="theme-vault min-h-screen playground-shell">
-      <div className="relative h-screen overflow-hidden">
+      <div className={`relative ${isMobileShowcase ? 'min-h-screen' : 'h-screen overflow-hidden'}`}>
         <div className="absolute inset-0 dot-grid opacity-25 pointer-events-none" />
         <div className="absolute left-0 top-0 z-50 px-6 md:px-12 pt-8 md:pt-10">
           <a
@@ -406,126 +506,183 @@ export default function PlaygroundPage() {
           </a>
         </div>
 
-        <section
-          ref={viewportRef}
-          className={`playground-viewport playground-viewport--fullscreen rise rise-3 ${
-            isPanning ? 'is-panning' : ''
-          } ${isHandTool ? 'is-hand-tool' : ''}`}
-          aria-label="Playground infinite canvas"
-          onPointerDown={handleViewportPointerDown}
-          onPointerMove={handleViewportPointerMove}
-          onPointerUp={clearViewportInteraction}
-          onPointerCancel={clearViewportInteraction}
-          onPointerEnter={() => setShowCursor(true)}
-          onPointerLeave={() => setShowCursor(false)}
-          onDoubleClick={handleResetCanvas}
-          onContextMenu={(event) => event.preventDefault()}
-          onAuxClick={(event) => {
-            if (event.button === 1) event.preventDefault()
-          }}
-          onWheel={handleViewportWheel}
-        >
-          {showGuide && (
-            <div className="playground-guide" data-playground-ui="true">
-              <div className="playground-guide__header">
-                <p className="playground-guide__title">How to use this board</p>
-                <p className="playground-guide__intro">
-                  Drag to explore. Click a card to inspect a design.
-                </p>
+        {isMobileShowcase ? (
+          <section className="playground-mobile-showcase rise rise-2" aria-label="Playground mobile showcase">
+            <div className="playground-mobile-banner" role="note">
+              For the best experience, explore the full playground on desktop.
+            </div>
+            <div className="playground-mobile-rail-shell">
+              <button
+                type="button"
+                className="playground-mobile-arrow playground-mobile-arrow--prev"
+                onClick={() => scrollMobileRail('prev')}
+                disabled={!canScrollRailPrev}
+                aria-label="Previous design"
+              >
+                <span aria-hidden>←</span>
+              </button>
+              <button
+                type="button"
+                className="playground-mobile-arrow playground-mobile-arrow--next"
+                onClick={() => scrollMobileRail('next')}
+                disabled={!canScrollRailNext}
+                aria-label="Next design"
+              >
+                <span aria-hidden>→</span>
+              </button>
+              <div
+                ref={mobileRailRef}
+                className={`playground-mobile-carousel no-scrollbar ${isRailDragging ? 'is-dragging' : ''}`}
+                onPointerDown={handleMobileRailPointerDown}
+                onPointerMove={handleMobileRailPointerMove}
+                onPointerUp={clearMobileRailPointer}
+                onPointerCancel={clearMobileRailPointer}
+              >
+                {stackedCards.map((card) => (
+                  <button
+                    key={card.id}
+                    type="button"
+                    className="playground-mobile-card"
+                    onClick={(event) => handleCardClick(card, event)}
+                    aria-label={`Open ${card.title}`}
+                  >
+                    <img
+                      src={card.src}
+                      alt={card.title}
+                      className="playground-mobile-card__image"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span className="playground-mobile-card__meta">
+                      <span>{card.id}</span>
+                      <span>{card.tag}</span>
+                    </span>
+                    <span className="playground-mobile-card__title">{card.title}</span>
+                    <span className="playground-mobile-card__caption">{card.caption}</span>
+                  </button>
+                ))}
               </div>
-              {playgroundGuideSections.map((section) => (
-                <div key={section.title} className="playground-guide__section">
-                  <p className="playground-guide__section-title">{section.title}</p>
-                  <ul className="playground-guide__list">
-                    {section.items.map((item) => (
-                      <li key={`${section.title}-${item.action}`} className="playground-guide__row">
-                        <span className="playground-guide__keys">
-                          {item.keys.map((key) => (
-                            <kbd key={key} className="playground-guide__key">
-                              {key}
-                            </kbd>
-                          ))}
-                        </span>
-                        <span className="playground-guide__action">{item.action}</span>
-                      </li>
-                    ))}
-                  </ul>
+            </div>
+            <p className="playground-mobile-swipe-hint">Swipe to browse all screens</p>
+          </section>
+        ) : (
+          <section
+            ref={viewportRef}
+            className={`playground-viewport playground-viewport--fullscreen rise rise-3 ${
+              isPanning ? 'is-panning' : ''
+            } ${isHandTool ? 'is-hand-tool' : ''}`}
+            aria-label="Playground infinite canvas"
+            onPointerDown={handleViewportPointerDown}
+            onPointerMove={handleViewportPointerMove}
+            onPointerUp={clearViewportInteraction}
+            onPointerCancel={clearViewportInteraction}
+            onPointerEnter={() => setShowCursor(true)}
+            onPointerLeave={() => setShowCursor(false)}
+            onDoubleClick={handleResetCanvas}
+            onContextMenu={(event) => event.preventDefault()}
+            onAuxClick={(event) => {
+              if (event.button === 1) event.preventDefault()
+            }}
+            onWheel={handleViewportWheel}
+          >
+            {showGuide && (
+              <div className="playground-guide" data-playground-ui="true">
+                <div className="playground-guide__header">
+                  <p className="playground-guide__title">How to use this board</p>
+                  <p className="playground-guide__intro">
+                    Drag to explore. Click a card to inspect a design.
+                  </p>
                 </div>
+                {playgroundGuideSections.map((section) => (
+                  <div key={section.title} className="playground-guide__section">
+                    <p className="playground-guide__section-title">{section.title}</p>
+                    <ul className="playground-guide__list">
+                      {section.items.map((item) => (
+                        <li key={`${section.title}-${item.action}`} className="playground-guide__row">
+                          <span className="playground-guide__keys">
+                            {item.keys.map((key) => (
+                              <kbd key={key} className="playground-guide__key">
+                                {key}
+                              </kbd>
+                            ))}
+                          </span>
+                          <span className="playground-guide__action">{item.action}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div
+              className={`playground-liquid-cursor ${showCursor && !isHandTool && !isPanning ? 'is-visible' : ''} ${
+                isPanning ? 'is-panning' : ''
+              }`}
+              style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px` }}
+              aria-hidden
+            />
+            <div className="playground-heading rise rise-2" aria-hidden>
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-vault-muted mb-3">Playground</p>
+              <h1 className="display text-2xl md:text-4xl leading-tight italic text-vault-muted mb-1">
+                Beautiful designs, in motion.
+              </h1>
+              <p className="font-mono text-[11px] text-vault-muted/70">Drag to roam. Drag cards to remix.</p>
+            </div>
+            <div
+              className="playground-canvas"
+              style={{
+                width: `${WORLD_WIDTH}px`,
+                height: `${WORLD_HEIGHT}px`,
+                transform: `translate3d(${renderOffset.x}px, ${renderOffset.y}px, 0)`,
+              }}
+            >
+              <div className="playground-ambient playground-ambient--one" />
+              <div className="playground-ambient playground-ambient--two" />
+              <div className="playground-ambient playground-ambient--three" />
+              <div className="playground-grid" />
+              {stackedCards.map((card, i) => (
+                <button
+                  key={card.id}
+                  type="button"
+                  data-playground-card="true"
+                  className={`playground-card playground-card--${i % 3} rise ${
+                    i % 2 === 0 ? 'rise-4' : 'rise-5'
+                  } ${draggingId === card.id ? 'is-dragging' : ''}`}
+                  style={{
+                    left: `${card.px}px`,
+                    top: `${card.py}px`,
+                    width: `${card.pw}px`,
+                    height: `${card.ph}px`,
+                    zIndex: card.z,
+                    '--plg-rotate': `${card.rotate}deg`,
+                  }}
+                  onPointerDown={(event) => handleCardPointerDown(event, card)}
+                  onPointerMove={(event) => handleCardPointerMove(event, card)}
+                  onPointerLeave={resetCardHover}
+                  onPointerUp={(event) => clearCardInteraction(event, card)}
+                  onPointerCancel={(event) => clearCardInteraction(event, card)}
+                  onClick={(event) => handleCardClick(card, event)}
+                  aria-label={`Open ${card.title}`}
+                >
+                  <span className="playground-card__frame">
+                    <img
+                      src={card.src}
+                      alt={card.title}
+                      className="playground-card__image"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                  <span className="playground-card__meta">
+                    <span>{card.id}</span>
+                    <span>{card.tag}</span>
+                  </span>
+                  <span className="playground-card__title">{card.title}</span>
+                </button>
               ))}
             </div>
-          )}
-          <div
-            className={`playground-liquid-cursor ${showCursor && !isHandTool && !isPanning ? 'is-visible' : ''} ${
-              isPanning ? 'is-panning' : ''
-            }`}
-            style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px` }}
-            aria-hidden
-          />
-          <div className="playground-heading rise rise-2" aria-hidden>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-vault-muted mb-3">
-              Playground
-            </p>
-            <h1 className="display text-2xl md:text-4xl leading-tight italic text-vault-muted mb-1">
-              Beautiful designs, in motion.
-            </h1>
-            <p className="font-mono text-[11px] text-vault-muted/70">
-              Drag to roam. Drag cards to remix.
-            </p>
-          </div>
-          <div
-            className="playground-canvas"
-            style={{
-              width: `${WORLD_WIDTH}px`,
-              height: `${WORLD_HEIGHT}px`,
-              transform: `translate3d(${renderOffset.x}px, ${renderOffset.y}px, 0)`,
-            }}
-          >
-            <div className="playground-ambient playground-ambient--one" />
-            <div className="playground-ambient playground-ambient--two" />
-            <div className="playground-ambient playground-ambient--three" />
-            <div className="playground-grid" />
-            {stackedCards.map((card, i) => (
-              <button
-                key={card.id}
-                type="button"
-                data-playground-card="true"
-                className={`playground-card playground-card--${i % 3} rise ${
-                  i % 2 === 0 ? 'rise-4' : 'rise-5'
-                } ${draggingId === card.id ? 'is-dragging' : ''}`}
-                style={{
-                  left: `${card.px}px`,
-                  top: `${card.py}px`,
-                  width: `${card.pw}px`,
-                  height: `${card.ph}px`,
-                  zIndex: card.z,
-                  '--plg-rotate': `${card.rotate}deg`,
-                }}
-                onPointerDown={(event) => handleCardPointerDown(event, card)}
-                onPointerMove={(event) => handleCardPointerMove(event, card)}
-                onPointerLeave={resetCardHover}
-                onPointerUp={(event) => clearCardInteraction(event, card)}
-                onPointerCancel={(event) => clearCardInteraction(event, card)}
-                onClick={(event) => handleCardClick(card, event)}
-                aria-label={`Open ${card.title}`}
-              >
-                <span className="playground-card__frame">
-                  <img
-                    src={card.src}
-                    alt={card.title}
-                    className="playground-card__image"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-                <span className="playground-card__meta">
-                  <span>{card.id}</span>
-                  <span>{card.tag}</span>
-                </span>
-                <span className="playground-card__title">{card.title}</span>
-              </button>
-            ))}
-          </div>
-        </section>
+          </section>
+        )}
       </div>
 
       <EvidenceLightbox
