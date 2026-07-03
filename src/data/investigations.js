@@ -3,10 +3,10 @@ export const investigations = [
     id: 'INV 001',
     slug: 'clinify',
     name: 'Clinify',
-    question: 'How do you build enterprise AI software that clinicians trust?',
+    question: 'How do you design enterprise AI that care teams can trust in real work?',
     stakes:
-      'One thousand member records. Care managers can\'t browse patients they\'re not assigned to. One wrong screen is a compliance failure.',
-    lens: 'Who am I designing for? A care manager with assigned access, not a clinician browsing a directory.',
+      'Care managers handle 1,000+ member records, but they can only open assigned patients. Show the wrong patient, and it becomes a compliance breach.',
+    lens: 'Design for a care manager with limited access, not a clinician browsing a full directory.',
     tags: ['Healthcare AI', 'Enterprise', 'Trust', '2024 to now'],
     accent: 'clinify',
     genre: 'clinical',
