@@ -110,7 +110,7 @@ export const clinifyEvidence = {
         figure: '09',
         date: '2026',
         caption: 'AI call recipient flow with approval step before launch.',
-        src: '/Images/webappscreenshots/AICALLAGENTS.png',
+        src: '/images/ai-agent-calls.webp',
         alt: 'Clinify AI call screen showing recipient review and approval modal',
         aspect: 'video',
       },
