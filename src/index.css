@@ -2664,8 +2664,19 @@
   padding: 6px 10px;
   border-radius: 999px;
   border: 1px solid rgba(15, 23, 42, 0.14);
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  font-weight: 600;
+  transition: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+
+.playground-backlink:hover,
+.playground-backlink:focus-visible {
+  color: rgba(15, 23, 42, 0.96);
+  background: rgba(255, 255, 255, 0.98);
 }
 
 .playground-viewport {

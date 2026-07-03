@@ -6,6 +6,7 @@ import TreatmentPathPage from './pages/TreatmentPathPage'
 import NotesPage from './pages/NotesPage'
 import PlaygroundPage from './pages/PlaygroundPage'
 import NowPage from './pages/NowPage'
+import GlobalContactCTA from './components/layout/GlobalContactCTA'
 import { roomThemes } from './data/investigations'
 
 const routes = {
@@ -52,5 +53,10 @@ export default function App() {
     }
   }, [pathname])
 
-  return <Page />
+  return (
+    <>
+      <Page />
+      <GlobalContactCTA />
+    </>
+  )
 }
