@@ -1,54 +1,56 @@
-import Hero from './components/Hero'
-import ProjectIntro from './components/ProjectIntro'
-import Chapter from './components/Chapter'
-import DesignSystemView from './components/DesignSystemView'
-import Showcase from './components/Showcase'
-import Stack from './components/Stack'
-import OtherWork from './components/OtherWork'
-import Footer from './components/Footer'
-import AboutPage from './pages/AboutPage'
-import { chapters } from './data/chapters'
-import { showcaseItems } from './data/showcase'
+import { useEffect } from 'react'
+import IndexPage from './pages/IndexPage'
+import ClinifyPage from './pages/ClinifyPage'
+import UniversityXPage from './pages/UniversityXPage'
+import TreatmentPathPage from './pages/TreatmentPathPage'
+import NotesPage from './pages/NotesPage'
+import PlaygroundPage from './pages/PlaygroundPage'
+import NowPage from './pages/NowPage'
+import { roomThemes } from './data/investigations'
 
-function ChapterBlock({ ch }) {
-  return (
-    <Chapter
-      number={ch.number}
-      title={ch.title}
-      decision={ch.decision}
-      images={ch.images}
-      signals={ch.signals}
-    >
-      {ch.paragraphs.map((p, i) => (
-        <p key={i}>{p}</p>
-      ))}
-    </Chapter>
-  )
+const routes = {
+  '/': IndexPage,
+  '/clinify': ClinifyPage,
+  '/universityx': UniversityXPage,
+  '/treatmentpath': TreatmentPathPage,
+  '/notes': NotesPage,
+  '/principles': NotesPage,
+  '/playground': PlaygroundPage,
+  '/now': NowPage,
+  '/about': NotesPage,
+}
+
+function getPathname() {
+  const path = window.location.pathname.replace(/\/$/, '') || '/'
+  return routes[path] ? path : '/'
 }
 
 export default function App() {
-  const pathname = window.location.pathname
+  const pathname = getPathname()
+  const Page = routes[pathname]
 
-  if (pathname === '/about') {
-    return <AboutPage />
-  }
+  useEffect(() => {
+    const body = document.body
+    const allThemes = [
+      'theme-vault',
+      'theme-paper',
+      'room-clinify',
+      'room-universityx',
+      'room-treatmentpath',
+    ]
+    body.classList.remove(...allThemes)
 
-  return (
-    <main className="min-h-screen bg-paper text-ink">
-      <Hero />
-      <ProjectIntro />
+    const slug = pathname.slice(1)
+    const room = roomThemes[slug]
 
-      <ChapterBlock ch={chapters[0]} />
-      <DesignSystemView />
+    if (room) {
+      body.classList.add(room)
+    } else if (pathname === '/now') {
+      body.classList.add('theme-paper')
+    } else {
+      body.classList.add('theme-vault')
+    }
+  }, [pathname])
 
-      {chapters.slice(1).map((ch) => (
-        <ChapterBlock key={ch.number} ch={ch} />
-      ))}
-
-      <Showcase items={showcaseItems} />
-      <Stack />
-      <OtherWork />
-      <Footer />
-    </main>
-  )
+  return <Page />
 }
