@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="tp-bg" x1="0" y1="0" x2="800" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0e1210"/>
+      <stop offset="1" stop-color="#0c0d10"/>
+    </linearGradient>
+    <radialGradient id="tp-glow" cx="50%" cy="45%" r="58%">
+      <stop stop-color="#5C7A6B" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#5C7A6B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="520" fill="url(#tp-bg)"/>
+  <rect width="800" height="520" fill="url(#tp-glow)"/>
+  <g opacity="0.3" stroke="#5C7A6B" stroke-width="0.75">
+    <path d="M48 72H752M48 152H752M48 232H752M48 312H752M48 392H752"/>
+    <path d="M96 48V472M256 48V472M416 48V472M576 48V472M704 48V472"/>
+  </g>
+  <g stroke="#5C7A6B" stroke-width="1.1" fill="none" opacity="0.82">
+    <rect x="96" y="96" width="280" height="180" rx="2"/>
+    <rect x="424" y="96" width="280" height="180" rx="2"/>
+    <rect x="96" y="304" width="280" height="120" rx="2"/>
+    <rect x="424" y="304" width="280" height="120" rx="2"/>
+    <path d="M376 186 H424"/>
+    <path d="M376 364 H424"/>
+    <path d="M236 276 V304"/>
+    <path d="M564 276 V304"/>
+  </g>
+  <g font-family="ui-monospace, monospace" fill="#5C7A6B" font-size="10" letter-spacing="0.16em" opacity="0.88">
+    <text x="236" y="128" text-anchor="middle">DENTIST</text>
+    <text x="564" y="128" text-anchor="middle">RECEPTION</text>
+    <text x="236" y="336" text-anchor="middle">PRACTICE MGR</text>
+    <text x="564" y="336" text-anchor="middle">PATIENT</text>
+  </g>
+  <text x="400" y="468" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" letter-spacing="0.22em" fill="#5C7A6B" opacity="0.65">PRACTICE BLUEPRINT · FIG 1.0</text>
+</svg>

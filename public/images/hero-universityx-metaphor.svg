@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="ux-bg" x1="0" y1="0" x2="800" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14100e"/>
+      <stop offset="1" stop-color="#0c0d10"/>
+    </linearGradient>
+    <radialGradient id="ux-glow" cx="50%" cy="42%" r="55%">
+      <stop stop-color="#E07A5F" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#E07A5F" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="520" fill="url(#ux-bg)"/>
+  <rect width="800" height="520" fill="url(#ux-glow)"/>
+  <g opacity="0.35" stroke="#E07A5F" stroke-width="0.75">
+    <path d="M40 80H760M40 160H760M40 240H760M40 320H760M40 400H760"/>
+    <path d="M80 40V480M200 40V480M320 40V480M440 40V480M560 40V480M680 40V480"/>
+  </g>
+  <g stroke="#E07A5F" stroke-width="1.2" fill="none" opacity="0.85">
+    <circle cx="400" cy="250" r="118" stroke-dasharray="4 6"/>
+    <path d="M400 132 L400 368" opacity="0.5"/>
+    <path d="M282 250 L518 250" opacity="0.5"/>
+    <path d="M400 132 A118 118 0 0 1 518 250"/>
+    <path d="M518 250 A118 118 0 0 1 400 368"/>
+    <path d="M400 368 A118 118 0 0 1 282 250"/>
+    <path d="M282 250 A118 118 0 0 1 400 132"/>
+  </g>
+  <g font-family="ui-serif, Georgia, serif" fill="#E07A5F" opacity="0.9">
+    <text x="400" y="118" text-anchor="middle" font-size="13" letter-spacing="0.18em">STUCK</text>
+    <text x="548" y="258" text-anchor="start" font-size="13" letter-spacing="0.18em">GUIDE</text>
+    <text x="400" y="398" text-anchor="middle" font-size="13" letter-spacing="0.18em">PRACTICE</text>
+    <text x="252" y="258" text-anchor="end" font-size="13" letter-spacing="0.18em">MASTERY</text>
+  </g>
+  <text x="400" y="452" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" letter-spacing="0.22em" fill="#E07A5F" opacity="0.65">LEARNING LOOP · FIG 1.1</text>
+</svg>
