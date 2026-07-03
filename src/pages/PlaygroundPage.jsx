@@ -399,7 +399,7 @@ export default function PlaygroundPage() {
         <div className="absolute left-0 top-0 z-50 px-6 md:px-12 pt-8 md:pt-10">
           <a
             href="/"
-            className="playground-backlink inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-vault-muted hover:text-vault-text transition-colors"
+            className="playground-backlink inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-slate-600 hover:text-slate-900"
           >
             <span aria-hidden>←</span>
             Back to investigations
