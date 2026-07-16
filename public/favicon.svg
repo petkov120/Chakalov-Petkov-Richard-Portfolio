@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="PC monogram favicon">
+  <rect width="64" height="64" fill="#0B0D10"/>
+  <path d="M16 14h18c8 0 13 4 13 11s-5 11-13 11h-8v14h-10V14zm10 8v8h8c2 0 3-1 3-4s-1-4-3-4h-8z" fill="#F2F1EA"/>
+  <path d="M52 18h-8c-6 0-10 4-10 10v8c0 6 4 10 10 10h8v-8h-7c-2 0-3-1-3-3v-6c0-2 1-3 3-3h7v-8z" fill="#F2F1EA"/>
+  <rect x="48" y="44" width="8" height="8" fill="#2F6BFF"/>
+</svg>
