@@ -30,7 +30,7 @@ const themes = {
 export default function SiteNav({
   theme = 'vault',
   current,
-  investigationsHref = '/',
+  investigationsHref = '/#works',
   fixed = false,
 }) {
   const palette = themes[theme] ?? themes.vault
@@ -40,7 +40,7 @@ export default function SiteNav({
     : `site-nav site-nav--${theme} flex items-center justify-between gap-4 pb-4 md:pb-5 mb-12 md:mb-16`
 
   const navItems = [
-    { label: 'Investigations', short: 'Work', href: '/', key: 'investigations' },
+    { label: 'Works', short: 'Work', href: '/#works', key: 'investigations' },
     { label: 'Notes', short: 'Notes', href: '/notes', key: 'notes' },
     { label: 'Playground', short: 'Play', href: '/playground', key: 'playground' },
   ]
@@ -49,10 +49,17 @@ export default function SiteNav({
     <header className={headerClass}>
       <a
         href="/"
-        className={`site-nav__brand display text-base md:text-lg leading-none shrink-0 transition-colors ${palette.home}`}
+        className={`site-nav__brand flex items-center gap-2.5 display text-base md:text-lg leading-none shrink-0 transition-colors ${palette.home}`}
         aria-label="Petkov Chakalov, home"
       >
-        <span className="md:hidden" aria-hidden="true">P.C.</span>
+        <img
+          src="/images/weaver-mark.svg"
+          width="32"
+          height="32"
+          className="size-8 shrink-0"
+          alt=""
+          aria-hidden="true"
+        />
         <span className="hidden md:inline" aria-hidden="true">Petkov Chakalov</span>
       </a>
 

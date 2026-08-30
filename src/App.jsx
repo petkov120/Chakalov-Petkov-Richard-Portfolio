@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import IndexPage from './pages/IndexPage'
 import ClinifyPage from './pages/ClinifyPage'
 import UniversityXPage from './pages/UniversityXPage'
-import TreatmentPathPage from './pages/TreatmentPathPage'
 import NotesPage from './pages/NotesPage'
 import PlaygroundPage from './pages/PlaygroundPage'
 import NowPage from './pages/NowPage'
@@ -11,9 +10,9 @@ import { roomThemes } from './data/investigations'
 
 const routes = {
   '/': IndexPage,
+  '/investigations': IndexPage,
   '/clinify': ClinifyPage,
   '/universityx': UniversityXPage,
-  '/treatmentpath': TreatmentPathPage,
   '/notes': NotesPage,
   '/principles': NotesPage,
   '/playground': PlaygroundPage,
@@ -23,12 +22,20 @@ const routes = {
 
 function getPathname() {
   const path = window.location.pathname.replace(/\/$/, '') || '/'
+  if (path === '/investigations') return '/'
   return routes[path] ? path : '/'
 }
 
 export default function App() {
   const pathname = getPathname()
   const Page = routes[pathname]
+
+  useEffect(() => {
+    const rawPath = window.location.pathname.replace(/\/$/, '')
+    if (rawPath === '/investigations') {
+      window.history.replaceState({}, '', '/#works')
+    }
+  }, [])
 
   useEffect(() => {
     const body = document.body
@@ -46,7 +53,7 @@ export default function App() {
 
     if (room) {
       body.classList.add(room)
-    } else if (pathname === '/now') {
+    } else if (pathname === '/' || pathname === '/now') {
       body.classList.add('theme-paper')
     } else {
       body.classList.add('theme-vault')
@@ -56,7 +63,7 @@ export default function App() {
   return (
     <>
       <Page />
-      <GlobalContactCTA />
+      {pathname !== '/' && <GlobalContactCTA />}
     </>
   )
 }

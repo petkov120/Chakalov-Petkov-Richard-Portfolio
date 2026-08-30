@@ -502,7 +502,7 @@ export default function PlaygroundPage() {
             className="playground-backlink inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-slate-600 hover:text-slate-900"
           >
             <span aria-hidden>←</span>
-            Back to investigations
+            Back home
           </a>
         </div>
 

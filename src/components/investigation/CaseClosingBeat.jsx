@@ -43,10 +43,10 @@ export default function CaseClosingBeat({
           <span aria-hidden="true">→</span>
         </a>
         <a
-          href="/"
+          href="/#works"
           className="font-mono text-xs uppercase tracking-[0.12em] text-vault-muted transition-colors hover:text-vault-text"
         >
-          Back to investigations
+          Back to work
         </a>
       </div>
 

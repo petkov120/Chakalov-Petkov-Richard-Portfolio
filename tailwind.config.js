@@ -43,6 +43,7 @@ export default {
           text: '#DDE6F5',
         },
         placeholder: '#EBE6DE',
+        rust: '#c45c4a',
       },
       maxWidth: {
         prose: '680px',

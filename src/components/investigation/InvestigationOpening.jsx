@@ -32,13 +32,12 @@ export default function InvestigationOpening({
   }, [])
 
   const navTheme = accent === 'clinify' ? 'vault' : 'paper'
-  const backHref = slug ? `/#inv-${slug}` : '/'
 
   return (
     <>
-      <SiteNav theme={navTheme} investigationsHref={backHref} />
+      <SiteNav theme={navTheme} investigationsHref="/#works" />
 
-      <InvestigationBackLink slug={slug} accent={accent} theme={navTheme} />
+      <InvestigationBackLink slug={slug} accent={accent} theme={navTheme} href="/#works" />
 
       <section
         className={`min-h-[92vh] flex flex-col justify-center pb-16 md:pb-24 relative overflow-hidden ${roomAtmosphere[accent]}`}

@@ -5,7 +5,7 @@ const accentHover = {
 }
 
 export default function InvestigationBackLink({ slug, accent = 'clinify', theme = 'vault', href }) {
-  const backHref = href ?? `/#inv-${slug}`
+  const backHref = href ?? '/#works'
   const baseClass =
     theme === 'vault'
       ? 'text-vault-muted hover:text-vault-text'
@@ -19,7 +19,7 @@ export default function InvestigationBackLink({ slug, accent = 'clinify', theme 
       <span className="group-hover:-translate-x-0.5 transition-transform" aria-hidden>
         ←
       </span>
-      Investigations
+      Works
     </a>
   )
 }
