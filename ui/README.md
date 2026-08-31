@@ -3,6 +3,19 @@
 This folder is for designing the mobile interactions shown at the top of the portfolio.
 The work here stays separate from the production site until an interaction is ready.
 
+## Open the live workbench
+
+From the repository root, run:
+
+```bash
+npm run dev
+```
+
+Then open `http://localhost:5173/ui`.
+
+The workbench previews a 390 × 844 phone canvas. Edit the matching component in
+`src/ui/projects/` and save; the browser updates automatically.
+
 ## Folder contract
 
 Each concept contains:
@@ -41,4 +54,3 @@ Before exporting, the interaction should answer four questions without explanato
 2. What can I do?
 3. What changed after I acted?
 4. How do I know the action succeeded?
-

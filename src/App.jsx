@@ -5,6 +5,7 @@ import UniversityXPage from './pages/UniversityXPage'
 import NotesPage from './pages/NotesPage'
 import PlaygroundPage from './pages/PlaygroundPage'
 import NowPage from './pages/NowPage'
+import UIStudioPage from './pages/UIStudioPage'
 import GlobalContactCTA from './components/layout/GlobalContactCTA'
 import { roomThemes } from './data/investigations'
 
@@ -18,6 +19,7 @@ const routes = {
   '/playground': PlaygroundPage,
   '/now': NowPage,
   '/about': NotesPage,
+  '/ui': UIStudioPage,
 }
 
 function getPathname() {
@@ -63,7 +65,7 @@ export default function App() {
   return (
     <>
       <Page />
-      {pathname !== '/' && <GlobalContactCTA />}
+      {pathname !== '/' && pathname !== '/ui' && <GlobalContactCTA />}
     </>
   )
 }
