@@ -17,6 +17,9 @@ const avatarImages = {
   blue: '/images/social/avatars/nia.webp',
   ink: '/images/social/avatars/petkov.webp',
   sage: '/images/social/avatars/ife.webp?v=1',
+  rust: '/images/social/avatars/kemi.webp?v=1',
+  sand: '/images/social/avatars/sade.webp?v=1',
+  slate: '/images/social/avatars/emeka.webp?v=1',
 }
 
 const NAV_ICONS = {
