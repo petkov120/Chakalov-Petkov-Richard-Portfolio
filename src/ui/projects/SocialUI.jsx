@@ -3,11 +3,13 @@ import { useEffect, useRef, useState } from 'react'
 const screens = [
   { id: 'splash', label: 'Splash', purpose: 'Introduce the product before the feed appears' },
   { id: 'feed', label: 'For You feed', purpose: 'Scan posts with clearer content boundaries' },
-  { id: 'profile-peek', label: 'Profile peek', purpose: 'Understand who posted without leaving the feed' },
-  { id: 'profile-expanded', label: 'Profile expanded', purpose: 'See credibility and choose whether to follow' },
+  { id: 'profile-peek', label: 'Profile peek', purpose: 'See who posted, check credibility, and choose whether to follow without leaving the feed' },
   { id: 'compose', label: 'Compose', purpose: 'Start writing without competing interface noise' },
   { id: 'compose-ready', label: 'Ready to publish', purpose: 'Make audience and publish state unmistakable' },
   { id: 'published', label: 'Published', purpose: 'Return to the same feed position with clear feedback' },
+  { id: 'account-menu', label: 'Account menu', purpose: 'Reach creator tools without leaving the feed' },
+  { id: 'creator-studio', label: 'Creator Studio', purpose: 'See programs and tools in one place' },
+  { id: 'video-studio', label: 'Video Studio', purpose: 'Add text, trim the clip, and place an overlay before posting' },
 ]
 
 const SPLASH_MS = 720
@@ -65,6 +67,22 @@ function NavIcon({ id, filled }) {
       </g>
     </svg>
   )
+}
+
+function Glyph({ path, size = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">
+      <path fill="currentColor" d={path} />
+    </svg>
+  )
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value))
+}
+
+function formatClipTime(seconds) {
+  return `00:${String(Math.max(0, Math.round(seconds))).padStart(2, '0')}`
 }
 
 const ACTION_ICONS = {
@@ -168,6 +186,7 @@ const authors = {
   kemi: { name: 'Kemi Bello', handle: '@kemi', tone: 'rust', initials: 'KB' },
   sade: { name: 'Sade Mensah', handle: '@sade', tone: 'sand', initials: 'SM' },
   emeka: { name: 'Emeka Nwosu', handle: '@emeka', tone: 'slate', initials: 'EN' },
+  petkov: { name: 'Petkov Chakalov', handle: '@petkov', tone: 'ink', initials: 'PC' },
 }
 
 const FEED_POSTS = [
@@ -308,7 +327,7 @@ function FeedPost({ post, newPost = false, onAuthor }) {
   if (newPost) {
     return (
       <article className="x-post x-post--new">
-        <button className="x-author-trigger" type="button" onClick={onAuthor} aria-label="Open Petkov profile"><Avatar tone="ink" initials="PC" /></button>
+        <button className="x-author-trigger" type="button" onClick={() => onAuthor(authors.petkov)} aria-label="Open Petkov profile"><Avatar tone="ink" initials="PC" /></button>
         <div className="x-post__body">
           <header><strong>Petkov Chakalov</strong><span>@petkov · now</span><b>•••</b></header>
           <p>The best interfaces don’t ask for attention. They return it.</p>
@@ -321,9 +340,9 @@ function FeedPost({ post, newPost = false, onAuthor }) {
   const { featured, author, time, text, media, replies, reposts, likes, views } = post
   return (
     <article className={`x-post${featured ? ' x-post--featured' : ''}`}>
-      <button className="x-author-trigger" type="button" onClick={onAuthor} aria-label={`Open ${author.name} profile`}><Avatar tone={author.tone} initials={author.initials} /></button>
+      <button className="x-author-trigger" type="button" onClick={() => onAuthor(author)} aria-label={`Open ${author.name} profile`}><Avatar tone={author.tone} initials={author.initials} /></button>
       <div className="x-post__body">
-        <header><button className="x-author-name" type="button" onClick={onAuthor}>{author.name}</button><span>{author.handle} · {time}</span><b>•••</b></header>
+        <header><button className="x-author-name" type="button" onClick={() => onAuthor(author)}>{author.name}</button><span>{author.handle} · {time}</span><b>•••</b></header>
         <p>{text}</p>
         {media ? (
           <div className={`x-post__media${media.variant ? ` x-post__media--${media.variant}` : ''}`}>
@@ -338,7 +357,7 @@ function FeedPost({ post, newPost = false, onAuthor }) {
   )
 }
 
-function Feed({ published = false, resetView = false, onCompose, onProfile }) {
+function Feed({ published = false, resetView = false, onCompose, onProfile, onMenu }) {
   const [activeNav, setActiveNav] = useState('home')
   const [showNewPosts, setShowNewPosts] = useState(true)
   const [isRapidScrolling, setIsRapidScrolling] = useState(false)
@@ -375,7 +394,13 @@ function Feed({ published = false, resetView = false, onCompose, onProfile }) {
 
   return (
     <>
-      <header className="x-feed-head"><Avatar tone="ink" initials="PC" /><strong>𝕏</strong><button aria-label="Settings">⌁</button></header>
+      <header className="x-feed-head">
+        <button type="button" className="x-feed-head__avatar" aria-label="Open account menu" onClick={onMenu}>
+          <Avatar tone="ink" initials="PC" />
+        </button>
+        <strong>𝕏</strong>
+        <button aria-label="Settings">⌁</button>
+      </header>
       <nav className="x-tabs"><span className="is-active">For you<i aria-hidden="true" /></span><span>Following</span><span>Design</span><button type="button" aria-label="Add topic">+</button></nav>
       {showNewPosts ? <button className="x-float-pill" type="button" aria-label="Show newest posts" onClick={scrollToNewest}>
         <span className="x-float-pill__arrow" aria-hidden="true">↑</span>
@@ -425,17 +450,17 @@ function Feed({ published = false, resetView = false, onCompose, onProfile }) {
   )
 }
 
-function ProfileCard({ expanded = false, onExpand, onDismiss }) {
+function ProfileCard({ author = authors.tola, onDismiss }) {
   return (
-    <div className={`x-profile-card${expanded ? ' is-expanded' : ''}`} onClick={(event) => event.stopPropagation()}>
-      <div className="x-profile-card__cover"><span>TA</span></div>
-      <div className="x-profile-card__identity"><Avatar tone="clay" initials="TA" /><button>•••</button></div>
-      <h2>Tola Adebayo</h2><p className="x-handle">@tola</p>
+    <div className="x-profile-card" onClick={(event) => event.stopPropagation()}>
+      <div className="x-profile-card__cover"><span>{author.initials}</span></div>
+      <div className="x-profile-card__identity"><Avatar tone={author.tone} initials={author.initials} /><button>•••</button></div>
+      <h2>{author.name}</h2><p className="x-handle">{author.handle}</p>
       <p className="x-bio">Writer and product thinker. Notes on cities, technology, and the systems between them.</p>
-      {expanded ? <p className="x-context">⌖ Lagos, Nigeria&nbsp;&nbsp;·&nbsp;&nbsp;Joined 2021</p> : null}
+      <p className="x-context">⌖ Lagos, Nigeria&nbsp;&nbsp;·&nbsp;&nbsp;Joined 2021</p>
       <div className="x-follow-count"><strong>486</strong> Following <strong>8.7K</strong> Followers</div>
-      {expanded ? <div className="x-mutual"><Avatar tone="blue" initials="NO" /><span>Followed by Nia and 4 others</span></div> : null}
-      <div className="x-profile-card__actions"><button type="button" onClick={expanded ? onDismiss : onExpand}>{expanded ? 'Back to feed' : 'View profile'}</button><button type="button">Follow</button></div>
+      <div className="x-mutual"><Avatar tone="blue" initials="NO" /><span>Followed by Nia and 4 others</span></div>
+      <div className="x-profile-card__actions"><button type="button" onClick={onDismiss}>Back to feed</button><button type="button">Follow</button></div>
     </div>
   )
 }
@@ -451,11 +476,343 @@ function Composer({ ready = false, onCancel, onReady, onPublish }) {
   )
 }
 
+const MENU_ICONS = {
+  profile: 'M12 2C9.24 2 7 4.24 7 7s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zM12 14c-4.42 0-8 2.24-8 5v3h16v-3c0-2.76-3.58-5-8-5z',
+  premium: 'M12 2L9.5 8.5 3 9.5l5 4.3L6.5 20 12 16.7 17.5 20 16 13.8l5-4.3-6.5-1L12 2z',
+  history: 'M4 4.5C4 3.12 5.12 2 6.5 2h11C18.88 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.28 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.22-.5-.5-.5h-11z',
+  communities: 'M8 9a3 3 0 100-6 3 3 0 000 6zm8 0a3 3 0 100-6 3 3 0 000 6zM3 18.5C3 15.46 5.91 14 8.5 14c.84 0 1.64.12 2.36.34C9.7 15.12 9 16.5 9 18v2.5H3v-2zM12 20.5V18c0-2.21 2.46-4 5.5-4 2.59 0 5.5 1.46 5.5 4.5V20.5H12z',
+  lists: 'M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z',
+  spaces: 'M12 3a6 6 0 00-6 6v4.17L4.59 16.6A1 1 0 005.4 18h13.2a1 1 0 00.81-1.4L18 13.17V9a6 6 0 00-6-6zm-1 17h2a2 2 0 01-2 0z',
+  studio: 'M12 2L3 6.5v5.3c0 5.2 3.4 10 9 11.2 5.6-1.2 9-6 9-11.2V6.5L12 2zm-1 13.5L7.5 12l1.4-1.4 2.1 2.1 4.6-4.6L17 9.5 11 15.5z',
+  grok: 'M12 2a10 10 0 100 20 10 10 0 000-20zm1 14.5L8 12l1.4-1.4 2.6 2.58 4.6-4.58L18 10.5 13 16.5z',
+  settings: 'M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.6-.22l-2.39.96a7.03 7.03 0 00-1.63-.94l-.36-2.54a.5.5 0 00-.5-.42h-3.84a.5.5 0 00-.5.42l-.36 2.54c-.59.24-1.13.56-1.63.94l-2.39-.96a.5.5 0 00-.6.22L2.71 8.84a.5.5 0 00.12.64L4.86 11c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.5.5 0 00-.12.64l1.92 3.32c.14.24.42.34.68.22l2.39-.96c.5.38 1.04.7 1.63.94l.36 2.54c.05.24.26.42.5.42h3.84c.24 0 .45-.18.5-.42l.36-2.54c.59-.24 1.13-.56 1.63-.94l2.39.96c.26.12.54.02.68-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1112 8.5a3.5 3.5 0 000 7z',
+  help: 'M12 2a10 10 0 100 20 10 10 0 000-20zm0 16.2a1.3 1.3 0 110-2.6 1.3 1.3 0 000 2.6zM12.1 6.5c1.9 0 3.2 1.14 3.2 2.86 0 1.26-.62 1.9-1.7 2.56-.96.58-1.22.98-1.22 1.78v.3h-2.1v-.42c0-1.4.58-2.14 1.72-2.82 1-.62 1.3-1.02 1.3-1.72 0-.78-.62-1.32-1.56-1.32-.98 0-1.62.5-1.76 1.34H7.84C8.06 7.62 9.7 6.5 12.1 6.5z',
+  gift: 'M16 6V4.75C16 3.23 14.77 2 13.25 2c-.7 0-1.34.26-1.82.68C11.07 2.26 10.57 2 10 2 8.35 2 7 3.35 7 4.75V6H3v6h1v10h16V12h1V6h-4zM9 4.75C9 4.34 9.34 4 9.75 4S11 4.45 11 5v1H9V4.75zM13 5c0-.55.45-1 1-1s1 .45 1 1V6h-2V5zM5 8h14v2H5V8zm1 4h12v8H6v-8z',
+  spark: 'M12 2l1.4 6.1L20 9.5l-5.2 3.8L16.5 20 12 16.7 7.5 20l1.7-6.7L4 9.5l6.6-1.4L12 2z',
+  chart: 'M4 20V10h2v10H4zm5 0V4h2v16H9zm5 0v-7h2v7h-2zm5 0V8h2v12h-2z',
+  video: 'M4 6h11a2 2 0 012 2v2.2l4-2.5v9.6l-4-2.5V16a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z',
+  support: 'M20 2H4a2 2 0 00-2 2v12a2 2 0 002 2h4l3.2 3.2a1 1 0 001.6 0L16 18h4a2 2 0 002-2V4a2 2 0 00-2-2z',
+  learn: 'M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 10.9 12 11.5 12 13h-2v-.5c0-1.1.45-1.99 1.17-2.71l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z',
+  chevron: 'M9.3 5.7L14.6 12l-5.3 6.3 1.4 1.4L17.4 12 10.7 4.3 9.3 5.7z',
+  back: 'M15.5 5.5L9 12l6.5 6.5-1.4 1.5L6 12l8.1-8 1.4 1.5z',
+  play: 'M8 5v14l11-7L8 5z',
+  scissors: 'M9.6 6.6a2.5 2.5 0 10-1.5 2.18L12 12l-3.9 3.22A2.5 2.5 0 108.1 17.4L12 14.1l3.9 3.3a2.5 2.5 0 10.9-2.18L13.1 12l3.8-3.22A2.5 2.5 0 1015.9 6.6L12 9.9 8.1 6.6zM7.5 8.5a1 1 0 110-2 1 1 0 010 2zm0 9a1 1 0 110-2 1 1 0 010 2zM17.5 8.5a1 1 0 110-2 1 1 0 010 2zm0 9a1 1 0 110-2 1 1 0 010 2z',
+  text: 'M5 4h14v3h-2V6H13v12h2v2H9v-2h2V6H7v1H5V4z',
+  overlay: 'M4 5h10v10H4V5zm6 12v2H3a1 1 0 01-1-1V8h2v9h6zm11-9h-8v2h6v9H9v-3H7v4a1 1 0 001 1h13a1 1 0 001-1V9a1 1 0 00-1-1z',
+}
+
+const MENU_PRIMARY = [
+  { id: 'profile', label: 'Profile' },
+  { id: 'premium', label: 'Premium' },
+  { id: 'history', label: 'Bookmarks' },
+  { id: 'communities', label: 'Communities' },
+  { id: 'lists', label: 'Lists' },
+  { id: 'spaces', label: 'Spaces' },
+  { id: 'studio', label: 'Creator Studio' },
+]
+
+const MENU_SECONDARY = [
+  { id: 'grok', label: 'Open Grok' },
+  { id: 'settings', label: 'Settings and privacy' },
+  { id: 'help', label: 'Help Centre' },
+]
+
+function AccountMenu({ onDismiss, onCreatorStudio }) {
+  return (
+    <div className="x-menu-layer" onClick={onDismiss}>
+      <aside className="x-menu" onClick={(event) => event.stopPropagation()}>
+        <header className="x-menu__head">
+          <div>
+            <Avatar tone="ink" initials="PC" />
+            <h2>Petkov Chakalov <i className="x-menu__verified" aria-label="Verified">✓</i></h2>
+            <p>@petkov</p>
+            <div className="x-follow-count"><strong>1,909</strong> Following <strong>498</strong> Followers</div>
+          </div>
+          <span className="x-menu__switch" aria-hidden="true">+</span>
+        </header>
+        <nav aria-label="Account">
+          {MENU_PRIMARY.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={item.id === 'studio' ? onCreatorStudio : undefined}
+            >
+              <Glyph path={MENU_ICONS[item.id]} />
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+        <nav className="x-menu__secondary" aria-label="More">
+          {MENU_SECONDARY.map((item) => (
+            <button key={item.id} type="button">
+              <Glyph path={MENU_ICONS[item.id]} size={20} />
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+      </aside>
+    </div>
+  )
+}
+
+function CreatorStudio({ onBack, onOpenVideo, onHome }) {
+  return (
+    <div className="x-cstudio">
+      <header>
+        <button type="button" aria-label="Back" onClick={onBack}><Glyph path={MENU_ICONS.back} size={20} /></button>
+        <strong>Creator Studio</strong>
+        <span />
+      </header>
+      <main>
+        <section>
+          <h2>Programs</h2>
+          <button type="button" className="x-cstudio__row">
+            <Glyph path={MENU_ICONS.gift} />
+            <div><strong>Original Content Rewards</strong><small>Earn from your posts</small></div>
+            <em>Ineligible</em>
+            <Glyph path={MENU_ICONS.chevron} size={16} />
+          </button>
+          <button type="button" className="x-cstudio__row">
+            <Glyph path={MENU_ICONS.communities} />
+            <div><strong>Subscriptions</strong></div>
+            <em>Ineligible</em>
+            <Glyph path={MENU_ICONS.chevron} size={16} />
+          </button>
+        </section>
+        <section>
+          <h2>Tools</h2>
+          <button type="button" className="x-cstudio__row">
+            <Glyph path={MENU_ICONS.chart} />
+            <div><strong>Analytics</strong></div>
+            <Glyph path={MENU_ICONS.chevron} size={16} />
+          </button>
+          <button type="button" className="x-cstudio__row">
+            <Glyph path={MENU_ICONS.spark} />
+            <div><strong>Inspiration</strong><small>Top posts by engagement</small></div>
+            <Glyph path={MENU_ICONS.chevron} size={16} />
+          </button>
+          <button type="button" className="x-cstudio__row is-new" onClick={onOpenVideo}>
+            <Glyph path={MENU_ICONS.video} />
+            <div><strong>Video Studio</strong><small>Trim, text, and overlays in X</small></div>
+            <b>New</b>
+            <Glyph path={MENU_ICONS.chevron} size={16} />
+          </button>
+        </section>
+        <section>
+          <h2>Support</h2>
+          <button type="button" className="x-cstudio__row">
+            <Glyph path={MENU_ICONS.support} />
+            <div><strong>Contact support</strong></div>
+            <Glyph path={MENU_ICONS.chevron} size={16} />
+          </button>
+          <button type="button" className="x-cstudio__row">
+            <Glyph path={MENU_ICONS.learn} />
+            <div><strong>Learn more</strong></div>
+            <Glyph path={MENU_ICONS.chevron} size={16} />
+          </button>
+        </section>
+      </main>
+      <nav className="x-bottom" aria-label="Primary navigation">
+        <button type="button" aria-label="Home" onClick={onHome}><span className="x-bottom__mark"><NavIcon id="home" /></span></button>
+        <button type="button" aria-label="Search"><span className="x-bottom__mark"><NavIcon id="search" /></span></button>
+        <button type="button" aria-label="Grok"><span className="x-bottom__mark"><NavIcon id="grok" /></span></button>
+        <button type="button" aria-label="Notifications"><span className="x-bottom__mark"><NavIcon id="notifications" /></span></button>
+        <button type="button" aria-label="Messages"><span className="x-bottom__mark"><NavIcon id="messages" /></span></button>
+      </nav>
+    </div>
+  )
+}
+
+const CLIP_SECONDS = 3
+const MIN_CLIP = 0.8
+const CLIP_SRC = '/images/social/lagos-in-motion.webp'
+const OVERLAY_SRC = '/images/social/accra-night-transit.webp'
+
+function VideoStudio({ onBack }) {
+  const previewRef = useRef(null)
+  const trackRef = useRef(null)
+  const dragRef = useRef(null)
+  const [tool, setTool] = useState(null)
+  const [trim, setTrim] = useState({ start: 0, end: CLIP_SECONDS })
+  const [caption, setCaption] = useState(null)
+  const [overlay, setOverlay] = useState(null)
+
+  const duration = trim.end - trim.start
+  const isTrimmed = trim.start > 0.04 || trim.end < CLIP_SECONDS - 0.04
+
+  const chooseTool = (next) => {
+    setTool(next)
+    if (next === 'text' && !caption) setCaption({ x: 10, y: 72 })
+    if (next === 'overlay' && !overlay) setOverlay({ x: 58, y: 10 })
+    if (next === 'cut') {
+      setTrim((current) => {
+        const full = current.start <= 0.04 && current.end >= CLIP_SECONDS - 0.04
+        return full ? { start: 0, end: 2 } : current
+      })
+    }
+  }
+
+  const moveLayer = (kind, event) => {
+    const box = previewRef.current?.getBoundingClientRect()
+    const origin = dragRef.current
+    if (!box || !origin || origin.kind !== kind) return
+    const x = ((event.clientX - box.left - origin.dx) / box.width) * 100
+    const y = ((event.clientY - box.top - origin.dy) / box.height) * 100
+    const next = { x: clamp(x, 4, 70), y: clamp(y, 4, 82) }
+    if (kind === 'text') setCaption(next)
+    else setOverlay(next)
+  }
+
+  const startLayerDrag = (kind, position, event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    const box = previewRef.current.getBoundingClientRect()
+    dragRef.current = {
+      kind,
+      dx: event.clientX - box.left - (position.x / 100) * box.width,
+      dy: event.clientY - box.top - (position.y / 100) * box.height,
+    }
+    event.currentTarget.setPointerCapture(event.pointerId)
+    setTool(kind === 'text' ? 'text' : 'overlay')
+  }
+
+  const startTrim = (edge, event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setTool('cut')
+    dragRef.current = { kind: 'trim', edge }
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }
+
+  const moveTrim = (event) => {
+    const box = trackRef.current?.getBoundingClientRect()
+    const origin = dragRef.current
+    if (!box || !origin || origin.kind !== 'trim') return
+    const time = clamp(((event.clientX - box.left) / box.width) * CLIP_SECONDS, 0, CLIP_SECONDS)
+    setTrim((current) => {
+      if (origin.edge === 'start') return { start: Math.min(time, current.end - MIN_CLIP), end: current.end }
+      return { start: current.start, end: Math.max(time, current.start + MIN_CLIP) }
+    })
+  }
+
+  const endDrag = () => {
+    dragRef.current = null
+  }
+
+  return (
+    <div className="x-video">
+      <header>
+        <button type="button" aria-label="Back" onClick={onBack}><Glyph path={MENU_ICONS.back} size={20} /></button>
+        <button type="button" className={isTrimmed || caption || overlay ? 'is-ready' : ''} aria-label="Next">
+          <Glyph path={MENU_ICONS.chevron} size={18} />
+        </button>
+      </header>
+      <div className="x-video__preview" ref={previewRef}>
+        <img
+          src={CLIP_SRC}
+          alt="Lagos street clip"
+          style={{ objectPosition: `${(trim.start / CLIP_SECONDS) * 100}% 50%` }}
+        />
+        {caption ? (
+          <button
+            type="button"
+            className={`x-video__caption${tool === 'text' ? ' is-selected' : ''}`}
+            style={{ left: `${caption.x}%`, top: `${caption.y}%` }}
+            onPointerDown={(event) => startLayerDrag('text', caption, event)}
+            onPointerMove={(event) => moveLayer('text', event)}
+            onPointerUp={endDrag}
+            onPointerCancel={endDrag}
+          >
+            Lagos in motion
+          </button>
+        ) : null}
+        {overlay ? (
+          <button
+            type="button"
+            className={`x-video__overlay${tool === 'overlay' ? ' is-selected' : ''}`}
+            style={{ left: `${overlay.x}%`, top: `${overlay.y}%` }}
+            aria-label="Move overlay"
+            onPointerDown={(event) => startLayerDrag('overlay', overlay, event)}
+            onPointerMove={(event) => moveLayer('overlay', event)}
+            onPointerUp={endDrag}
+            onPointerCancel={endDrag}
+          >
+            <img src={OVERLAY_SRC} alt="" />
+          </button>
+        ) : null}
+      </div>
+      <div className="x-video__board">
+        <div className="x-video__meter">
+          <span>{formatClipTime(0)}/{formatClipTime(duration)}</span>
+          <button type="button" aria-label="Play" className="x-video__play"><Glyph path={MENU_ICONS.play} size={16} /></button>
+        </div>
+        <div
+          className={`x-video__track${tool === 'cut' ? ' is-active' : ''}`}
+          ref={trackRef}
+          onPointerMove={moveTrim}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+        >
+          <div className="x-video__film">
+            {[0, 1, 2, 3].map((frame) => (
+              <img key={frame} src={CLIP_SRC} alt="" />
+            ))}
+          </div>
+          <i className="x-video__shade" style={{ width: `${(trim.start / CLIP_SECONDS) * 100}%` }} />
+          <i className="x-video__shade x-video__shade--end" style={{ width: `${((CLIP_SECONDS - trim.end) / CLIP_SECONDS) * 100}%` }} />
+          <div
+            className="x-video__range"
+            style={{
+              left: `${(trim.start / CLIP_SECONDS) * 100}%`,
+              width: `${(duration / CLIP_SECONDS) * 100}%`,
+            }}
+          >
+            <button
+              type="button"
+              aria-label="Trim start"
+              onPointerDown={(event) => startTrim('start', event)}
+              onPointerMove={moveTrim}
+              onPointerUp={endDrag}
+              onPointerCancel={endDrag}
+            />
+            <button
+              type="button"
+              aria-label="Trim end"
+              onPointerDown={(event) => startTrim('end', event)}
+              onPointerMove={moveTrim}
+              onPointerUp={endDrag}
+              onPointerCancel={endDrag}
+            />
+          </div>
+        </div>
+      </div>
+      <nav className="x-video__tools" aria-label="Edit tools">
+        <button type="button" className={tool === 'cut' ? 'is-active' : isTrimmed ? 'is-used' : ''} onClick={() => chooseTool('cut')}>
+          <Glyph path={MENU_ICONS.scissors} size={22} />
+          Cut
+        </button>
+        <button type="button" className={tool === 'text' ? 'is-active' : caption ? 'is-used' : ''} onClick={() => chooseTool('text')}>
+          <Glyph path={MENU_ICONS.text} size={22} />
+          Text
+        </button>
+        <button type="button" className={tool === 'overlay' ? 'is-active' : overlay ? 'is-used' : ''} onClick={() => chooseTool('overlay')}>
+          <Glyph path={MENU_ICONS.overlay} size={22} />
+          Overlay
+        </button>
+      </nav>
+    </div>
+  )
+}
+
 export default function SocialUI({ screen, onScreenChange = () => {} }) {
   const isSplash = screen === 'splash'
-  const isProfile = screen === 'profile-peek' || screen === 'profile-expanded'
+  const isProfile = screen === 'profile-peek'
   const isCompose = screen === 'compose' || screen === 'compose-ready'
+  const isAccountMenu = screen === 'account-menu'
+  const isCreatorStudio = screen === 'creator-studio'
+  const isVideoStudio = screen === 'video-studio'
   const onScreenChangeRef = useRef(onScreenChange)
+  const [selectedProfile, setSelectedProfile] = useState(authors.tola)
   onScreenChangeRef.current = onScreenChange
 
   useEffect(() => {
@@ -465,7 +822,7 @@ export default function SocialUI({ screen, onScreenChange = () => {} }) {
   }, [isSplash])
 
   return (
-    <div className={`x-redesign${isSplash ? ' is-splash' : ''}`}>
+    <div className={`x-redesign${isSplash ? ' is-splash' : ''}${isVideoStudio ? ' is-video' : ''}`}>
       <div className="x-world">
         <StatusBar />
         {isCompose ? (
@@ -475,12 +832,24 @@ export default function SocialUI({ screen, onScreenChange = () => {} }) {
             onReady={() => onScreenChange('compose-ready')}
             onPublish={() => onScreenChange('published')}
           />
+        ) : isCreatorStudio ? (
+          <CreatorStudio
+            onBack={() => onScreenChange('account-menu')}
+            onOpenVideo={() => onScreenChange('video-studio')}
+            onHome={() => onScreenChange('feed')}
+          />
+        ) : isVideoStudio ? (
+          <VideoStudio onBack={() => onScreenChange('creator-studio')} />
         ) : (
           <Feed
             published={screen === 'published'}
             resetView={screen === 'feed'}
             onCompose={() => onScreenChange('compose')}
-            onProfile={() => onScreenChange('profile-peek')}
+            onMenu={() => onScreenChange('account-menu')}
+            onProfile={(author) => {
+              setSelectedProfile(author)
+              onScreenChange('profile-peek')
+            }}
           />
         )}
       </div>
@@ -489,12 +858,14 @@ export default function SocialUI({ screen, onScreenChange = () => {} }) {
       ) : null}
       {isProfile ? (
         <div className="x-profile-layer" onClick={() => onScreenChange('feed')}>
-          <ProfileCard
-            expanded={screen === 'profile-expanded'}
-            onExpand={() => onScreenChange('profile-expanded')}
-            onDismiss={() => onScreenChange('feed')}
-          />
+          <ProfileCard author={selectedProfile} onDismiss={() => onScreenChange('feed')} />
         </div>
+      ) : null}
+      {isAccountMenu ? (
+        <AccountMenu
+          onDismiss={() => onScreenChange('feed')}
+          onCreatorStudio={() => onScreenChange('creator-studio')}
+        />
       ) : null}
     </div>
   )
