@@ -17,7 +17,7 @@ const SPLASH_MS = 720
 const avatarImages = {
   clay: '/images/social/avatars/tola.webp',
   blue: '/images/social/avatars/nia.webp',
-  ink: '/images/social/avatars/petkov.webp',
+  ink: '/images/social/avatars/petkov.png',
   sage: '/images/social/avatars/ife.webp?v=1',
   rust: '/images/social/avatars/kemi.webp?v=1',
   sand: '/images/social/avatars/sade.webp?v=1',
