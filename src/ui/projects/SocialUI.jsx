@@ -16,9 +16,8 @@ const avatarImages = {
   clay: '/images/social/avatars/tola.webp',
   blue: '/images/social/avatars/nia.webp',
   ink: '/images/social/avatars/petkov.webp',
+  sage: '/images/social/avatars/ife.webp?v=1',
 }
-
-const Icon = ({ children }) => <span className="x-icon" aria-hidden="true">{children}</span>
 
 const NAV_ICONS = {
   home: {
@@ -65,6 +64,39 @@ function NavIcon({ id, filled }) {
   )
 }
 
+const ACTION_ICONS = {
+  reply:
+    'M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z',
+  repost:
+    'M4.75 3.79l4.603 4.3-1.706 1.82L6 8.32V13.5c0 1.105.895 2 2 2h4.5v2H8c-2.209 0-4-1.791-4-4V8.32l-1.647 1.57-1.706-1.82L4.75 3.79zM15.5 6H11V4h4.5c2.209 0 4 1.791 4 4v5.18l1.647-1.57 1.706 1.82-4.603 4.3-4.603-4.3 1.706-1.82L18 11.68V8c0-1.105-.895-2-2-2z',
+  like: {
+    outline:
+      'M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.63-3.075 1.57-1.43 1.82-1.025 5.21 1.424 7.62 2.05 2.01 5.12 3.87 6.346 4.45s4.298-2.44 6.348-4.45c2.449-2.41 2.854-5.8 1.424-7.62-.725-.94-1.831-1.5-3.074-1.57z',
+    filled:
+      'M20.884 13.19c-1.351 2.48-4.001 5.12-8.884 8.59-4.97-3.57-7.6-6.2-8.979-8.69-1.29-2.32-1.45-4.88-.42-7.15.91-2.06 2.86-3.31 4.74-3.31 1.54 0 3.04.99 3.57 2.36h1.32c.52-1.37 2.03-2.36 3.56-2.36 1.88 0 3.83 1.25 4.74 3.31 1.13 2.37.94 4.92-.335 7.25z',
+  },
+  views:
+    'M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z',
+  bookmark:
+    'M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z',
+  share:
+    'M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z',
+}
+
+function ActionIcon({ id, filled = false }) {
+  const icon = ACTION_ICONS[id]
+  const d = typeof icon === 'string' ? icon : filled ? icon.filled : icon.outline
+  return (
+    <span className="x-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <g>
+          <path fill="currentColor" d={d} />
+        </g>
+      </svg>
+    </span>
+  )
+}
+
 function StatusBar() {
   return <div className="x-status"><b>10:11</b><i /><span>▮▮▮ 5G ◒</span></div>
 }
@@ -94,25 +126,182 @@ function Splash({ onEnter, onDone }) {
 }
 
 function Avatar({ tone = 'clay', initials = 'TA', className = '' }) {
+  const src = avatarImages[tone]
   return (
     <span className={`x-avatar x-avatar--${tone} ${className}`}>
-      <img src={avatarImages[tone]} alt="" aria-hidden="true" />
+      {src ? <img src={src} alt="" aria-hidden="true" /> : null}
       <span className="x-avatar__fallback">{initials}</span>
     </span>
   )
 }
 
 function Actions({ replies = 12, reposts = 34, likes = 218, views = '4.2K' }) {
+  const [liked, setLiked] = useState(false)
+  const likeCount = Number(likes) + (liked ? 1 : 0)
   return (
     <div className="x-actions">
-      <span><Icon>○</Icon>{replies}</span><span><Icon>↻</Icon>{reposts}</span>
-      <span><Icon>♡</Icon>{likes}</span><span><Icon>⌁</Icon>{views}</span>
-      <span className="x-actions__end"><Icon>⌑</Icon><Icon>↥</Icon></span>
+      <span><ActionIcon id="reply" />{replies}</span>
+      <span><ActionIcon id="repost" />{reposts}</span>
+      <button
+        type="button"
+        className={liked ? 'is-liked' : undefined}
+        aria-label="Like"
+        aria-pressed={liked}
+        onClick={() => setLiked((current) => !current)}
+      >
+        <ActionIcon id="like" filled={liked} />
+        {likeCount}
+      </button>
+      <span><ActionIcon id="views" />{views}</span>
+      <span className="x-actions__end"><ActionIcon id="bookmark" /><ActionIcon id="share" /></span>
     </div>
   )
 }
 
-function FeedPost({ featured = false, newPost = false, onAuthor }) {
+const authors = {
+  tola: { name: 'Tola Adebayo', handle: '@tola', tone: 'clay', initials: 'TA' },
+  nia: { name: 'Nia Okeke', handle: '@niao', tone: 'blue', initials: 'NO' },
+  ife: { name: 'Ife Danjuma', handle: '@ife', tone: 'sage', initials: 'ID' },
+  kemi: { name: 'Kemi Bello', handle: '@kemi', tone: 'rust', initials: 'KB' },
+  sade: { name: 'Sade Mensah', handle: '@sade', tone: 'sand', initials: 'SM' },
+  emeka: { name: 'Emeka Nwosu', handle: '@emeka', tone: 'slate', initials: 'EN' },
+}
+
+const FEED_POSTS = [
+  {
+    id: 'tola-lagos',
+    author: authors.tola,
+    time: '2h',
+    featured: true,
+    text: 'Lagos teaches you to design for interruption. Nothing moves in a straight line, but everything still moves.',
+    media: {
+      src: '/images/social/lagos-in-motion.webp',
+      alt: 'A busy Lagos street at golden hour seen from a moving danfo bus',
+      duration: '00:18',
+    },
+    replies: 18,
+    reposts: 62,
+    likes: 412,
+    views: '8.8K',
+  },
+  {
+    id: 'nia-clarity',
+    author: authors.nia,
+    time: '4h',
+    text: 'A quiet reminder: clarity is a feature, not the absence of features.',
+    replies: 7,
+    reposts: 21,
+    likes: 146,
+    views: '2.1K',
+  },
+  {
+    id: 'ife-transit',
+    author: authors.ife,
+    time: '5h',
+    text: 'Transit maps lie by being too clean. The real city is the delay between two stops.',
+    media: {
+      src: '/images/social/accra-night-transit.webp',
+      alt: 'A busy Accra transit junction with minibuses and pedestrians at night',
+      duration: '00:11',
+    },
+    replies: 23,
+    reposts: 41,
+    likes: 289,
+    views: '5.4K',
+  },
+  {
+    id: 'kemi-tutorial',
+    author: authors.kemi,
+    time: '6h',
+    text: 'If the system needs a tutorial, the system is unfinished.',
+    replies: 31,
+    reposts: 88,
+    likes: 640,
+    views: '12K',
+  },
+  {
+    id: 'sade-screens',
+    author: authors.sade,
+    time: '8h',
+    text: 'Designers keep asking for more screens. Operators keep asking for fewer decisions. Guess which one the city actually runs on.',
+    replies: 14,
+    reposts: 37,
+    likes: 198,
+    views: '3.6K',
+  },
+  {
+    id: 'emeka-bridge',
+    author: authors.emeka,
+    time: '11h',
+    text: 'A bridge is a product. It has peak load, failure modes, and a queue you cannot hide with animation.',
+    media: {
+      src: '/images/social/third-mainland-bridge.webp',
+      alt: 'Dense traffic crossing Lagos Third Mainland Bridge above the lagoon',
+      duration: '00:24',
+    },
+    replies: 9,
+    reposts: 54,
+    likes: 371,
+    views: '7.1K',
+  },
+  {
+    id: 'tola-radio',
+    author: authors.tola,
+    time: '14h',
+    text: 'I keep a list of interfaces that respect interruption: markets, danfo, radio. Almost none of them are apps.',
+    replies: 22,
+    reposts: 71,
+    likes: 508,
+    views: '9.4K',
+  },
+  {
+    id: 'nia-whitespace',
+    author: authors.nia,
+    time: '18h',
+    text: 'Whitespace is not empty. It’s where the next action lives.',
+    replies: 4,
+    reposts: 19,
+    likes: 122,
+    views: '1.8K',
+  },
+  {
+    id: 'ife-rain',
+    author: authors.ife,
+    time: '1d',
+    text: 'After rain, the city shows you its drainage logic. Most products never get that honest.',
+    media: {
+      src: '/images/social/abuja-after-rain.webp',
+      alt: 'A wet Abuja street and open drainage channel after tropical rain',
+      duration: '00:09',
+    },
+    replies: 11,
+    reposts: 28,
+    likes: 204,
+    views: '4.0K',
+  },
+  {
+    id: 'kemi-standing',
+    author: authors.kemi,
+    time: '1d',
+    text: 'We keep shipping dashboards to people who work standing up.',
+    replies: 16,
+    reposts: 45,
+    likes: 317,
+    views: '6.2K',
+  },
+  {
+    id: 'sade-wayfinding',
+    author: authors.sade,
+    time: '2d',
+    text: 'A good wayfinding system apologizes by being unnecessary the second time.',
+    replies: 8,
+    reposts: 26,
+    likes: 173,
+    views: '2.9K',
+  },
+]
+
+function FeedPost({ post, newPost = false, onAuthor }) {
   if (newPost) {
     return (
       <article className="x-post x-post--new">
@@ -126,14 +315,21 @@ function FeedPost({ featured = false, newPost = false, onAuthor }) {
     )
   }
 
+  const { featured, author, time, text, media, replies, reposts, likes, views } = post
   return (
     <article className={`x-post${featured ? ' x-post--featured' : ''}`}>
-      <button className="x-author-trigger" type="button" onClick={onAuthor} aria-label={`Open ${featured ? 'Tola' : 'Nia'} profile`}><Avatar tone={featured ? 'clay' : 'blue'} initials={featured ? 'TA' : 'NO'} /></button>
+      <button className="x-author-trigger" type="button" onClick={onAuthor} aria-label={`Open ${author.name} profile`}><Avatar tone={author.tone} initials={author.initials} /></button>
       <div className="x-post__body">
-        <header><button className="x-author-name" type="button" onClick={onAuthor}>{featured ? 'Tola Adebayo' : 'Nia Okeke'}</button><span>{featured ? '@tola · 2h' : '@niao · 4h'}</span><b>•••</b></header>
-        <p>{featured ? 'Lagos teaches you to design for interruption. Nothing moves in a straight line, but everything still moves.' : 'A quiet reminder: clarity is a feature, not the absence of features.'}</p>
-        {featured ? <div className="x-post__media"><span>LAGOS<br /><em>in motion</em></span><small>00:18</small></div> : null}
-        <Actions replies={featured ? 18 : 7} reposts={featured ? 62 : 21} likes={featured ? 412 : 146} views={featured ? '8.8K' : '2.1K'} />
+        <header><button className="x-author-name" type="button" onClick={onAuthor}>{author.name}</button><span>{author.handle} · {time}</span><b>•••</b></header>
+        <p>{text}</p>
+        {media ? (
+          <div className={`x-post__media${media.variant ? ` x-post__media--${media.variant}` : ''}`}>
+            {media.src ? <img src={media.src} alt={media.alt ?? ''} /> : null}
+            {media.title ? <span>{media.title}<br /><em>{media.caption}</em></span> : null}
+            <small>{media.duration}</small>
+          </div>
+        ) : null}
+        <Actions replies={replies} reposts={reposts} likes={likes} views={views} />
       </div>
     </article>
   )
@@ -177,7 +373,7 @@ function Feed({ published = false, resetView = false, onCompose, onProfile }) {
   return (
     <>
       <header className="x-feed-head"><Avatar tone="ink" initials="PC" /><strong>𝕏</strong><button aria-label="Settings">⌁</button></header>
-      <nav className="x-tabs"><span className="is-active">For you</span><span>Following</span><span>Design</span></nav>
+      <nav className="x-tabs"><span className="is-active">For you<i aria-hidden="true" /></span><span>Following</span><span>Design</span><button type="button" aria-label="Add topic">+</button></nav>
       {showNewPosts ? <button className="x-float-pill" type="button" aria-label="Show newest posts" onClick={scrollToNewest}>
         <span className="x-float-pill__arrow" aria-hidden="true">↑</span>
         <span className="x-float-pill__dots" aria-hidden="true"><i /><i /><i /></span>
@@ -187,16 +383,15 @@ function Feed({ published = false, resetView = false, onCompose, onProfile }) {
           <Avatar tone="ink" initials="PC" />
         </span>
       </button> : null}
-      <main className={`x-feed${isRapidScrolling ? ' is-rapid-scrolling' : ''}`} ref={feedRef}>
+      <main
+        className={`x-feed${isRapidScrolling ? ' is-rapid-scrolling' : ''}`}
+        ref={feedRef}
+        onWheel={(event) => event.stopPropagation()}
+      >
         {published ? <FeedPost newPost onAuthor={onProfile} /> : null}
-        <FeedPost featured onAuthor={onProfile} />
-        <FeedPost onAuthor={onProfile} />
-        <FeedPost featured onAuthor={onProfile} />
-        <FeedPost onAuthor={onProfile} />
-        <FeedPost featured onAuthor={onProfile} />
-        <FeedPost onAuthor={onProfile} />
-        <FeedPost featured onAuthor={onProfile} />
-        <FeedPost onAuthor={onProfile} />
+        {FEED_POSTS.map((post) => (
+          <FeedPost key={post.id} post={post} onAuthor={onProfile} />
+        ))}
       </main>
       <button className="x-compose-fab" type="button" aria-label="Compose" onClick={onCompose}>+</button>
       <nav className="x-bottom" aria-label="Primary navigation">
