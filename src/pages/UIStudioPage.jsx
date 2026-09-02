@@ -3,6 +3,11 @@ import { uiProjects } from '../ui/projectRegistry'
 import '../ui/studio.css'
 
 export default function UIStudioPage() {
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = window.localStorage.getItem('ui-studio-theme')
+    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+  })
   const [projectId, setProjectId] = useState(uiProjects[0].id)
   const [screenIndex, setScreenIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -12,6 +17,10 @@ export default function UIStudioPage() {
   )
   const screen = project.screens[screenIndex] ?? project.screens[0]
   const Preview = project.Component
+
+  useEffect(() => {
+    window.localStorage.setItem('ui-studio-theme', theme)
+  }, [theme])
 
   useEffect(() => {
     setScreenIndex(0)
@@ -28,13 +37,25 @@ export default function UIStudioPage() {
   }, [isPlaying, screenIndex, project.screens])
 
   return (
-    <main className="ui-studio">
+    <main className={`ui-studio ui-studio--${theme}`}>
       <header className="ui-studio__header">
         <div>
           <span className="ui-studio__eyebrow">Local interaction workbench</span>
           <h1>UI studio</h1>
         </div>
-        <a href="/">Return to portfolio</a>
+        <div className="ui-studio__header-actions">
+          <button
+            className="ui-studio__theme-toggle"
+            type="button"
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            aria-pressed={theme === 'light'}
+            onClick={() => setTheme((value) => (value === 'dark' ? 'light' : 'dark'))}
+          >
+            <span aria-hidden="true">{theme === 'dark' ? '☼' : '◐'}</span>
+            {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          </button>
+          <a href="/">Return to portfolio</a>
+        </div>
       </header>
 
       <div className="ui-studio__layout">
@@ -57,7 +78,7 @@ export default function UIStudioPage() {
 
           <section className="ui-studio__instructions">
             <h2>Working file</h2>
-            <code>src/ui/projects/{project.name}UI.jsx</code>
+            <code>{project.file}</code>
             <p>Edit the component and save. Vite refreshes the phone preview immediately.</p>
           </section>
         </aside>
