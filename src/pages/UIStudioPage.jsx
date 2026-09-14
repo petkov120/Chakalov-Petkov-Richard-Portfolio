@@ -1,5 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { uiProjects } from '../ui/projectRegistry'
+import PhonePreview from '../ui/PhonePreview'
+import ExportPanel from '../ui/export/ExportPanel'
 import '../ui/studio.css'
 
 export default function UIStudioPage() {
@@ -11,6 +13,10 @@ export default function UIStudioPage() {
   const [projectId, setProjectId] = useState(uiProjects[0].id)
   const [screenIndex, setScreenIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [zoomEnabled, setZoomEnabled] = useState(true)
+  const [exportOpen, setExportOpen] = useState(false)
+  const frameRef = useRef(null)
+  const exportButtonRef = useRef(null)
   const project = useMemo(
     () => uiProjects.find((item) => item.id === projectId) ?? uiProjects[0],
     [projectId],
@@ -37,13 +43,29 @@ export default function UIStudioPage() {
   }, [isPlaying, screenIndex, project.screens])
 
   return (
-    <main className={`ui-studio ui-studio--${theme}`}>
+    <main className={`ui-studio ui-studio--${theme}${exportOpen ? ' ui-studio--export' : ''}`}>
       <header className="ui-studio__header">
         <div>
           <span className="ui-studio__eyebrow">Local interaction workbench</span>
           <h1>UI studio</h1>
         </div>
         <div className="ui-studio__header-actions">
+          <button
+            ref={exportButtonRef}
+            className="ui-studio__theme-toggle"
+            type="button"
+            onClick={() => { setIsPlaying(false); setExportOpen(true) }}
+          >
+            Export ↗
+          </button>
+          <button
+            className="ui-studio__theme-toggle ui-studio__zoom-toggle"
+            type="button"
+            aria-pressed={zoomEnabled}
+            onClick={() => setZoomEnabled((value) => !value)}
+          >
+            Cursor zoom <span>{zoomEnabled ? 'On' : 'Off'}</span>
+          </button>
           <button
             className="ui-studio__theme-toggle"
             type="button"
@@ -84,8 +106,8 @@ export default function UIStudioPage() {
         </aside>
 
         <section className="ui-studio__stage" aria-label={`${project.name} preview`}>
-          <div className="ui-studio__phone">
-            <div className="ui-studio__phone-screen" key={project.id}>
+          <div ref={frameRef} className="ui-studio__presentation">
+            <PhonePreview key={project.id} zoomEnabled={zoomEnabled}>
               <Preview
                 screen={screen.id}
                 onScreenChange={(screenId) => {
@@ -93,7 +115,7 @@ export default function UIStudioPage() {
                   if (nextIndex >= 0) setScreenIndex(nextIndex)
                 }}
               />
-            </div>
+            </PhonePreview>
           </div>
         </section>
 
@@ -125,12 +147,28 @@ export default function UIStudioPage() {
           </section>
 
           <section className="ui-studio__export-note">
-            <h2>When it is ready</h2>
-            <p>Record the phone canvas and save the final MP4 as:</p>
+            <h2>Present your work</h2>
+            <p>Use Export for a cover image or an interaction video. Keep the approved portfolio clip at:</p>
             <code>ui/{project.id}/final.mp4</code>
           </section>
         </aside>
       </div>
+      {exportOpen && (
+        <ExportPanel
+          frameRef={frameRef}
+          project={project}
+          screen={screen}
+          isPlaying={isPlaying}
+          onPlay={() => setIsPlaying((value) => !value)}
+          onPause={() => setIsPlaying(false)}
+          onScreenChange={(id) => { setScreenIndex(project.screens.findIndex((item) => item.id === id)); setIsPlaying(false) }}
+          onClose={() => {
+            setExportOpen(false)
+            setIsPlaying(false)
+            requestAnimationFrame(() => exportButtonRef.current?.focus())
+          }}
+        />
+      )}
     </main>
   )
 }

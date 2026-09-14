@@ -1,0 +1,44 @@
+.ui-studio--export { --export-surface: #1b1c19; --export-text: #e9e7e2; --export-muted: #9ca096; --export-border: #383a35; --export-control: #282a24; }
+.ui-studio--export.ui-studio--light { --export-surface: #faf9f5; --export-text: #242520; --export-muted: #62655d; --export-border: #d7d5cd; --export-control: #eeece5; }
+.ui-studio__presentation { display: grid; place-items: center; }
+.ui-studio--export > .ui-studio__header,
+.ui-studio--export .ui-studio__sidebar,
+.ui-studio--export .ui-studio__controls { display: none; }
+.ui-studio--export .ui-studio__stage { position: fixed; z-index: 100; inset: 0 296px 0 0; grid-template: minmax(0, 1fr) / minmax(0, 1fr); padding: 0; overflow: hidden; border: 0; background: #10110f; }
+.ui-studio--export.ui-studio--light .ui-studio__stage { background: #deddd6; }
+.ui-studio--export .ui-studio__presentation { flex: none; grid-template: minmax(0, 1fr) / minmax(0, 1fr); width: 540px; height: 675px; overflow: hidden; background: #191b18; transform: scale(var(--export-scale, 1)); transform-origin: center; }
+.ui-studio--export.ui-studio--light .ui-studio__presentation { background: #eeeae3; }
+.ui-studio--export .ui-studio__phone-anchor { transform: scale(.64); }
+.ui-export { position: fixed; z-index: 101; inset: 0 0 0 auto; width: 296px; overflow-y: auto; padding: 28px 24px; color: var(--export-text); background: var(--export-surface); border-left: 1px solid var(--export-border); font-size: 12px; }
+.ui-export button, .ui-export select { font: inherit; }
+.ui-export button:disabled, .ui-export select:disabled { opacity: .45; cursor: not-allowed; }
+.ui-export button:focus-visible, .ui-export select:focus-visible { outline: 2px solid #c97160; outline-offset: 4px; }
+.ui-export__back { border: 0; padding: 0; background: none; color: var(--export-muted); cursor: pointer; }
+.ui-export__heading { margin-top: 36px; }
+.ui-export__heading > span, .ui-export h3 { color: var(--export-muted); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; }
+.ui-export__heading h2 { margin: 8px 0; font: 400 38px/1.1 'Instrument Serif', Georgia, serif; }
+.ui-export p { color: var(--export-muted); font-size: 11px; line-height: 1.65; }
+.ui-export__screen { display: grid; gap: 8px; margin-top: 28px; color: var(--export-muted); }
+.ui-export select { min-width: 0; padding: 10px 8px; border: 1px solid var(--export-border); border-radius: 7px; background: var(--export-control); color: var(--export-text); }
+.ui-export__sequence { margin-top: 12px; padding: 0; border: 0; color: var(--export-text); background: none; cursor: pointer; }
+.ui-export__section { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--export-border); }
+.ui-export h3 { margin: 0 0 12px; }
+.ui-export__cover { display: flex; gap: 6px; }
+.ui-export__cover button, .ui-export__record, .ui-export__download { display: flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 10px; border: 1px solid var(--export-border); border-radius: 7px; background: var(--export-control); color: var(--export-text); cursor: pointer; }
+.ui-export__cover button { flex: 1; padding-inline: 6px; }
+.ui-export__record, .ui-export__download { width: 100%; }
+.ui-export__record > span { width: 7px; height: 7px; border-radius: 50%; background: #c97160; }
+.ui-export__record.is-recording { border-color: #c97160; }
+.ui-export__record.is-recording > span { border-radius: 1px; }
+.ui-export__download { margin-top: 16px; background: var(--export-text); color: var(--export-surface); }
+.ui-export .ui-export__quality { color: #c97160; }
+.ui-export__status { margin-top: 26px; }
+@media (max-width: 799px) {
+  .ui-studio__header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .ui-studio__header-actions { flex-wrap: wrap; gap: 10px; }
+  .ui-studio--export .ui-studio__stage { inset: 0 0 300px; }
+  .ui-export { inset: auto 0 0; width: 100%; height: 300px; padding: 16px 20px; border-top: 1px solid var(--export-border); border-left: 0; }
+  .ui-export__heading { margin-top: 16px; }
+  .ui-export__heading h2 { font-size: 28px; }
+  .ui-export__section, .ui-export__screen { margin-top: 16px; }
+}

@@ -15,9 +15,47 @@
 .ui-studio__sidebar nav button span { color: #5f645b; font: .6rem JetBrains Mono, monospace; }
 .ui-studio__sidebar nav button.is-active { color: #fff; background: #252722; }
 .ui-studio__instructions { margin-top: 3rem; }.ui-studio__instructions code, .ui-studio__export-note code { display: block; overflow-wrap: anywhere; padding: .65rem; border-radius: .4rem; color: #c97160; background: #20211e; font-size: .62rem; }.ui-studio__instructions p, .ui-studio__export-note p { color: #878b83; font-size: .68rem; line-height: 1.55; }
-.ui-studio__stage { display: grid; place-items: center; overflow: auto; padding: 2.5rem; border-block: 1px solid #2b2d29; background-color: #1b1c19; background-image: linear-gradient(#22231f 1px,transparent 1px),linear-gradient(90deg,#22231f 1px,transparent 1px); background-size: 24px 24px; }
-.ui-studio__phone { width: 390px; padding: 10px; border: 1px solid #343631; border-radius: 3.1rem; background: #080908; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+.ui-studio__stage { display: grid; place-items: center; overflow: auto; padding: 4rem; border-block: 1px solid #2b2d29; background-color: #1b1c19; background-image: linear-gradient(#22231f 1px,transparent 1px),linear-gradient(90deg,#22231f 1px,transparent 1px); background-size: 24px 24px; }
+.ui-studio__phone { position: relative; width: 390px; padding: 10px; border: 1px solid #343631; border-radius: 3.1rem; background: #080908; box-shadow: 0 30px 80px rgba(0,0,0,.5); cursor: none; }
+.ui-studio__finger { position: absolute; z-index: 60; width: 22px; height: 22px; border-radius: 50%; pointer-events: none; opacity: 0; background: rgba(255, 255, 255, .08); border: 1px solid rgba(15, 20, 25, .35); box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; transform: translate(-50%, -50%) scale(.92); transition: opacity 120ms ease, transform 160ms cubic-bezier(.22, 1, .36, 1), background-color 160ms ease, border-color 160ms ease; }
+.ui-studio__finger.is-visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.ui-studio__finger.is-pressing { background: rgba(255, 255, 255, .16); border-color: rgba(15, 20, 25, .45); transform: translate(-50%, -50%) scale(.82); }
 .ui-studio__phone-screen { height: 844px; overflow: clip; border-radius: 2.5rem; background: #f4f1ea; animation: ui-screen-in 220ms ease both; }
+.ui-studio__phone-anchor {
+  position: relative;
+  width: 390px;
+  cursor: none;
+}
+.ui-studio__camera {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+}
+.ui-studio__phone::after {
+  content: '';
+  position: absolute;
+  z-index: 55;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, .12);
+  opacity: var(--camera-emphasis, 0);
+  pointer-events: none;
+}
+.ui-studio__zoom-toggle span { font-size: .58rem; opacity: .65; }
+@media (hover: hover) and (pointer: fine) {
+  .ui-studio__phone-anchor * { cursor: none; }
+}
+@media (hover: none), (pointer: coarse) {
+  .ui-studio__phone-anchor, .ui-studio__phone { cursor: auto; }
+  .ui-studio__finger { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-studio__camera { transform: none !important; }
+  .ui-studio__phone::after { display: none; }
+  .ui-studio__phone-screen { animation: none; }
+  .ui-studio__finger { transition: opacity 120ms ease; }
+}
 .ui-studio__section-head { display: flex; align-items: center; justify-content: space-between; }.ui-studio__section-head button { padding: .4rem .65rem; border: 1px solid #383a35; border-radius: 999px; color: #d5d8d0; background: #22231f; font-size: .62rem; cursor: pointer; }
 .ui-studio__controls ol { display: grid; gap: .4rem; margin: 0; padding: 0; list-style: none; }.ui-studio__controls li button { display: flex; gap: .7rem; width: 100%; padding: .7rem; border: 1px solid transparent; border-radius: .55rem; color: #999e94; background: transparent; text-align: left; cursor: pointer; }.ui-studio__controls li button.is-active { border-color: #393b35; color: #fff; background: #22231f; }.ui-studio__controls li button > span { padding-top: .1rem; color: #62675e; font: .58rem JetBrains Mono, monospace; }.ui-studio__controls li div { display: grid; gap: .2rem; }.ui-studio__controls strong { font-size: .68rem; }.ui-studio__controls small { color: #73786f; font-size: .58rem; line-height: 1.35; }
 .ui-studio__export-note { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid #2b2d29; }
@@ -25,7 +63,7 @@
 .ui-canvas__status { position: relative; display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 24px; font-size: 11px; }.ui-canvas__status i { position: absolute; top: 10px; left: 50%; width: 108px; height: 30px; border-radius: 999px; background: #090909; transform: translateX(-50%); }
 .ui-canvas__blank { display: flex; flex-direction: column; justify-content: space-between; height: calc(100% - 48px); padding: 34px 28px 30px; }.ui-canvas__project { font: 500 10px JetBrains Mono,monospace; letter-spacing: .14em; text-transform: uppercase; opacity: .5; }.ui-canvas__number { display: block; margin-bottom: 16px; color: #c45c4a; font: 11px JetBrains Mono,monospace; }.ui-canvas__blank h2 { margin: 0; font: 400 54px/.92 'Instrument Serif',Georgia,serif; letter-spacing: -.04em; }.ui-canvas__blank p { max-width: 250px; margin: 18px 0 0; font-size: 14px; line-height: 1.5; opacity: .62; }.ui-canvas__blank small { font-size: 10px; opacity: .38; }
 @keyframes ui-screen-in { from { opacity: .3; transform: translateY(4px); } }
-@media (max-width: 1000px) { .ui-studio__layout { grid-template-columns: 1fr; }.ui-studio__sidebar, .ui-studio__controls { display: none; }.ui-studio__stage { border: 1px solid #2b2d29; }.ui-studio__phone { transform: scale(.8); } }
+@media (max-width: 1000px) { .ui-studio__layout { grid-template-columns: 1fr; }.ui-studio__sidebar, .ui-studio__controls { display: none; }.ui-studio__stage { border: 1px solid #2b2d29; }.ui-studio__phone-anchor { transform: scale(.8); } }
 
 /* Studio shell light mode. Phone previews retain their project-defined appearance. */
 .ui-studio--light { color: #242520; background: #f2f1ec; }

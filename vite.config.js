@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import uiExportPlugin from './scripts/ui-export-plugin.mjs'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), uiExportPlugin()],
   server: {
     watch: {
       usePolling: true,
