@@ -7,5 +7,5 @@ export const socialScreens = [
   { id: 'published', label: 'Published', purpose: 'Return to the same feed position with clear feedback' },
   { id: 'account-menu', label: 'Account menu', purpose: 'Reach creator tools without leaving the feed' },
   { id: 'creator-studio', label: 'Creator Studio', purpose: 'See programs and tools in one place' },
-  { id: 'video-studio', label: 'Video Studio', purpose: 'Add text, trim the clip, and place an overlay before posting' },
+  { id: 'video-studio', label: 'Video Studio', purpose: 'Trim, text, images, and keyframes on a playhead before posting' },
 ]

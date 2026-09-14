@@ -1,4 +1,5 @@
 import Glyph, { MENU_ICONS } from '../icons/Glyph'
+import NavIcon from '../icons/NavIcon'
 import Avatar from './Avatar'
 
 const MENU_PRIMARY = [
@@ -24,11 +25,20 @@ export default function AccountMenu({ onDismiss, onCreatorStudio }) {
         <header className="x-menu__head">
           <div>
             <Avatar tone="ink" initials="PC" />
-            <h2>Petkov Chakalov <i className="x-menu__verified" aria-label="Verified">✓</i></h2>
+            <h2>
+              Petkov Chakalov
+              <i className="x-menu__verified" aria-label="Verified">
+                <Glyph path={MENU_ICONS.verified} size={18} />
+              </i>
+            </h2>
             <p>@petkov</p>
             <div className="x-follow-count"><strong>1,909</strong> Following <strong>498</strong> Followers</div>
           </div>
-          <span className="x-menu__switch" aria-hidden="true">+</span>
+          <span className="x-menu__switch" aria-hidden="true">
+            <span className="x-menu__add">
+              <Glyph path={MENU_ICONS.plusMark} size={14} />
+            </span>
+          </span>
         </header>
         <nav aria-label="Account">
           {MENU_PRIMARY.map((item) => (
@@ -45,7 +55,7 @@ export default function AccountMenu({ onDismiss, onCreatorStudio }) {
         <nav className="x-menu__secondary" aria-label="More">
           {MENU_SECONDARY.map((item) => (
             <button key={item.id} type="button">
-              <Glyph path={MENU_ICONS[item.id]} size={20} />
+              {item.id === 'grok' ? <NavIcon id="grok" size={24} /> : <Glyph path={MENU_ICONS[item.id]} />}
               <span>{item.label}</span>
             </button>
           ))}

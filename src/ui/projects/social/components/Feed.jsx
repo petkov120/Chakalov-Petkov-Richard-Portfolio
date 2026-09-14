@@ -45,8 +45,7 @@ export default function Feed({ published = false, resetView = false, onCompose, 
         <button type="button" className="x-feed-head__avatar" aria-label="Open account menu" onClick={onMenu}>
           <Avatar tone="ink" initials="PC" />
         </button>
-        <strong>𝕏</strong>
-        <button aria-label="Settings">⌁</button>
+        <strong className="x-feed-head__logo">𝕏</strong>
       </header>
       <nav className="x-tabs"><span className="is-active">For you<i aria-hidden="true" /></span><span>Following</span><span>Design</span><button type="button" aria-label="Add topic">+</button></nav>
       {showNewPosts ? <button className="x-float-pill" type="button" aria-label="Show newest posts" onClick={scrollToNewest}>

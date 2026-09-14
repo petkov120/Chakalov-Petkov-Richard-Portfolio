@@ -31,7 +31,7 @@ export default function SocialUI({ screen, onScreenChange = () => {} }) {
   }, [isSplash])
 
   return (
-    <div className={`x-redesign${isSplash ? ' is-splash' : ''}${isVideoStudio ? ' is-video' : ''}`}>
+    <div className={`x-redesign${isSplash ? ' is-splash' : ''}${isVideoStudio ? ' is-video' : ''}${isAccountMenu || isCreatorStudio ? ' is-menu' : ''}${isCreatorStudio ? ' is-studio' : ''}`}>
       <div className="x-world">
         <StatusBar />
         {isCompose ? (
@@ -40,12 +40,6 @@ export default function SocialUI({ screen, onScreenChange = () => {} }) {
             onCancel={() => onScreenChange('feed')}
             onChange={(draft) => onScreenChange(draft.trim() ? 'compose-ready' : 'compose')}
             onPublish={() => onScreenChange('published')}
-          />
-        ) : isCreatorStudio ? (
-          <CreatorStudio
-            onBack={() => onScreenChange('account-menu')}
-            onOpenVideo={() => onScreenChange('video-studio')}
-            onHome={() => onScreenChange('feed')}
           />
         ) : isVideoStudio ? (
           <VideoStudio onBack={() => onScreenChange('creator-studio')} />
@@ -70,10 +64,17 @@ export default function SocialUI({ screen, onScreenChange = () => {} }) {
           <ProfileCard author={selectedProfile} onDismiss={() => onScreenChange('feed')} />
         </div>
       ) : null}
-      {isAccountMenu ? (
+      {isAccountMenu || isCreatorStudio ? (
         <AccountMenu
           onDismiss={() => onScreenChange('feed')}
           onCreatorStudio={() => onScreenChange('creator-studio')}
+        />
+      ) : null}
+      {isCreatorStudio ? (
+        <CreatorStudio
+          onBack={() => onScreenChange('account-menu')}
+          onOpenVideo={() => onScreenChange('video-studio')}
+          onHome={() => onScreenChange('feed')}
         />
       ) : null}
     </div>

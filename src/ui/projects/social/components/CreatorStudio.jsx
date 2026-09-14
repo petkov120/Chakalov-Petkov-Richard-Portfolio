@@ -39,7 +39,7 @@ export default function CreatorStudio({ onBack, onOpenVideo, onHome }) {
           </button>
           <button type="button" className="x-cstudio__row is-new" onClick={onOpenVideo}>
             <Glyph path={MENU_ICONS.video} />
-            <div><strong>Video Studio</strong><small>Trim, text, and overlays in X</small></div>
+            <div><strong>Video Studio</strong><small>Trim, images, and keyframes in X</small></div>
             <b>New</b>
             <Glyph path={MENU_ICONS.chevron} size={16} />
           </button>
@@ -59,11 +59,30 @@ export default function CreatorStudio({ onBack, onOpenVideo, onHome }) {
         </section>
       </main>
       <nav className="x-bottom" aria-label="Primary navigation">
-        <button type="button" aria-label="Home" onClick={onHome}><span className="x-bottom__mark"><NavIcon id="home" /></span></button>
-        <button type="button" aria-label="Search"><span className="x-bottom__mark"><NavIcon id="search" /></span></button>
-        <button type="button" aria-label="Grok"><span className="x-bottom__mark"><NavIcon id="grok" /></span></button>
-        <button type="button" aria-label="Notifications"><span className="x-bottom__mark"><NavIcon id="notifications" /></span></button>
-        <button type="button" aria-label="Messages"><span className="x-bottom__mark"><NavIcon id="messages" /></span></button>
+        {[
+          { id: 'home', label: 'Home' },
+          { id: 'search', label: 'Search' },
+          { id: 'grok', label: 'Grok' },
+          { id: 'notifications', label: 'Notifications' },
+          { id: 'messages', label: 'Messages' },
+        ].map((item) => {
+          const isActive = item.id === 'home'
+          return (
+            <button
+              key={item.id}
+              type="button"
+              className={isActive ? 'is-active' : ''}
+              aria-label={item.label}
+              aria-current={isActive ? 'page' : undefined}
+              onClick={item.id === 'home' ? onHome : undefined}
+            >
+              <span className="x-bottom__mark">
+                <NavIcon id={item.id} filled={isActive} />
+                {isActive ? <i className="x-bottom__dot" aria-hidden="true" /> : null}
+              </span>
+            </button>
+          )
+        })}
       </nav>
     </div>
   )
