@@ -25,24 +25,35 @@ const themes = {
     shell: 'border-rule',
     fixedShell: 'bg-paper/92 backdrop-blur-md border-rule',
   },
+  mind: {
+    home: 'text-[#101010] hover:text-black',
+    link: 'text-[#55554f] hover:text-[#101010] hover:bg-[#ffe72d]',
+    active: 'text-[#101010] border-[#101010]',
+    muted: 'text-[#55554f]',
+    rule: 'border-[#d8d8d2]',
+    shell: 'border-transparent',
+    fixedShell: 'bg-[#fafaf8]/92 backdrop-blur-md border-[#d8d8d2]',
+  },
 }
 
 export default function SiteNav({
   theme = 'vault',
   current,
-  investigationsHref = '/#works',
   fixed = false,
 }) {
   const palette = themes[theme] ?? themes.vault
+  const emailTheme = theme === 'vault' ? 'vault' : 'paper'
 
   const headerClass = fixed
     ? `site-nav site-nav--${theme} site-nav--fixed fixed top-0 inset-x-0 z-50 px-4 sm:px-6 md:px-12 pt-5 sm:pt-6 md:pt-8 pb-4 md:pb-5 flex items-center justify-between gap-4 ${palette.fixedShell}`
-    : `site-nav site-nav--${theme} flex items-center justify-between gap-4 pb-4 md:pb-5 mb-12 md:mb-16`
+    : `site-nav site-nav--${theme} flex items-center justify-between gap-4 ${theme === 'mind' ? 'mb-0 pb-3' : 'pb-4 md:pb-5 mb-12 md:mb-16'}`
+
+  const itemShape = theme === 'mind' ? 'shrink-0 px-2.5 sm:px-3 py-1.5' : 'shrink-0 rounded-full px-2.5 sm:px-3 py-1.5'
 
   const navItems = [
-    { label: 'Works', short: 'Work', href: '/#works', key: 'investigations' },
-    { label: 'Notes', short: 'Notes', href: '/notes', key: 'notes' },
-    { label: 'Playground', short: 'Play', href: '/playground', key: 'playground' },
+    { label: 'Home', short: 'Home', href: '/', key: 'home' },
+    { label: 'Work', short: 'Work', href: '/work', key: 'work' },
+    { label: 'About', short: 'About', href: '/about', key: 'about' },
   ]
 
   return (
@@ -52,14 +63,18 @@ export default function SiteNav({
         className={`site-nav__brand flex items-center gap-2.5 display text-base md:text-lg leading-none shrink-0 transition-colors ${palette.home}`}
         aria-label="Petkov Chakalov, home"
       >
-        <img
-          src="/images/weaver-mark.svg"
-          width="32"
-          height="32"
-          className="size-8 shrink-0"
-          alt=""
-          aria-hidden="true"
-        />
+        {theme === 'mind' ? (
+          <span className="site-nav__monogram" aria-hidden="true">P.</span>
+        ) : (
+          <img
+            src="/images/weaver-mark.svg"
+            width="32"
+            height="32"
+            className="size-8 shrink-0"
+            alt=""
+            aria-hidden="true"
+          />
+        )}
         <span className="hidden md:inline" aria-hidden="true">Petkov Chakalov</span>
       </a>
 
@@ -69,7 +84,7 @@ export default function SiteNav({
         }`}
       >
         {navItems.map((item) => {
-          const href = item.key === 'investigations' ? investigationsHref : item.href
+          const href = item.href
           const isActive = current === item.key
           const label = (
             <>
@@ -83,7 +98,7 @@ export default function SiteNav({
               <span
                 key={item.key}
                 aria-current="page"
-                className={`site-nav__item site-nav__item--active shrink-0 rounded-full border px-2.5 sm:px-3 py-1.5 ${palette.active}`}
+                className={`site-nav__item site-nav__item--active ${itemShape} ${palette.active}`}
               >
                 {label}
               </span>
@@ -94,14 +109,14 @@ export default function SiteNav({
             <a
               key={item.key}
               href={href}
-              className={`site-nav__item shrink-0 rounded-full px-2.5 sm:px-3 py-1.5 transition-colors ${palette.link}`}
+              className={`site-nav__item ${itemShape} transition-colors ${palette.link}`}
             >
               {label}
             </a>
           )
         })}
         <span className={`site-nav__contact shrink-0 pl-2 sm:pl-3 ml-0.5 sm:ml-1 border-l ${palette.rule}`}>
-          <EmailActions theme={theme} variant="nav" />
+          <EmailActions theme={emailTheme} variant="nav" />
         </span>
       </nav>
     </header>

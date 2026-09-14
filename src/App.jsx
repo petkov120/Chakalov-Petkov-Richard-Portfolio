@@ -1,17 +1,24 @@
 import { useEffect } from 'react'
-import IndexPage from './pages/IndexPage'
+import MindPortfolioPage from './pages/MindPortfolioPage'
 import ClinifyPage from './pages/ClinifyPage'
 import UniversityXPage from './pages/UniversityXPage'
 import NotesPage from './pages/NotesPage'
 import PlaygroundPage from './pages/PlaygroundPage'
 import NowPage from './pages/NowPage'
 import UIStudioPage from './pages/UIStudioPage'
+import WorkPage from './pages/WorkPage'
 import GlobalContactCTA from './components/layout/GlobalContactCTA'
 import { roomThemes } from './data/investigations'
 
 const routes = {
-  '/': IndexPage,
-  '/investigations': IndexPage,
+  '/': MindPortfolioPage,
+  '/work/clinify': MindPortfolioPage,
+  '/interactions': MindPortfolioPage,
+  '/interactions/card-removal': MindPortfolioPage,
+  '/interactions/social': MindPortfolioPage,
+  '/interactions/investment': MindPortfolioPage,
+  '/interactions/notepad': MindPortfolioPage,
+  '/investigations': MindPortfolioPage,
   '/clinify': ClinifyPage,
   '/universityx': UniversityXPage,
   '/notes': NotesPage,
@@ -20,6 +27,7 @@ const routes = {
   '/now': NowPage,
   '/about': NotesPage,
   '/ui': UIStudioPage,
+  '/work': WorkPage,
 }
 
 function getPathname() {
@@ -42,8 +50,10 @@ export default function App() {
   useEffect(() => {
     const body = document.body
     const allThemes = [
+      'theme-mind',
       'theme-vault',
       'theme-paper',
+      'theme-work',
       'room-clinify',
       'room-universityx',
       'room-treatmentpath',
@@ -53,19 +63,23 @@ export default function App() {
     const slug = pathname.slice(1)
     const room = roomThemes[slug]
 
-    if (room) {
+    if (Page === MindPortfolioPage) {
+      body.classList.add('theme-mind')
+    } else if (room) {
       body.classList.add(room)
+    } else if (pathname === '/work') {
+      body.classList.add('theme-work')
     } else if (pathname === '/' || pathname === '/now') {
       body.classList.add('theme-paper')
     } else {
       body.classList.add('theme-vault')
     }
-  }, [pathname])
+  }, [pathname, Page])
 
   return (
     <>
       <Page />
-      {pathname !== '/' && pathname !== '/ui' && <GlobalContactCTA />}
+      {Page !== MindPortfolioPage && pathname !== '/ui' && <GlobalContactCTA />}
     </>
   )
 }

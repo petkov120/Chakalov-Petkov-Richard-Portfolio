@@ -336,6 +336,48 @@ export const universityxEvidence = {
       { value: 'NGN 30M+', detail: 'Total awards across innovation projects contributed to' },
     ],
   },
+  screenGallery: [
+    {
+      id: 'ai-tutor',
+      label: 'AI tutor',
+      path: '/universityx/tutor',
+      src: '/images/universityx/new-ai-tutor-interface.webp',
+      alt: 'UniversityX AI tutor interface showing adaptive chat support',
+      caption: 'Fig. 2.1 — Adaptive re-explanation, not just answers.',
+    },
+    {
+      id: 'lesson-video',
+      label: 'Lesson video',
+      path: '/universityx/lesson',
+      src: '/images/universityx/ai-generated-video.webp',
+      alt: 'UniversityX AI-generated video lesson interface in the app',
+      caption: 'Fig. 0.0 — AI-generated lesson video, student flow.',
+    },
+    {
+      id: 'quiz',
+      label: 'Quiz + XP',
+      path: '/universityx/quiz',
+      src: '/images/universityx/new-quiz-interaction.webp',
+      alt: 'UniversityX quiz interface with XP and continue feedback',
+      caption: 'Fig. 3.1 — Immediate correctness and progress feedback.',
+    },
+    {
+      id: 'analytics',
+      label: 'Lecturer analytics',
+      path: '/universityx/analytics',
+      src: '/images/universityx/new-analytics-dashboard.webp',
+      alt: 'UniversityX analytics dashboard for lecturer operations and student progress',
+      caption: 'Fig. 4.1 — Visibility for lecturers and institutions.',
+    },
+    {
+      id: 'course-setup',
+      label: 'Course setup',
+      path: '/universityx/course-setup',
+      src: '/images/universityx/new-course-setup.webp',
+      alt: 'UniversityX course creation and setup interface',
+      caption: 'Fig. 0.4 — Faster setup, less lecturer overhead.',
+    },
+  ],
   validation:
     'Validation · Wema Bank Hackaholics 5.0 winner (NGN 10,000,000) · used across 3 institutions · NGN 30,000,000+ cumulative innovation awards across projects',
   closingFigure: {

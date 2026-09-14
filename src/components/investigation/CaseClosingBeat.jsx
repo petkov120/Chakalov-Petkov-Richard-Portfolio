@@ -2,6 +2,7 @@ import { useState } from 'react'
 import CaseStoicFigure from '../cinematic/CaseStoicFigure'
 import TypewriterText from '../motion/TypewriterText'
 import ReaderLetterModal from '../motion/ReaderLetterModal'
+import { Scribble } from '../mind/Marks'
 
 const EMAIL = 'petkovrichard8@gmail.com'
 
@@ -29,10 +30,13 @@ export default function CaseClosingBeat({
         />
       )}
 
-      <TypewriterText
-        text={closingText}
-        className={showFigure ? 'mt-6 md:mt-8' : 'mt-8 md:mt-12'}
-      />
+      <div className="case-closing-scribble-wrap">
+        <Scribble className="case-closing-scribble" />
+        <TypewriterText
+          text={closingText}
+          className={showFigure ? 'mt-6 md:mt-8' : 'mt-8 md:mt-12'}
+        />
+      </div>
 
       <div className="case-closing-cta mt-8 md:mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6">
         <a
@@ -43,7 +47,7 @@ export default function CaseClosingBeat({
           <span aria-hidden="true">→</span>
         </a>
         <a
-          href="/#works"
+          href="/work"
           className="font-mono text-xs uppercase tracking-[0.12em] text-vault-muted transition-colors hover:text-vault-text"
         >
           Back to work

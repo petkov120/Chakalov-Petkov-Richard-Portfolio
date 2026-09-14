@@ -342,6 +342,48 @@ export const clinifyEvidence = {
       seeAlso: 'See Fig 04 and Decision 02.',
     },
   ],
+  screenGallery: [
+    {
+      id: 'member-lookup',
+      label: 'Member lookup',
+      path: '/clinify/member-search',
+      src: '/images/Member-ID%20SEARCH.webp',
+      alt: 'Clinify production UI for search by assigned member ID',
+      caption: 'Fig. 02 — ID-first search replaces browse.',
+    },
+    {
+      id: 'member-comms',
+      label: 'Communications hub',
+      path: '/clinify/communications',
+      src: '/images/clinify/member-communications.png',
+      alt: 'Clinify member communications workspace with email, SMS, and AI call actions',
+      caption: 'Fig. 01 — The shared communication workspace.',
+    },
+    {
+      id: 'call-modal',
+      label: 'Active call modal',
+      path: '/clinify/call',
+      src: '/images/clinify/calling-ui.png',
+      alt: 'Clinify call modal for active AI voice call UI',
+      caption: 'Fig. 06 — Active call state, human in the loop.',
+    },
+    {
+      id: 'call-approval',
+      label: 'Recipient approval',
+      path: '/clinify/approve',
+      src: '/images/ai-agent-calls.webp',
+      alt: 'Clinify AI call screen showing recipient review and approval modal',
+      caption: 'Fig. 09 — Review before any patient contact.',
+    },
+    {
+      id: 'auto-send-rejected',
+      label: 'Auto-send (rejected)',
+      path: '/clinify/auto-send',
+      src: '/images/clinify/rejected-auto-send.png',
+      alt: 'Rejected Clinify concept for fully autonomous AI outreach without human review',
+      caption: 'Fig. 04 — Rejected concept, kept for context.',
+    },
+  ],
   validation:
     'Validation · 2 paying B2B customers · 18 months MVP → production · Email, SMS & AI voice in one production hub',
   closingQuote:

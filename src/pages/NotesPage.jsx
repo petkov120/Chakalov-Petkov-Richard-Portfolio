@@ -30,7 +30,7 @@ export default function NotesPage() {
   return (
     <main className="theme-vault notes-page min-h-screen">
       <div className="px-6 md:px-12 pt-12 md:pt-20 pb-24 md:pb-32 max-w-wide mx-auto">
-        <SiteNav theme="vault" current="notes" />
+        <SiteNav theme="vault" current="about" />
 
         <header className="notes-page__intro mb-14 md:mb-20 rise rise-2">
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-vault-muted mb-6">

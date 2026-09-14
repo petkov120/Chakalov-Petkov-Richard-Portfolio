@@ -1,0 +1,132 @@
+.mind-site, .mind-dialog {
+  --collage-yellow: #ffe72d;
+  --collage-pink: #ff4a9a;
+  --collage-tape: #0669ff;
+  --collage-ink: #101010;
+  --collage-paper: #fafaf8;
+  --collage-hand: 'Comic Sans MS', 'Segoe Print', 'Bradley Hand', cursive;
+  --collage-script: 'Instrument Serif', Georgia, serif;
+  --collage-torn: polygon(1% 9%, 97% 0, 98% 9%, 100% 12%, 97% 18%, 100% 26%, 98% 32%, 100% 40%, 97% 51%, 100% 60%, 98% 74%, 100% 85%, 96% 91%, 0 100%, 1% 85%, 0 78%, 2% 62%, 0 57%, 2% 43%, 0 36%, 2% 23%);
+  --collage-note: polygon(0 2%, 98% 0, 100% 9%, 98% 19%, 100% 33%, 98% 51%, 100% 68%, 98% 85%, 100% 96%, 2% 100%, 0 88%, 2% 73%, 0 58%, 2% 40%, 0 20%);
+  --collage-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath filter='url(%23n)' opacity='.3' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+}
+
+.mind-interior {
+  position: relative;
+  background-color: var(--collage-paper);
+}
+.mind-interior::before {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: .07;
+  background-image: var(--collage-grain);
+}
+.mind-interior > *:not(.mind-work-bg) { position: relative; z-index: 1; }
+
+.collage-highlight {
+  display: inline-block;
+  position: relative;
+  padding: 0 .22em .04em .14em;
+  isolation: isolate;
+  transform: rotate(-6deg);
+  vertical-align: baseline;
+  font: italic 600 1.08em/.9 var(--collage-script);
+  letter-spacing: -.02em;
+  text-transform: none;
+}
+.collage-highlight::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  inset: 16% -3% 2%;
+  background: var(--collage-yellow);
+  clip-path: var(--collage-torn);
+}
+.collage-highlight em { font: inherit; }
+
+.collage-enter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  min-height: 48px;
+  min-width: 148px;
+  padding: 0 18px;
+  background: var(--collage-ink);
+  color: #fff !important;
+  border: 0;
+  font: 800 11px/1 Inter, Arial, sans-serif !important;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.collage-enter span { font-size: 16px; letter-spacing: 0; }
+.collage-enter:hover, .collage-enter:focus-visible {
+  background: var(--collage-yellow);
+  color: var(--collage-ink) !important;
+}
+
+.collage-tape-bit {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  background: var(--collage-tape);
+  clip-path: polygon(0 9%, 10% 2%, 28% 7%, 54% 0, 76% 5%, 94% 0, 100% 16%, 96% 43%, 100% 75%, 89% 100%, 72% 94%, 49% 100%, 20% 91%, 2% 96%, 5% 65%);
+}
+.collage-tape-bit::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .25;
+  background: repeating-linear-gradient(23deg, #fff0 0 6px, #fff7 7px, #0005 9px, #fff0 10px);
+}
+
+.mind-interactions-preview__intro h2 .collage-highlight,
+.mind-works__intro h2 .collage-highlight {
+  font-size: .78em;
+  transform: rotate(-5deg);
+  padding: 0 .12em .02em .06em;
+}
+.mind-about h2 .collage-highlight,
+.mind-footer > a .collage-highlight,
+.mind-interactions-archive h1 .collage-highlight {
+  font-size: 1.08em;
+}
+
+.mind-site main#work { position: relative; }
+.mind-work-bg {
+  --hero-parallax: 0;
+  position: absolute; inset: 0 0 auto;
+  height: min(120svh, 1040px); pointer-events: none; overflow: hidden;
+}
+.mind-work-bg__statue {
+  position: absolute; right: -10%; top: 6%;
+  width: min(70vw, 880px); height: auto;
+  opacity: calc(.76 - (var(--hero-parallax) * .18));
+  transform: translate3d(calc(var(--hero-parallax) * -24px), calc(var(--hero-parallax) * 128px), 0) rotate(calc(var(--hero-parallax) * -2.4deg)) scale(calc(1 + (var(--hero-parallax) * .035)));
+  transform-origin: 58% 42%;
+  will-change: transform, opacity;
+  filter: saturate(.94) contrast(1.05) drop-shadow(-22px 30px 42px rgba(16, 16, 16, .16));
+  mask-image: linear-gradient(to bottom, black 0%, black 58%, rgba(0, 0, 0, .72) 74%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 58%, rgba(0, 0, 0, .72) 74%, transparent 100%);
+}
+
+.mind-work-bg::after {
+  content: ''; position: absolute; inset: auto 0 0; height: 38%;
+  background: linear-gradient(transparent, var(--collage-paper));
+}
+.mind-work-bg__tile {
+  position: absolute; width: clamp(56px, 6.2vw, 92px); opacity: .62; z-index: 1;
+}
+.mind-work-bg__tile--figma { left: 4%; top: 22%; transform: rotate(-14deg); }
+.mind-work-bg__tile--figma img { width: 47%; height: 72%; }
+.mind-work-bg__tile--vscode { right: 5%; top: 24%; transform: rotate(11deg); }
+.mind-work-bg__tile--cursor { right: 7%; top: 54%; transform: rotate(13deg); }
+.mind-work-bg__tile--cursor img { width: 106%; height: 106%; max-width: none; border-radius: 20%; }
+@media (max-width: 760px) {
+  .mind-work-bg__tile { display: none; }
+  .mind-work-bg__statue { width: min(86vw, 460px); right: -22%; top: 28%; transform: translate3d(calc(var(--hero-parallax) * -10px), calc(var(--hero-parallax) * 82px), 0) rotate(calc(var(--hero-parallax) * -1.6deg)) scale(calc(1 + (var(--hero-parallax) * .025))); }
+}

@@ -10,6 +10,8 @@ import ResultsStrip from '../evidence/ResultsStrip'
 import EngineeringStrip from '../evidence/EngineeringStrip'
 import CinematicBeat from '../cinematic/CinematicBeat'
 import CaseClosingBeat from './CaseClosingBeat'
+import BrowserFrame from './BrowserFrame'
+import { Contour } from '../mind/Marks'
 import ScrollReveal from '../motion/ScrollReveal'
 import { roomThemes } from '../../data/investigations'
 
@@ -29,6 +31,7 @@ export default function InvestigationPage({ investigation, content }) {
     closingFigure,
     authorNote,
     authorNoteButtonLabel,
+    screenGallery,
   } = content
 
   const roomClass = roomThemes[investigation.accent] ?? ''
@@ -43,13 +46,15 @@ export default function InvestigationPage({ investigation, content }) {
       {isClinify ? (
         <>
           <div className="absolute inset-0 clinify-warm-light clinify-case-light pointer-events-none opacity-80" aria-hidden />
-          <div className="absolute inset-0 field-grain pointer-events-none" aria-hidden />
+          <div className="absolute inset-0 field-grain opacity-[0.08] pointer-events-none" aria-hidden />
+          <Contour className="dossier-contour" />
         </>
       ) : isUniversityX ? (
         <>
           <div className="absolute inset-0 universityx-warm-light universityx-case-light pointer-events-none opacity-85" aria-hidden />
           <div className="absolute inset-0 dot-grid opacity-[0.06] pointer-events-none" aria-hidden />
-          <div className="absolute inset-0 field-grain opacity-[0.03] pointer-events-none" aria-hidden />
+          <div className="absolute inset-0 field-grain opacity-[0.08] pointer-events-none" aria-hidden />
+          <Contour className="dossier-contour" />
         </>
       ) : (
         <div className="absolute inset-0 dot-grid opacity-[0.1] pointer-events-none" aria-hidden />
@@ -103,6 +108,17 @@ export default function InvestigationPage({ investigation, content }) {
               accent={investigation.accent}
             />
           </ScrollReveal>
+        )}
+
+        {screenGallery && screenGallery.length > 0 && (
+          <section className="investigation-dossier__chapter investigation-dossier__chapter--screens">
+            <ScrollReveal>
+              <div className="dossier-section-kicker investigation-dossier__chapter-label">
+                Screens
+              </div>
+              <BrowserFrame screens={screenGallery} label={`${investigation.name} · screens`} />
+            </ScrollReveal>
+          </section>
         )}
 
         {cinematic && (

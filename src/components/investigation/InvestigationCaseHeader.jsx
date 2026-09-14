@@ -1,6 +1,7 @@
 import { AccentRule } from '../layout/SiteNav'
 import { QuestionWithThesis, StakesWithAccent } from '../clinify/ClinifyTypography'
 import RoleCallout from './RoleCallout'
+import { Annotation } from '../mind/Marks'
 
 export default function InvestigationCaseHeader({
   id,
@@ -59,9 +60,7 @@ export default function InvestigationCaseHeader({
           )}
 
           {lens && (
-            <p className="dossier-lens font-mono text-[11px] uppercase tracking-[0.14em] leading-relaxed text-pretty max-w-xl border-l-2 border-vault-rule/80 pl-4 text-vault-text">
-              {lens}
-            </p>
+            <Annotation className="dossier-lens-note max-w-xl">{lens}</Annotation>
           )}
 
           {facts.length > 0 && (

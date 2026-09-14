@@ -1,6 +1,7 @@
 import GalleryStrip from '../components/gallery/GalleryStrip'
 import GalleryWork from '../components/gallery/GalleryWork'
 import GalleryNav from '../components/layout/GalleryNav'
+import BrainstormOpener from '../components/gallery/BrainstormOpener'
 import { galleryPhotos, galleryProjects, galleryWorkPrimary } from '../data/gallery'
 
 const EMAIL = 'petkovrichard8@gmail.com'
@@ -11,18 +12,7 @@ export default function IndexPage() {
     <main className="gallery-page min-h-screen">
       <GalleryNav />
 
-      <div className="gallery-page__shell">
-        <section className="gallery-hero" aria-labelledby="gallery-name">
-          <p className="gallery-hero__role">Design engineer · Lagos</p>
-          <h1 id="gallery-name" className="gallery-hero__name display">
-            Petkov
-            <em>Chakalov</em>
-          </h1>
-          <p className="gallery-hero__line">
-            I design software people have to trust at work.
-          </p>
-        </section>
-      </div>
+      <BrainstormOpener />
 
       <section className="gallery-section" aria-label="Selected screens">
         <GalleryStrip

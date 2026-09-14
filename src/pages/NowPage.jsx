@@ -27,7 +27,7 @@ export default function NowPage() {
   return (
     <main className="theme-paper min-h-screen">
       <div className="px-6 md:px-12 pt-12 md:pt-20 pb-24 md:pb-32 max-w-wide mx-auto margin-line">
-        <SiteNav theme="paper" current="now" />
+        <SiteNav theme="paper" />
 
         <div className="mb-16 md:mb-20 rise rise-2">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted mb-6">

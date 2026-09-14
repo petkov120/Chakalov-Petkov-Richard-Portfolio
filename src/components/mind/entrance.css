@@ -1,0 +1,182 @@
+.collage-entrance {
+  --collage-yellow: #ffe72d;
+  --collage-pink: #ff4a9a;
+  --collage-hand: 'Comic Sans MS', 'Segoe Print', 'Bradley Hand', cursive;
+  position: fixed; inset: 0; z-index: 90; overflow: auto; overscroll-behavior: contain;
+  color: #101010; background: #fafaf8;
+}
+.collage-paper { position: relative; overflow: clip; display: flex; flex-direction: column; min-height: 100svh; padding: 22px 3.1vw 18px; background: #fafaf8; transform-origin: var(--portal-x) var(--portal-y); }
+.collage-paper::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .12; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath filter='url(%23n)' opacity='.3' d='M0 0h180v180H0z'/%3E%3C/svg%3E"); }
+.collage-header, .collage-footer { position: relative; z-index: 8; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.collage-monogram { font: bold 54px/.85 Georgia, serif; letter-spacing: -.1em; }
+.collage-location, .collage-footer { font: 10px/1.5 'JetBrains Mono', monospace; text-transform: uppercase; }
+.collage-location { display: flex; align-items: center; gap: 32px; overflow: visible; }
+.collage-location__place { display: inline-flex; align-items: center; gap: 8px; }
+.collage-flag { display: inline-flex; width: 32px; height: 22px; flex: none; overflow: visible; }
+.collage-flag svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 1px 0 #0001); }
+.collage-flag__bounce { transform-box: fill-box; transform-origin: 8% 100%; animation: collage-flag-bounce 1.15s cubic-bezier(.22,.82,.28,1) infinite; }
+.collage-flag__wave { transform-box: fill-box; transform-origin: left 40%; animation: collage-flag-wave .8s ease-in-out infinite; }
+.collage-header i, .collage-footer i { display: inline-block; height: 1px; width: 70px; background: currentColor; }
+.collage-layout { width: 100%; max-width: 1800px; margin: auto; display: grid; grid-template-columns: 41% 59%; align-items: center; flex: 1; min-height: min(750px, calc(100svh - 185px)); }
+.collage-copy { position: relative; z-index: 3; padding: 132px 0 42px 3vw; }
+.mind-site .collage-copy h1 { font: 900 clamp(74px, 8.2vw, 150px)/.83 Inter, Arial, sans-serif; letter-spacing: -.083em; }
+.collage-mind { display: inline-block; position: relative; margin: 18px 0 0 28px; padding: 0 26px 9px 12px; isolation: isolate; transform: rotate(-8deg); }
+.collage-mind::before { content: ''; z-index: -1; position: absolute; inset: 17% -1% 0; background: var(--collage-yellow); clip-path: polygon(1% 9%, 97% 0, 98% 9%, 100% 12%, 97% 18%, 100% 26%, 98% 32%, 100% 40%, 97% 51%, 100% 60%, 98% 74%, 100% 85%, 96% 91%, 0 100%, 1% 85%, 0 78%, 2% 62%, 0 57%, 2% 43%, 0 36%, 2% 23%); }
+.mind-site .collage-mind em { font: italic 600 1.36em/.94 'Instrument Serif', Georgia, serif; letter-spacing: -.05em; }
+.collage-mind > svg { position: absolute; left: 17%; bottom: -16%; width: 86%; height: 33%; transform: rotate(5deg); }
+.collage-invitation { margin: 36px 0 0 7vw; }
+.collage-invitation p { font: 12px/1.5 'JetBrains Mono', monospace; letter-spacing: -.045em; }
+.collage-invitation mark { color: inherit; background: var(--collage-yellow); padding: 0 2px; }
+.collage-invitation .collage-enter { margin-top: 22px; }
+.collage-stamp { position: absolute; bottom: 14px; left: -1.3vw; display: grid; align-content: center; width: 109px; height: 80px; border: 1px solid; border-radius: 50%; font: 10px/1.4 'JetBrains Mono', monospace; text-transform: uppercase; padding-left: 28px; transform: rotate(-19deg); }
+.collage-stamp::after { content: ''; position: absolute; inset: -3px 2px 2px -3px; border: 1px solid; border-radius: 49%; transform: rotate(13deg); }
+.collage-loop { position: absolute; right: 23%; top: 6%; width: 105px; height: 125px; transform: rotate(-6deg); }
+.collage-art { position: relative; width: 100%; margin-left: -2%; aspect-ratio: 1.08; }
+.collage-computer-position { position: absolute; inset: 0 0 auto; transform: translate(var(--float-x, 0px), var(--float-y, 0px)); transition: transform 600ms ease-out; }
+.collage-computer-drift { width: 100%; height: 100%; animation: collage-computer-float 7s ease-in-out infinite; }
+.mind-site .collage-computer { display: block; position: relative; width: 100%; aspect-ratio: 1; padding: 0; border: 0; background: none; overflow: hidden; }
+.collage-computer > img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; }
+.collage-screen { position: absolute; left: 25.5%; top: 26%; width: 36.5%; height: 33.5%; display: grid; place-items: center; background: #ffe41c; opacity: 0; transition: opacity 250ms; clip-path: polygon(0 1%, 89% 10%, 100% 89%, 5% 100%); }
+.collage-tunnel { position: absolute; inset: 0; width: 100%; height: 100%; transform: skewY(-5deg) scale(1.08); transition: transform 700ms; }
+.collage-screen__glow { position: absolute; inset: 0; background: radial-gradient(ellipse, #fffca033, transparent 70%); box-shadow: inset 0 0 22px #fff95b; }
+.collage-screen__arrow { position: relative; width: 22%; transition: transform 400ms; }
+.collage-screen__hint { position: absolute; bottom: 23%; font: 7px/1 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .07em; opacity: 0; transition: opacity 300ms; }
+.collage-computer:hover .collage-tunnel, .collage-computer:focus-visible .collage-tunnel { transform: skewY(-5deg) scale(1.22); }
+.collage-computer:hover .collage-screen__arrow { transform: translateX(5px); }
+.collage-computer:hover .collage-screen__hint, .collage-computer:focus-visible .collage-screen__hint { opacity: 1; }
+.collage-piece { position: absolute; z-index: 5; transform: translate(calc(var(--float-x, 0px) * var(--depth, -1)), calc(var(--float-y, 0px) * var(--depth, -1))) rotate(var(--tilt, -10deg)); transition: transform 700ms ease-out; }
+.collage-piece__drift { animation: collage-note-float var(--float-duration, 6s) ease-in-out infinite; animation-delay: var(--delay, 0s); }
+.mind-site .collage-piece__touch { display: block; width: 100%; background: none; border: 0; padding: 0; text-align: left; }
+.collage-note { position: relative; display: block; padding: 14px 22px 18px; font: italic 19px/1.15 var(--collage-hand); text-transform: uppercase; filter: drop-shadow(1px 4px 1px #0000000b); }
+.collage-note::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--note-color); clip-path: polygon(0 2%, 98% 0, 100% 9%, 98% 19%, 100% 33%, 98% 51%, 100% 68%, 98% 85%, 100% 96%, 2% 100%, 0 88%, 2% 73%, 0 58%, 2% 40%, 0 20%); }
+.collage-note--yellow { --note-color: var(--collage-yellow); }
+.collage-note--pink { --note-color: var(--collage-pink); }
+.collage-note--white { --note-color: #efeeeb; padding: 27px 24px; background: repeating-linear-gradient(32deg, transparent 0 21px, #aaa1 23px, transparent 26px), linear-gradient(115deg, #efeeeb, #fff, #dfdeda, #fafafa); clip-path: polygon(5% 2%, 35% 0, 43% 4%, 71% 1%, 96% 4%, 100% 35%, 95% 60%, 99% 97%, 72% 95%, 57% 100%, 36% 96%, 3% 100%, 0 69%, 3% 42%, 0 15%); }
+.collage-underline { display: block; width: 65%; height: 7px; border-top: 2px solid; border-bottom: 1px solid; margin: 7px 0 0 auto; transform: rotate(-3deg); }
+.collage-ideas { top: 0; left: 16%; width: 150px; --tilt: -12deg; --delay: -2s; }
+.collage-ideas .collage-note { font-size: 15px; }
+.collage-same { top: 29%; left: 1%; width: 170px; --tilt: -10deg; --float-duration: 7s; }
+.collage-same .collage-note { font-size: 15px; }
+.collage-solver { top: 64%; left: 73%; width: 150px; --tilt: -14deg; --depth: -.7; --delay: -4s; }
+.collage-note__smile { position: absolute; bottom: 14px; right: 15px; font: 43px/1 Georgia, serif; }
+.collage-loading { bottom: -1%; right: 18%; width: 230px; --tilt: -11deg; --delay: -1.8s; }
+.collage-loading .collage-note { white-space: nowrap; font-size: 20px; }
+.collage-tape { position: absolute; clip-path: polygon(0 9%, 10% 2%, 28% 7%, 54% 0, 76% 5%, 94% 0, 100% 16%, 96% 43%, 100% 75%, 89% 100%, 72% 94%, 49% 100%, 20% 91%, 2% 96%, 5% 65%); }
+.collage-tape--blue { background: #0669ff; width: 70%; height: 27%; bottom: 8%; left: 5%; transform: rotate(-9deg); }
+.collage-tape::after { content: ''; position: absolute; inset: 0; opacity: .25; background: repeating-linear-gradient(23deg, #fff0 0 6px, #fff7 7px, #0005 9px, #fff0 10px); }
+.collage-footer { min-height: 40px; gap: 16px; font-size: 8px; color: #414141; }
+.collage-mantra, .collage-signature { display: flex; align-items: center; gap: 17px; }
+.collage-mantra b { font-weight: 400; }
+.collage-mantra i { width: clamp(40px, 14vw, 260px); }
+.collage-signature i { width: 24px; }
+.mind-site .collage-motion { min-height: 44px; padding: 8px; border: 0; background: none; font: inherit; text-transform: uppercase; }
+.collage-motion:hover { color: #075af0; }
+.collage-entrance[data-still='true'] .collage-piece__drift, .collage-entrance[data-still='true'] .collage-computer-drift, .collage-entrance[data-still='true'] .collage-flag__bounce, .collage-entrance[data-still='true'] .collage-flag__wave, .collage-entrance[data-still='true'] .collage-pointer__drift { animation-play-state: paused; }
+.collage-entrance[data-still='true'] .collage-piece, .collage-entrance[data-still='true'] .collage-computer-position { transition: none; }
+.mind-site .collage-entrance button:disabled { opacity: 1; }
+.collage-entrance.is-entering { overflow: hidden; pointer-events: none; background: transparent; }
+.collage-entrance.is-entering .collage-paper { animation: collage-camera var(--enter-duration) cubic-bezier(.66,0,.22,1) forwards; will-change: transform, opacity; }
+.collage-entrance.is-entering .collage-screen { opacity: 1; }
+.collage-entrance.is-entering .collage-screen__glow { background: #fff; opacity: 0; animation: collage-portal-light var(--enter-duration) ease-in forwards; }
+.collage-entrance.is-entering .collage-screen__arrow, .collage-entrance.is-entering .collage-screen__hint { opacity: 0; transition: opacity 220ms; }
+.collage-entrance.is-entering .collage-header, .collage-entrance.is-entering .collage-footer, .collage-entrance.is-entering .collage-pointer { opacity: 0; transition: opacity 200ms; }
+@keyframes collage-flag-bounce {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  16% { transform: translateY(1.8px) scale(1.12, .78); }
+  40% { transform: translateY(-11px) scale(.9, 1.14); }
+  55% { transform: translateY(0) scale(1.1, .84); }
+  70% { transform: translateY(-4.5px) scale(.96, 1.07); }
+  84% { transform: translateY(0) scale(1.04, .94); }
+}
+@keyframes collage-flag-wave {
+  0%, 100% { transform: skewY(0) rotate(0deg); }
+  35% { transform: skewY(-8deg) rotate(-2.4deg); }
+  68% { transform: skewY(5deg) rotate(1.8deg); }
+}
+@keyframes collage-note-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-12px) rotate(2deg); } }
+@keyframes collage-computer-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-9px) rotate(.5deg); } }
+@keyframes collage-camera { 0% { transform: none; opacity: 1; } 22% { transform: scale(1.045); opacity: 1; } 83% { opacity: 1; } 100% { transform: translate(var(--portal-dx), var(--portal-dy)) scale(var(--portal-scale)); opacity: 0; } }
+@keyframes collage-portal-light { 0%, 42% { opacity: 0; } 82%, 100% { opacity: 1; } }
+@media (min-width: 1700px) { .collage-copy { padding-top: 165px; } .collage-invitation { margin-top: 65px; } .collage-invitation p { font-size: 15px; } .collage-ideas { width: 180px; } .collage-ideas .collage-note { font-size: 18px; } .collage-same { width: 260px; } .collage-same .collage-note { font-size: 26px; } .collage-solver { width: 195px; } .collage-note { font-size: 23px; } }
+@media (max-width: 1100px) and (min-width: 761px) { .collage-art { width: 123%; margin-left: -15%; } .collage-copy { padding-left: 0; } .collage-invitation { margin-left: 3vw; } .collage-stamp { display: none; } .collage-same { width: 180px; } .collage-same .collage-note { font-size: 18px; } .collage-solver { width: 135px; } .collage-solver .collage-note { font-size: 15px; } .collage-loading { width: 190px; right: 17%; } .collage-loading .collage-note { font-size: 16px; } .collage-mantra i { display: none; } }
+@media (max-width: 760px) {
+  .collage-paper { padding: 20px 22px 10px; }
+  .collage-location { gap: 14px; font-size: 8px; }
+  .collage-flag { width: 24px; height: 17px; }
+  .collage-location__place { gap: 6px; }
+  .collage-header i { width: 28px; }
+  .collage-monogram { font-size: 42px; }
+  .collage-layout { display: flex; flex-direction: column; min-height: 0; margin: 0; }
+  .collage-copy { width: 100%; padding: 115px 0 10px; }
+  .mind-site .collage-copy h1 { font-size: clamp(66px, 16vw, 112px); line-height: .84; letter-spacing: -.078em; }
+  .collage-mind { margin: 12px 0 0 12px; padding-inline: 10px 23px; }
+  .collage-ideas { top: 7px; left: auto; right: -3px; width: 109px; --tilt: 9deg; }
+  .collage-ideas .collage-note { font-size: 11px; padding: 12px 13px; }
+  .collage-loop { top: 198px; right: 10px; width: 65px; height: 83px; transform: rotate(25deg); }
+  .collage-invitation { margin: 28px 0 0 10px; }
+  .collage-invitation p { font-size: 10px; }
+  .collage-stamp { width: 79px; height: 65px; left: auto; right: 5px; bottom: 8px; font-size: 8px; padding-left: 18px; }
+  .collage-art { width: calc(100% + 40px); max-width: 580px; margin: 13px -20px 25px; aspect-ratio: 1.02; }
+  .collage-same { width: 106px; left: 0; top: 27%; }
+  .collage-same .collage-note { font-size: 11px; padding: 10px 13px; }
+  .collage-solver { width: 94px; left: 71%; top: 65%; }
+  .collage-solver .collage-note { font-size: 10px; padding: 16px 15px; }
+  .collage-note__smile { font-size: 27px; right: 9px; bottom: 8px; }
+  .collage-loading { width: 158px; right: 10%; bottom: -2%; }
+  .collage-loading .collage-note { font-size: 13px; padding: 10px 15px; }
+  .collage-footer { flex-wrap: wrap; justify-content: space-between; gap: 0 12px; font-size: 7px; }
+  .collage-mantra { width: 100%; gap: 11px; margin-bottom: 2px; }
+  .collage-mantra i { flex: 1; }
+  .collage-signature { gap: 10px; }
+  .collage-signature i { width: 15px; }
+  .mind-site .collage-motion { padding-left: 0; }
+}
+@media (max-width: 360px) { .collage-paper { padding-inline: 16px; } .collage-ideas { width: 94px; right: -1px; } .collage-ideas .collage-note { font-size: 10px; } .collage-art { width: calc(100% + 28px); } .collage-stamp { right: 0; width: 65px; padding-left: 12px; } }
+.collage-entrance[data-reduced='true'] *, .collage-entrance[data-reduced='true'] *::after { animation: none; transition: none; }
+.collage-entrance[data-reduced='true'] .collage-piece { transform: rotate(var(--tilt, -10deg)); }
+.collage-entrance[data-reduced='true'] .collage-computer-position { transform: none; }
+.collage-entrance[data-reduced='true'].is-entering .collage-paper { animation: collage-fade 180ms ease-out forwards; }
+@keyframes collage-fade { to { opacity: 0; } }
+
+/* Independent tool tiles retain sharp logos as the collage floats. */
+.collage-tool { width: clamp(72px, 8vw, 124px); --depth: -1.3; }
+.collage-tool--figma { left: 16%; top: 1%; --tilt: -15deg; --delay: -1.7s; }
+.collage-tool--cursor { right: -1%; top: 47%; --tilt: 12deg; --delay: -3.2s; }
+.collage-tool--vscode { right: 0; top: 4%; --tilt: 12deg; --delay: -.8s; }
+.collage-tool__tile { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 1; border: 1px solid #505052; border-radius: 23%; background: linear-gradient(135deg, #343437, #111113 55%, #1b1b1e); box-shadow: 3px 4px 0 #737376, 5px 7px 0 #c6c6c6, 8px 14px 18px #0003, inset 1px 1px 0 #ffffff65; }
+.collage-tool__tile img { display: block; width: 70%; height: 70%; object-fit: contain; filter: drop-shadow(0 3px 2px #0007); }
+.collage-tool--figma img { width: 47%; height: 72%; }
+.collage-tool--cursor img { width: 106%; height: 106%; max-width: none; border-radius: 20%; }
+.collage-tool__label { position: absolute; top: calc(100% + 14px); left: 50%; transform: translate(-50%, 4px); padding: 4px 8px; background: #fafaf8; color: #101010; font: 9px/1.3 'JetBrains Mono', monospace; white-space: nowrap; opacity: 0; transition: opacity 180ms, transform 180ms; }
+.collage-tool button:hover .collage-tool__label, .collage-tool button:focus-visible .collage-tool__label { opacity: 1; transform: translate(-50%, 0); }
+.collage-computer:focus-visible .collage-screen, .collage-computer:hover .collage-screen { opacity: .96; }
+.collage-pointer { position: absolute; left: 4%; top: 44%; z-index: 6; width: clamp(148px, 18vw, 220px); pointer-events: none; transform: rotate(-28deg); }
+.collage-pointer__drift { transform-origin: 18% 70%; animation: collage-pointer-tap 1.35s cubic-bezier(.22,.8,.28,1) infinite; }
+.collage-pointer__tip { position: absolute; left: -48%; top: 18%; z-index: 1; margin: 0; padding: 9px 11px 10px; background: #fffdf6; color: #111; border: 1.5px solid #111; box-shadow: 3px 3px 0 #111; font: 9px/1.4 'JetBrains Mono', monospace; letter-spacing: .03em; text-transform: uppercase; transform: rotate(22deg); white-space: nowrap; }
+.collage-pointer__tip::after { content: ''; position: absolute; left: 18%; bottom: -6px; width: 9px; height: 9px; background: #fffdf6; border-right: 1.5px solid #111; border-bottom: 1.5px solid #111; transform: rotate(45deg); }
+.collage-pointer__hand { display: block; width: 100%; overflow: visible; filter: drop-shadow(2px 3px 0 #0002); }
+.collage-art:has(.collage-computer:hover) .collage-pointer__drift, .collage-art:has(.collage-computer:focus-visible) .collage-pointer__drift { animation-duration: .72s; }
+@keyframes collage-pointer-tap { 0%, 100% { transform: translate(0, 0); } 38% { transform: translate(14px, -10px); } 52% { transform: translate(5px, -3px); } }
+@media (max-width: 760px) {
+  .collage-pointer { left: 10%; top: 42%; width: 128px; }
+  .collage-pointer__tip { left: 8%; top: -36%; font-size: 7px; padding: 6px 8px; transform: rotate(20deg); }
+}
+@media (min-width: 1700px) { .collage-same { width: 190px; } .collage-same .collage-note { font-size: 19px; } .collage-solver { width: 170px; } }
+@media (max-width: 1100px) and (min-width: 761px) { .collage-tool { width: 86px; } .collage-tool--vscode { right: 5%; } .collage-tool--cursor { right: 3%; } }
+@media (max-width: 760px) { .collage-tool { width: 61px; } .collage-tool--figma { left: 15%; top: 0; } .collage-tool--vscode { right: 5%; top: 2%; } .collage-tool--cursor { right: 4%; top: 47%; } .collage-tool__label { font-size: 8px; } }
+@media (prefers-reduced-motion: reduce) { .collage-tool__label, .collage-screen { transition: none; } }
+
+.collage-header { align-items: flex-start; }
+.collage-identity { flex: none; }
+.collage-monogram { display: block; }
+.mind-site .collage-identity__name { margin-top: 16px; font: 500 11px/1.6 'JetBrains Mono', monospace; letter-spacing: .025em; text-transform: uppercase; }
+.collage-identity__name span { display: block; font-weight: 400; color: #55554f; }
+.collage-location { padding-top: 8px; }
+@media (max-width: 760px) {
+  .collage-header { gap: 12px; }
+  .mind-site .collage-identity__name { margin-top: 13px; font-size: 9px; letter-spacing: 0; }
+  .collage-location { flex-wrap: wrap; justify-content: flex-end; gap: 6px 10px; font-size: 7px; max-width: 168px; }
+  .collage-location i { width: 20px; }
+  .collage-flag { width: 22px; height: 16px; }
+  .collage-copy { padding-top: 90px; }
+}
