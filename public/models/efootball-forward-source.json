@@ -1,0 +1,7 @@
+{
+  "source": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/",
+  "license": "CC0-1.0",
+  "triangles": 30254,
+  "bones": 17,
+  "generatedWith": "node scripts/generate-efootball-player.mjs"
+}
