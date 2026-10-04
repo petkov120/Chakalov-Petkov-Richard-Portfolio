@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { uiProjects } from '../../ui/projectRegistry'
 import socialStyles from '../../ui/projects/social/social.css?inline'
 import investmentStyles from '../../ui/projects/investment.css?inline'
+import hydraStyles from '../../ui/projects/hydra/hydra.css?inline'
 import studioStyles from '../../ui/studio.css?inline'
 
 // The maker is consumed as-is. Shadow DOM keeps portfolio typography/resets
@@ -91,6 +92,6 @@ export default function StudioInteractionPreview({ item, playing, replayToken, i
   const scripted = !interactive
   const guide = live && item.id === 'social'
   return <div ref={host} className={`mind-studio-preview${interactive ? ' mind-studio-preview--live' : ''}`} data-screen={screen} data-playing={playing} aria-hidden={scripted || undefined} {...(scripted ? { inert: '' } : {})}>
-    {shadow && createPortal(<><style>{studioStyles + socialStyles + investmentStyles + previewStyles}</style><div className={`studio-playback${playing ? '' : scripted ? ' is-paused' : ''}${scripted && frame.cycle === 0 ? ' is-poster' : ''}${guide ? ' is-guided' : ''}`} {...(scripted ? { inert: '' } : {})}><Preview key={`${item.id}-${frame.cycle}`} screen={screen} live={live} onScreenChange={next => { if (active.current || acceptInput.current) setScreen(next) }} /></div></>, shadow)}
+    {shadow && createPortal(<><style>{studioStyles + socialStyles + investmentStyles + hydraStyles + previewStyles}</style><div className={`studio-playback${playing ? '' : scripted ? ' is-paused' : ''}${scripted && frame.cycle === 0 ? ' is-poster' : ''}${guide ? ' is-guided' : ''}`} {...(scripted ? { inert: '' } : {})}><Preview key={`${item.id}-${frame.cycle}`} screen={screen} live={live} onScreenChange={next => { if (active.current || acceptInput.current) setScreen(next) }} /></div></>, shadow)}
   </div>
 }

@@ -1,5 +1,6 @@
 import { socialScreens } from '../../ui/projects/social/screens'
 import { investmentScreens } from '../../ui/projects/InvestmentUI'
+import { hydraScreens } from '../../ui/projects/hydra/HydraUI'
 import { notepadScreens } from '../../ui/projects/NotepadUI'
 
 export const interactionProjects = [
@@ -42,6 +43,29 @@ export const interactionProjects = [
     ],
     principles: ['Understanding before action.', 'A distinct moment to review.', 'Confirmation with meaning.'],
     steps: investmentScreens.map(screen => ({ screen: screen.id, duration: screen.id === 'welcome' ? 3400 : 2400 })),
+  },
+  {
+    id: 'hydra', accent: '#ff3b3b', project: 'Hydra Race', title: 'Fast to start. Easy to read.', name: 'Hydra',
+    href: '/interactions/hydra', mark: 'H', status: 'Playable prototype', year: '2026',
+    category: 'Personal project / Game UI', posterScreen: 'home', screens: hydraScreens,
+    summary: 'A racing game from first tap to finish line: a home that finds the next race, a garage that explains each car, and a HUD you can read at 200 km/h.',
+    note: 'One tap to a race.\nThe road stays clear.',
+    story: [
+      { title: 'Start where the fun is.', focal: 'the next race', screen: 'home', body: 'The home screen leads with the next race: one large Hydra’s Cup card, a live count of people racing, and a daily run. Nothing needs explaining before the first tap, and the five-tab menu stays within thumb reach.' },
+      { title: 'Choose a car by how it drives.', focal: 'speed, handling, boost', screen: 'garage', body: 'Each car is three numbers and a silhouette. Switching cars changes the bars immediately, so the decision is a comparison and not a spec sheet. One confirm button keeps the flow moving.' },
+      { title: 'A HUD you can read at speed.', focal: 'speed', screen: 'race', body: 'Speed is the largest thing on screen, boost sits directly under it, and position, lap and map stay small in the corner. The thumbs rest on one big Nitro control, so nothing covers the road.' },
+    ],
+    principles: ['One obvious next race.', 'Numbers before paragraphs.', 'The road stays clear.'],
+    steps: [
+      { screen: 'splash', duration: 3000, action: { selector: '.hy-start', after: 1500 } },
+      { screen: 'home', duration: 2800, action: { selector: '.hy-card--cup', after: 1600 } },
+      { screen: 'event', duration: 2600, action: { selector: '.hy-carrow', after: 1500 } },
+      { screen: 'garage', duration: 2600, action: { selector: '.hy-chip:nth-child(3)', after: 900 } },
+      { screen: 'garage', duration: 1800, action: { selector: '.hy-select', after: 800 } },
+      { screen: 'event', duration: 2000, action: { selector: '.hy-race', after: 1100 } },
+      { screen: 'race', duration: 4800, action: { selector: '.hy-nitro', after: 1500 } },
+      { screen: 'results', duration: 3600 },
+    ],
   },
   {
     id: 'notepad', accent: '#d9c7a3', project: 'Notepad', title: 'Catch the thought.', name: 'Notepad',

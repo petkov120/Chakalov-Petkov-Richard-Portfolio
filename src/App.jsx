@@ -18,6 +18,7 @@ const routes = {
   '/interactions/social': MindPortfolioPage,
   '/interactions/investment': MindPortfolioPage,
   '/interactions/notepad': MindPortfolioPage,
+  '/interactions/hydra': MindPortfolioPage,
   '/investigations': MindPortfolioPage,
   '/clinify': ClinifyPage,
   '/universityx': UniversityXPage,

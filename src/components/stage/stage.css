@@ -44,7 +44,7 @@
   transform: scale(calc(.8 + var(--f, 1) * .2)); opacity: calc(.34 + var(--f, 1) * .66);
   transition: transform 260ms var(--ease), opacity 260ms var(--ease);
 }
-.stage__item--phone { --w: calc(var(--h) * 390 / 844); width: var(--w); }
+.stage__item--phone { --w: calc((var(--h) - 10px) * 390 / 844 + 10px); width: var(--w); } /* 10px = the frame padding, so the screen keeps its 390:844 shape */
 .stage__item--tile { --w: calc(var(--h) * 1.05); width: var(--w); }
 /* first and last items can reach the centre */
 .stage__item:first-child { margin-inline-start: calc(50cqw - var(--w) / 2); }
@@ -58,7 +58,6 @@
 .stage__phone { display: block; height: 100%; padding: 5px; border-radius: 2.25rem; background: #050506; border: 1px solid #34343a; box-shadow: 0 30px 80px rgb(0 0 0 / .7), 0 0 60px rgb(255 255 255 / .04); }
 .stage__screen { display: block; height: 100%; border-radius: 1.8rem; overflow: hidden; background: #fff; }
 .stage__poster { display: grid; place-items: center; height: 100%; padding: 1rem; text-align: center; background: var(--surface); color: var(--muted); font: 500 .75rem/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
-.stage__screen .mind-studio-preview { display: block; width: 100%; height: 100%; pointer-events: none; }
 
 /* case-study screenshot; it drifts slowly while focused so it reads as the real product */
 .stage__frame { position: absolute; inset: 0; overflow: hidden; border-radius: 1.375rem; background: var(--surface); border: 1px solid #34343a; box-shadow: 0 30px 80px rgb(0 0 0 / .7), 0 0 60px rgb(255 255 255 / .04); transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); transition: transform 260ms var(--ease), border-color .2s; }

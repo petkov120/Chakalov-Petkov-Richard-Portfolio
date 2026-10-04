@@ -35,17 +35,6 @@ export const workCases = [
     origin: 'Side Projects',
   },
   {
-    id: 'hydra',
-    accent: '#ef4444',
-    name: 'Hydra',
-    field: 'A game of momentum.',
-    blurb: 'A game UI built for the fun of it.',
-    src: '/images/playground/hydra-home-screen.webp',
-    alt: 'Hydra game home interface',
-    href: '/playground',
-    origin: 'Side Projects',
-  },
-  {
     id: 'quickhand',
     accent: '#f59e0b',
     name: 'QuickHand',
