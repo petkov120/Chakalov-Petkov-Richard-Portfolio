@@ -3902,3 +3902,5 @@
     animation: none;
   }
 }
+
+.site-nav__monogram { display: grid; place-items: center; width: 2.625rem; height: 2.625rem; flex: none; border-radius: .625rem; background: #f3f3f1; color: #0b0b0c; font: 800 1.375rem/.8 Inter, Arial, sans-serif; letter-spacing: -.1em; }

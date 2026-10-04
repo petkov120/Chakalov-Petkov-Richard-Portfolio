@@ -9,6 +9,8 @@ import UIStudioPage from './pages/UIStudioPage'
 import WorkPage from './pages/WorkPage'
 import HydraPage from './pages/HydraPage'
 import KestbookPage from './pages/KestbookPage'
+import EfootballPage from './pages/EfootballPage'
+import QuickHandPage from './pages/QuickHandPage'
 import GlobalContactCTA from './components/layout/GlobalContactCTA'
 import { roomThemes } from './data/investigations'
 
@@ -22,6 +24,8 @@ const routes = {
   '/interactions/notepad': MindPortfolioPage,
   '/hydra': HydraPage,
   '/kestbook': KestbookPage,
+  '/efootball': EfootballPage,
+  '/quickhand': QuickHandPage,
   '/investigations': MindPortfolioPage,
   '/clinify': ClinifyPage,
   '/universityx': UniversityXPage,
@@ -67,7 +71,7 @@ export default function App() {
     const slug = pathname.slice(1)
     const room = roomThemes[slug]
 
-    if (Page === MindPortfolioPage || Page === HydraPage || Page === KestbookPage || Page === WorkPage) {
+    if (Page === MindPortfolioPage || Page === HydraPage || Page === KestbookPage || Page === EfootballPage || Page === QuickHandPage || Page === NotesPage || Page === WorkPage) {
       body.classList.add('theme-mind')
     } else if (room) {
       body.classList.add(room)
@@ -83,7 +87,7 @@ export default function App() {
   return (
     <>
       <Page />
-      {Page !== MindPortfolioPage && Page !== HydraPage && Page !== KestbookPage && Page !== WorkPage && pathname !== '/ui' && <GlobalContactCTA />}
+      {Page !== MindPortfolioPage && Page !== HydraPage && Page !== KestbookPage && Page !== EfootballPage && Page !== QuickHandPage && Page !== NotesPage && Page !== WorkPage && pathname !== '/ui' && <GlobalContactCTA />}
     </>
   )
 }
