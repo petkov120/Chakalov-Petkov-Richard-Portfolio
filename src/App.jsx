@@ -65,7 +65,7 @@ export default function App() {
     const slug = pathname.slice(1)
     const room = roomThemes[slug]
 
-    if (Page === MindPortfolioPage || Page === HydraPage) {
+    if (Page === MindPortfolioPage || Page === HydraPage || Page === WorkPage) {
       body.classList.add('theme-mind')
     } else if (room) {
       body.classList.add(room)
@@ -81,7 +81,7 @@ export default function App() {
   return (
     <>
       <Page />
-      {Page !== MindPortfolioPage && Page !== HydraPage && pathname !== '/ui' && <GlobalContactCTA />}
+      {Page !== MindPortfolioPage && Page !== HydraPage && Page !== WorkPage && pathname !== '/ui' && <GlobalContactCTA />}
     </>
   )
 }

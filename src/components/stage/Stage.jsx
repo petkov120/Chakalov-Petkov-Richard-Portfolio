@@ -2,6 +2,7 @@ import { lazy, Suspense, useLayoutEffect, useMemo, useRef, useState } from 'reac
 import { buildWall, FILTERS } from './wall'
 import useStageRail from './useStageRail'
 import useOnScreen from './useOnScreen'
+import Thumb from './Thumb'
 import './stage.css'
 
 // The live prototype runtime is heavy; it loads only once a phone is near the centre.
@@ -80,9 +81,9 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
                 </span>
               </a>
             </li>
-          : <li key={entry.key} className="stage__item stage__item--tile" data-key={entry.key} data-focus={focused} data-pan={entry.data.pan} style={{ '--i': index }}>
+          : <li key={entry.key} className="stage__item stage__item--tile" data-key={entry.key} data-focus={focused} style={{ '--i': index }}>
               <a className="stage__link" href={entry.href} draggable="false" aria-label={`Open ${entry.name}: ${entry.line}`} onClick={event => activate(entry, event)} onPointerMove={tilt} onPointerLeave={untilt}>
-                <span className="stage__frame"><img src={entry.data.src} alt={entry.data.alt} loading="lazy" decoding="async" draggable="false" /></span>
+                <span className="stage__frame"><Thumb thumb={entry.data.thumb} alt={entry.data.alt} accent={entry.data.accent} /></span>
               </a>
             </li>
       })}

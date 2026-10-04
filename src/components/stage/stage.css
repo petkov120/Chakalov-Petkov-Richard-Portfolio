@@ -59,15 +59,14 @@
 .stage__screen { display: block; height: 100%; border-radius: 1.8rem; overflow: hidden; background: #fff; }
 .stage__poster { display: grid; place-items: center; height: 100%; padding: 1rem; text-align: center; background: var(--surface); color: var(--muted); font: 500 .75rem/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
 
-/* case-study screenshot; it drifts slowly while focused so it reads as the real product */
+/* case-study thumbnail; the artwork itself is in thumb.css. It drifts slowly while focused. */
 .stage__frame { position: absolute; inset: 0; overflow: hidden; border-radius: 1.375rem; background: var(--surface); border: 1px solid #34343a; box-shadow: 0 30px 80px rgb(0 0 0 / .7), 0 0 60px rgb(255 255 255 / .04); transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); transition: transform 260ms var(--ease), border-color .2s; }
 .stage__link:hover .stage__frame { border-color: #55555e; }
-.stage__frame img { width: 106%; height: 106%; max-width: none; margin: -3% 0 0 -3%; object-fit: cover; object-position: 0 0; pointer-events: none; transform: translate(var(--shift-x, 0), var(--shift-y, 0)); transition: transform 260ms var(--ease); }
-.stage__item[data-focus='true'] .stage__frame img { animation: stage-pan 11s ease-in-out infinite alternate; }
-@keyframes stage-pan { to { object-position: 0 100%; } }
-.stage__item[data-pan='x'] .stage__frame img { object-position: 62% 50%; }
-.stage__item[data-pan='x'][data-focus='true'] .stage__frame img { animation-name: stage-pan-x; }
-@keyframes stage-pan-x { from { object-position: 62% 50%; } to { object-position: 80% 50%; } }
+.stage__item[data-focus='true'] .thumb__main { animation: stage-float 5s ease-in-out infinite alternate; }
+.stage__item[data-focus='true'] .thumb__back { animation: stage-float 6.5s ease-in-out infinite alternate-reverse; }
+.stage__item[data-focus='true'] .thumb--cover img { animation: stage-pan 12s ease-in-out infinite alternate; }
+@keyframes stage-float { to { translate: 0 -.5rem; } }
+@keyframes stage-pan { from { object-position: var(--from); } to { object-position: var(--to); } }
 
 /* the source piece hides while its prototype overlay animates out of it */
 .mind-site[data-active-project] [data-study] .stage__link { transition: opacity .2s; }
@@ -115,7 +114,7 @@
 }
 @media (max-height: 699px) and (min-width: 761px) { .stage__text h3 { margin-bottom: .5rem; } .stage__line { font-size: .9375rem; } }
 @media (prefers-reduced-motion: reduce) {
-  .stage__link, .stage__text, .stage__item[data-focus='true'] .stage__frame img { animation: none; }
-  .stage__item, .stage__frame, .stage__frame img { transition: none; }
+  .stage__link, .stage__text, .stage__item[data-focus='true'] :is(.thumb__main, .thumb__back, .thumb--cover img) { animation: none; }
+  .stage__item, .stage__frame { transition: none; }
   .stage__frame { transform: none; }
 }
