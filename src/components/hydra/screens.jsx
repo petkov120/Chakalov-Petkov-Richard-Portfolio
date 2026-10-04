@@ -1,5 +1,7 @@
 // Hydra Race: desktop / console screens. The first three are the original designs (shown as drawn);
 // the rest extend the same kit: bumper tabs, white-bordered cards, controller prompts, one blue action.
+import CarArt, { cars } from './cars'
+
 const IMG = '/images/playground/'
 const TABS = ['Home', 'Single player', 'Multiplayer', 'Cars', 'Progress']
 
@@ -39,8 +41,35 @@ function SinglePlayer() {
   )
 }
 
+function CarSelect() {
+  const classes = ['All', ...new Set(cars.map(car => car.cls))]
+  const picked = cars[0]
+  return (
+    <>
+      <Backdrop photo="snow" shade={.88} /><Tabs active="Cars" />
+      <ul className="hg-classes"><li className="hg-classes__title">Class</li>
+        {classes.map((name, i) => <li key={name} className={i === 0 ? 'is-on' : ''}><span>{name}</span><em>{i === 0 ? cars.length : cars.filter(car => car.cls === name).length}</em></li>)}
+      </ul>
+      <div className="hg-cargrid">
+        {cars.map(car => (
+          <div key={car.name} className={`hg-gcard${car === picked ? ' is-on' : ''}`} style={{ '--tint': car.color }}>
+            <b>{car.rating}</b><CarArt type={car.type} color={car.color} /><strong>{car.name}</strong><small>{car.cls}</small>
+          </div>
+        ))}
+      </div>
+      <aside className="hg-panel hg-panel--pick">
+        <small>{picked.cls}</small><h3>{picked.name}</h3>
+        <div className="hg-pick__art" style={{ '--tint': picked.color }}><CarArt type={picked.type} color={picked.color} /></div>
+        <ul className="hg-bars"><Bar label="Top speed" value={picked.stats[0]} /><Bar label="Accel" value={picked.stats[1]} /><Bar label="Handling" value={picked.stats[2]} /><Bar label="Boost" value={picked.stats[3]} /></ul>
+        <button type="button" className="hg-action">Select car</button>
+      </aside>
+      <Prompts items={[['A', 'Select'], ['B', 'Back'], ['X', 'Compare'], ['Y', 'Filter']]} />
+    </>
+  )
+}
+
 function Cars() {
-  const list = [['Spyder 918', true], ['Vanta S'], ['Kestrel GT'], ['Aero R'], ['Nomad X']]
+  const list = cars.slice(0, 5)
   return (
     <>
       <Backdrop photo="sky" shade={.55} /><Tabs active="Cars" />
@@ -52,7 +81,7 @@ function Cars() {
         <div className="hg-tags"><span>Engine III</span><span>Turbo II</span><span>Tyres — Slick</span><span>Livery — Ember</span></div>
         <button type="button" className="hg-action">Select car</button>
       </aside>
-      <div className="hg-strip">{list.map(([name, on]) => <div key={name} className={`hg-chip${on ? ' is-on' : ''}`}><span>{name}</span></div>)}</div>
+      <div className="hg-strip">{list.map((car, i) => <div key={car.name} className={`hg-chip${i === 0 ? ' is-on' : ''}`}><CarArt type={car.type} color={car.color} /><span>{car.name}</span></div>)}</div>
       <Prompts items={[['A', 'Select'], ['B', 'Back'], ['Y', 'Tune']]} />
     </>
   )
@@ -131,7 +160,8 @@ export const hydraScreens = [
   { id: 'menu', label: 'Main menu', note: 'Original design', purpose: 'Three choices over a living scene. Continue is the only blue button.', render: () => <Original src="hydra-onboarding-2.webp" alt="Hydra Race main menu: Continue, Options, Exit" /> },
   { id: 'home', label: 'Home', note: 'Original design', purpose: 'Bumper tabs across the top, featured races as large cards, the driver standing in the garage.', render: () => <Original src="hydra-onboarding-race.webp" alt="Hydra Race home screen with featured races" /> },
   { id: 'single', label: 'Single player', purpose: 'Every event is a card with its progress. Locked ones say what unlocks them.', render: SinglePlayer },
-  { id: 'cars', label: 'Cars', purpose: 'A car is four numbers and a livery. The strip below keeps the whole garage in reach.', render: Cars },
+  { id: 'select', label: 'Car select', purpose: 'Twelve cars across nine classes. Filter by type, read a rating at a glance, and pick without leaving the grid.', render: CarSelect },
+  { id: 'cars', label: 'Car detail', purpose: 'A car is four numbers and a livery. The strip below keeps the whole garage in reach.', render: Cars },
   { id: 'lobby', label: 'Multiplayer lobby', purpose: 'Who is ready, what they drive, and which track is winning the vote.', render: Lobby },
   { id: 'hud', label: 'Race HUD', purpose: 'Speed is the largest thing on screen. Position, lap and the map stay at the edges so the road stays clear.', render: Hud },
   { id: 'results', label: 'Results', purpose: 'The result first, the rewards second, the full standings for anyone who wants them.', render: Results },
