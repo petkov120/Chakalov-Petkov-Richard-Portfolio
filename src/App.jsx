@@ -12,7 +12,7 @@ import { roomThemes } from './data/investigations'
 
 const routes = {
   '/': MindPortfolioPage,
-  '/work/clinify': MindPortfolioPage,
+  '/work/clinify': ClinifyPage,
   '/interactions': MindPortfolioPage,
   '/interactions/card-removal': MindPortfolioPage,
   '/interactions/social': MindPortfolioPage,

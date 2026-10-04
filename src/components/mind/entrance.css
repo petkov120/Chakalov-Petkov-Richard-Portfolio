@@ -180,3 +180,18 @@
   .collage-flag { width: 22px; height: 16px; }
   .collage-copy { padding-top: 90px; }
 }
+
+/* Fit the scene to the viewport height so the computer, Enter button and footer are never cropped.
+   Width-based sizing alone overflows on common laptop heights (768, 800, 900). */
+@media (min-width: 761px) and (min-height: 561px) {
+  .collage-paper { height: 100svh; min-height: 0; }
+  .collage-layout { min-height: 0; }
+  .collage-copy { padding-top: clamp(56px, 8.4svh, 132px); padding-bottom: 4px; }
+  .collage-ideas { top: calc(-1 * clamp(52px, 9.5svh, 84px)); left: 31%; }
+  .mind-site .collage-copy h1 { font-size: clamp(52px, min(8.2vw, 12svh), 150px); }
+  .collage-invitation { margin-top: clamp(16px, 3.6svh, 36px); }
+  .collage-art { width: min(100%, calc((100svh - 225px) * 1.08)); max-width: 100%; justify-self: center; margin-left: 0; }
+}
+@media (min-width: 761px) and (max-width: 1100px) and (min-height: 561px) {
+  .collage-art { width: min(123%, calc((100svh - 225px) * 1.08)); margin-left: auto; justify-self: end; }
+}

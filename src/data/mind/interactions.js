@@ -4,7 +4,7 @@ import { notepadScreens } from '../../ui/projects/NotepadUI'
 
 export const interactionProjects = [
   {
-    id: 'social', project: 'X redesign', title: 'X, with a little more intention.', name: 'X redesign',
+    id: 'social', accent: '#1d9bf0', project: 'X redesign', title: 'X, with a little more intention.', name: 'X redesign',
     href: '/interactions/social', mark: '𝕏', status: 'Working prototype', year: '2026',
     category: 'Personal project / Interaction design', posterScreen: 'feed', screens: socialScreens,
     summary: 'A calmer way to discover people, share a thought, and make something worth posting.',
@@ -30,7 +30,7 @@ export const interactionProjects = [
     ],
   },
   {
-    id: 'investment', project: 'Investment', title: 'A little more confidence.', name: 'Investment',
+    id: 'investment', accent: '#8b5cf6', project: 'Investment', title: 'A little more confidence.', name: 'Investment',
     href: '/interactions/investment', mark: '↗', status: 'Flow study', year: '2026',
     category: 'Personal project / Product exploration', posterScreen: 'portfolio', screens: investmentScreens,
     summary: 'From noticing a change to understanding it. A study in making one investment decision feel clear.',
@@ -44,7 +44,7 @@ export const interactionProjects = [
     steps: investmentScreens.map(screen => ({ screen: screen.id, duration: screen.id === 'welcome' ? 3400 : 2400 })),
   },
   {
-    id: 'notepad', project: 'Notepad', title: 'Catch the thought.', name: 'Notepad',
+    id: 'notepad', accent: '#d9c7a3', project: 'Notepad', title: 'Catch the thought.', name: 'Notepad',
     href: '/interactions/notepad', mark: 'n.', status: 'Flow study', year: '2026',
     category: 'Personal project / Product exploration', posterScreen: 'notes', screens: notepadScreens,
     summary: 'An idea arrives before it is organised. A quiet little space to catch it, keep it, and find it again.',

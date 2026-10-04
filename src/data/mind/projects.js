@@ -1,32 +1,19 @@
-import { clinifyEvidence } from '../clinifyEvidence'
-
-export const clinifyBook = {
-  slug: 'clinify', title: 'Clinify', subtitle: 'Care is a human thing.', year: '2024 — now',
-  role: 'Design engineering · Healthcare · Systems',
-  pages: [
-    { type: 'opening', label: '01 / CONTEXT', title: 'Design.\nFor real people.', body: clinifyEvidence.opening.overview, note: 'technology should give\ntime back to people.', facts: clinifyEvidence.opening.facts.slice(0, 3) },
-    { type: 'image', label: '02 / THE WORKSPACE', title: 'One place to care.', image: '/images/clinify/member-communications.png', alt: 'Clinify member communications workspace with email, SMS, and AI call actions', body: clinifyEvidence.decisions[0].why, caption: 'FIG. 01 — The shared communication workspace.' },
-    { type: 'text', label: '03 / THE QUESTION', title: 'Who should\nsee what?', body: clinifyEvidence.opening.problem, image: '/images/member-search.webp', alt: 'Clinify member ID search interface', note: 'Start with the person.\nThen design the system.' },
-    { type: 'image', label: '04 / THE DECISION', title: 'A human starts it.', image: '/images/ai-agent-calls.webp', alt: 'Clinify recipient review and approval before initiating an AI call', body: clinifyEvidence.decisions[1].outcome, caption: 'FIG. 02 — Review before any patient contact.' },
-    { type: 'text', label: '05 / MAKING IT REAL', title: 'Decisions,\nmade tangible.', body: clinifyEvidence.opening.context, items: clinifyEvidence.engineering.items, note: 'The details are the work.' },
-    { type: 'results', label: '06 / IN THE WORLD', title: 'Confidence\nis the outcome.', metrics: clinifyEvidence.results.items.slice(0, 3), body: clinifyEvidence.closingQuote, link: { href: '/clinify', label: 'Read the complete evidence archive' } },
-  ],
-}
-
 export const workCases = [
   {
     id: 'clinify',
+    accent: '#3b82f6',
     name: 'Clinify',
     field: 'Care, connected.',
     blurb: 'Enterprise AI care platform, shipped to paying customers.',
     proof: '18 months · MVP to production · Paying enterprise customers',
     src: '/images/clinify/work-card-thumbnail.png',
     alt: 'Clinify calling overview dashboard',
-    href: '/work/clinify',
+    href: '/clinify',
     origin: 'Live Work',
   },
   {
     id: 'universityx',
+    accent: '#e07a5f',
     name: 'UniversityX',
     field: 'A teacher, not a chatbot.',
     blurb: 'AI tutoring platform used across 3 institutions.',
@@ -38,6 +25,7 @@ export const workCases = [
   },
   {
     id: 'ledger',
+    accent: '#c9b79c',
     name: 'Ledger',
     field: 'Property, made calm.',
     blurb: 'A property ledger explored on the side.',
@@ -48,6 +36,7 @@ export const workCases = [
   },
   {
     id: 'hydra',
+    accent: '#ef4444',
     name: 'Hydra',
     field: 'A game of momentum.',
     blurb: 'A game UI built for the fun of it.',
@@ -58,6 +47,7 @@ export const workCases = [
   },
   {
     id: 'quickhand',
+    accent: '#f59e0b',
     name: 'QuickHand',
     field: 'Work, found by hand.',
     blurb: 'An onboarding flow for local service providers.',

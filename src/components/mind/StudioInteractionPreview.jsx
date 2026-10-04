@@ -17,6 +17,8 @@ const previewStyles = `
   img { max-width: 100%; }
   .studio-playback { position: relative; width: 390px; height: 844px; overflow: hidden; font: 16px/1.5 Inter, sans-serif; color: #0f1419; background: #fff; transform: scale(var(--preview-scale, 1)); transform-origin: top left; }
   .ui-canvas__blank > small { visibility: hidden; }
+  /* Backdrop blur samples mirrored edges when the preview is scaled down; a flat scrim reads the same at 2px. */
+  .x-profile-layer { backdrop-filter: none; background: rgba(28,33,36,.32); }
   .studio-playback.is-paused *, .studio-playback.is-paused *::before, .studio-playback.is-paused *::after { animation-play-state: paused !important; }
   .studio-playback.is-poster *, .studio-playback.is-poster *::before, .studio-playback.is-poster *::after { animation: none !important; transition: none !important; }
   .studio-playback.is-guided .x-feed-head::after { content: 'Name, photo, or +'; position: absolute; right: 14px; top: 0; bottom: 0; display: flex; align-items: center; color: #1d9bf0; font-size: 11px; font-weight: 700; pointer-events: none; }

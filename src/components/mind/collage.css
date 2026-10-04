@@ -100,7 +100,7 @@
 .mind-work-bg {
   --hero-parallax: 0;
   position: absolute; inset: 0 0 auto;
-  height: min(120svh, 1040px); pointer-events: none; overflow: hidden;
+  height: min(120svh, 1040px); pointer-events: none; overflow: clip; contain: paint;
 }
 .mind-work-bg__statue {
   position: absolute; right: -10%; top: 6%;
