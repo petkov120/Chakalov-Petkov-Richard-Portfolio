@@ -77,9 +77,10 @@
 .collage-entrance.is-entering { overflow: hidden; pointer-events: none; background: transparent; }
 .collage-entrance.is-entering .collage-paper { animation: collage-camera var(--enter-duration) cubic-bezier(.66,0,.22,1) forwards; will-change: transform, opacity; }
 .collage-entrance.is-entering .collage-screen { opacity: 1; }
-.collage-entrance.is-entering .collage-screen__glow { background: #fff; opacity: 0; animation: collage-portal-light var(--enter-duration) ease-in forwards; }
+/* Falling into the screen deepens to the gallery's own colour, so the handoff is a continuous fall into a dark room. */
+.collage-entrance.is-entering .collage-screen__glow { background: radial-gradient(60% 60% at 50% 50%, #1d1906, #0b0b0c 78%); box-shadow: none; opacity: 0; animation: collage-portal-light var(--enter-duration) ease-in forwards; }
 .collage-entrance.is-entering .collage-screen__arrow, .collage-entrance.is-entering .collage-screen__hint { opacity: 0; transition: opacity 220ms; }
-.collage-entrance.is-entering .collage-header, .collage-entrance.is-entering .collage-footer, .collage-entrance.is-entering .collage-pointer { opacity: 0; transition: opacity 200ms; }
+.collage-entrance.is-entering :is(.collage-header, .collage-footer, .collage-pointer, .collage-piece) { opacity: 0; transition: opacity 260ms; } /* the notes step aside so the camera falls into the monitor itself */
 @keyframes collage-flag-bounce {
   0%, 100% { transform: translateY(0) scale(1, 1); }
   16% { transform: translateY(1.8px) scale(1.12, .78); }
@@ -95,8 +96,8 @@
 }
 @keyframes collage-note-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-12px) rotate(2deg); } }
 @keyframes collage-computer-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-9px) rotate(.5deg); } }
-@keyframes collage-camera { 0% { transform: none; opacity: 1; } 22% { transform: scale(1.045); opacity: 1; } 83% { opacity: 1; } 100% { transform: translate(var(--portal-dx), var(--portal-dy)) scale(var(--portal-scale)); opacity: 0; } }
-@keyframes collage-portal-light { 0%, 42% { opacity: 0; } 82%, 100% { opacity: 1; } }
+@keyframes collage-camera { 0% { transform: none; opacity: 1; } 22% { transform: scale(1.045); opacity: 1; } 68% { opacity: 1; } 100% { transform: translate(var(--portal-dx), var(--portal-dy)) scale(var(--portal-scale)); opacity: 0; } }
+@keyframes collage-portal-light { 0%, 34% { opacity: 0; } 66%, 100% { opacity: 1; } }
 @media (min-width: 1700px) { .collage-copy { padding-top: 165px; } .collage-invitation { margin-top: 65px; } .collage-invitation p { font-size: 15px; } .collage-ideas { width: 180px; } .collage-ideas .collage-note { font-size: 18px; } .collage-same { width: 260px; } .collage-same .collage-note { font-size: 26px; } .collage-solver { width: 195px; } .collage-note { font-size: 23px; } }
 @media (max-width: 1100px) and (min-width: 761px) { .collage-art { width: 123%; margin-left: -15%; } .collage-copy { padding-left: 0; } .collage-invitation { margin-left: 3vw; } .collage-stamp { display: none; } .collage-same { width: 180px; } .collage-same .collage-note { font-size: 18px; } .collage-solver { width: 135px; } .collage-solver .collage-note { font-size: 15px; } .collage-loading { width: 190px; right: 17%; } .collage-loading .collage-note { font-size: 16px; } .collage-mantra i { display: none; } }
 @media (max-width: 760px) {
