@@ -4,9 +4,9 @@ import NavIcon from '../icons/NavIcon'
 import Avatar from './Avatar'
 import FeedPost from './FeedPost'
 
-export default function Feed({ published = false, resetView = false, onCompose, onProfile, onMenu }) {
+export default function Feed({ published = false, demo = true, resetView = false, onCompose, onProfile, onMenu }) {
   const [activeNav, setActiveNav] = useState('home')
-  const [showNewPosts, setShowNewPosts] = useState(true)
+  const [showNewPosts, setShowNewPosts] = useState(demo)
   const [isRapidScrolling, setIsRapidScrolling] = useState(false)
   const feedRef = useRef(null)
   const blurTimerRef = useRef(null)
@@ -67,7 +67,7 @@ export default function Feed({ published = false, resetView = false, onCompose, 
           <FeedPost key={post.id} post={post} onAuthor={onProfile} />
         ))}
       </main>
-      <button className="x-compose-fab" type="button" aria-label="Compose" onClick={onCompose}>+</button>
+      <button className="x-compose-fab" type="button" aria-label="Compose" onClick={onCompose}><span className="x-compose-fab__plus" aria-hidden="true" /></button>
       <nav className="x-bottom" aria-label="Primary navigation">
         {navItems.map((item) => {
           const isActive = activeNav === item.id

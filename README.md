@@ -11,21 +11,21 @@ npm run dev
 
 Opens at http://localhost:5173
 
-## Customize
+## Project map
 
-Everything you need to edit is in three places:
-
-- **`index.html`** — page title, meta description
-- **`src/components/Hero.jsx`** — your name, nav links
-- **`src/data/chapters.js`** — case study text (edit prose here)
-- **`src/components/About.jsx`** — about section
-- **`src/components/Footer.jsx`** — email, social links
-- **`src/components/OtherWork.jsx`** — secondary projects
+- **`src/pages/MindPortfolioPage.jsx`** — homepage, positioning, about, and contact
+- **`src/data/mind/projects.js`** — homepage case studies and interactive projects
+- **`src/data/clinifyEvidence.js`** — Clinify case-study content
+- **`src/data/universityxEvidence.js`** — UniversityX case-study content
+- **`src/components/mind/`** — homepage sections, interactions, and styling
+- **`src/pages/`** — route-level pages
+- **`src/App.jsx`** — routes and page themes
+- **`index.html`** — title, metadata, fonts, and favicon
 
 ### Add images
 
 1. Drop image files into `public/images/`
-2. Reference them in `src/data/chapters.js` like:
+2. Reference them in the relevant file under `src/data/` like:
    ```js
    images: [
      { src: '/images/schedule-batch.png', alt: 'Schedule Batch flow', caption: 'Step 1 of 4: channel selection' },
@@ -43,26 +43,18 @@ Everything you need to edit is in three places:
    ]
    ```
 
-Each image gets a soft border, white background card, and optional caption.
+Case-study image objects support descriptive alt text and captions. Keep those populated when adding new evidence.
 
-### Change the colors
+### Change the visual system
 
-In `tailwind.config.js`, the palette is:
-
-- `paper` (background, warm off-white)
-- `ink` (primary text, near-black)
-- `muted` (secondary text)
-- `rule` (border lines)
-- `accent` (the rust-red on the email link)
-
-Change any value, save, refresh.
+The homepage system lives in `src/components/mind/mind.css` and `src/components/mind/collage.css`. Shared palette and font tokens also live in `tailwind.config.js`.
 
 ### Change the fonts
 
 In `index.html`, swap the Google Fonts URL.
 In `tailwind.config.js`, update the `fontFamily` block.
 
-Current pairing: Instrument Serif (display) + Inter (body) + JetBrains Mono (small caps / labels).
+Current pairing: Instrument Serif (display), Inter (body), JetBrains Mono (small caps), and the collage handwriting face defined in CSS.
 
 ## Deploy to Vercel
 

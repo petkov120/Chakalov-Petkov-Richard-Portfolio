@@ -99,6 +99,7 @@ body.theme-mind { background: #fafaf8; color: #101010; }
   border-bottom: 0;
   box-shadow: 0 1px 0 #1112;
 }
+.site-nav.site-nav--mind::before { inset: 0; }
 .site-nav--mind .site-nav__monogram {
   display: grid; place-items: center; width: 42px; height: 42px; flex: none;
   background: var(--collage-ink); color: var(--collage-yellow);
@@ -313,6 +314,18 @@ body.theme-mind { background: #fafaf8; color: #101010; }
 .mind-continuation > p { margin-top: 50px; font: 400 clamp(50px, 7vw, 100px)/.98 'Instrument Serif', Georgia, serif; letter-spacing: -.03em; }
 .mind-continuation > .mind-link { margin-top: 40px; }
 .mind-about { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; padding-top: 90px; padding-bottom: 150px; }
+.mind-practice { padding-top: 70px; padding-bottom: 90px; border-top: 2px dashed #1113; }
+.mind-practice__heading { display: grid; grid-template-columns: 1.2fr .8fr; align-items: end; gap: 70px; padding: 40px 0 55px; }
+.mind-practice__heading h2 { font: 400 clamp(64px, 8vw, 112px)/.85 'Instrument Serif', Georgia, serif; letter-spacing: -.05em; }
+.mind-practice__heading > p { max-width: 430px; font-size: 14px; line-height: 1.8; color: var(--mind-grey); }
+.mind-practice__steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; border-top: 1.5px solid #111; border-bottom: 1.5px solid #111; }
+.mind-practice__steps li { min-width: 0; padding: 24px 20px 28px; border-right: 1.5px solid #111; }
+.mind-practice__steps li:last-child { border-right: 0; }
+.mind-practice__steps span { display: block; margin-bottom: 30px; font: 500 9px/1 'JetBrains Mono', monospace; color: var(--mind-grey); }
+.mind-practice__steps strong { display: block; margin-bottom: 12px; font: 800 16px/1 Inter, Arial, sans-serif; text-transform: uppercase; }
+.mind-practice__steps p { font-size: 12px; line-height: 1.65; color: var(--mind-grey); }
+.mind-practice__skills { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 28px; }
+.mind-practice__skills span { padding: 7px 10px; border: 1px solid #111; font: 800 9px/1 'JetBrains Mono', monospace; text-transform: uppercase; }
 .mind-about h2 { margin: 28px 0 36px; }
 .mind-about__story { position: relative; }
 .mind-about__story img {
@@ -435,6 +448,12 @@ body.theme-mind { background: #fafaf8; color: #101010; }
   .mind-continuation > p { font-size: 55px; margin-top: 35px; }
   .mind-continuation > .mind-link { font-size: 10px !important; }
   .mind-about { grid-template-columns: 1fr; gap: 45px; padding-top: 50px; padding-bottom: 80px; }
+  .mind-practice { padding-top: 45px; padding-bottom: 65px; }
+  .mind-practice__heading { grid-template-columns: 1fr; gap: 24px; padding: 30px 0 40px; }
+  .mind-practice__heading h2 { font-size: 70px; }
+  .mind-practice__steps { grid-template-columns: 1fr 1fr; }
+  .mind-practice__steps li:nth-child(2) { border-right: 0; }
+  .mind-practice__steps li:nth-child(-n+2) { border-bottom: 1.5px solid #111; }
   .mind-about h2 { font-size: 85px; margin-top: 30px; }
   .mind-about .mind-note { margin-left: 25px; }
   .mind-about__story img { width: 160px; height: 185px; margin-bottom: 30px; }

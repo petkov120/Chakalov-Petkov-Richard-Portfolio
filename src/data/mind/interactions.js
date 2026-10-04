@@ -35,14 +35,13 @@ export const interactionProjects = [
     category: 'Personal project / Product exploration', posterScreen: 'portfolio', screens: investmentScreens,
     summary: 'From noticing a change to understanding it. A study in making one investment decision feel clear.',
     note: 'Clarity before\ncommitment.',
-    progress: 'This is an early flow study. The current preview shows the sequence and its intent; the detailed interface is still being developed.',
     story: [
       { title: 'Begin with understanding.', focal: 'understand', screen: 'asset-detail', body: 'The flow starts with a person noticing a change in their portfolio. Before asking them to act, it should help them understand their position and why a selected asset’s performance changed.' },
-      { title: 'Make the decision legible.', focal: 'before committing', screen: 'review', body: 'The next steps separate choosing an amount from reviewing it. The intended review brings the asset, amount, fee, and resulting position together, so the person can check the decision before committing.' },
-      { title: 'End with what changed.', focal: 'what changed', screen: 'confirmed', body: 'Confirmation should explain the result, not simply announce success. These five screens currently establish the interaction story. The visual design and detailed controls are the next part of the exploration.' },
+      { title: 'Make the decision legible.', focal: 'before committing', screen: 'review', body: 'Choosing an amount stays separate from reviewing it. The review brings the asset, amount, fee, and resulting position together, so the person can check the decision before committing.' },
+      { title: 'End with what changed.', focal: 'what changed', screen: 'confirmed', body: 'Confirmation explains the result: the new share count, when the shares settle, and the cash that remains.' },
     ],
     principles: ['Understanding before action.', 'A distinct moment to review.', 'Confirmation with meaning.'],
-    steps: investmentScreens.map(screen => ({ screen: screen.id, duration: 2400 })),
+    steps: investmentScreens.map(screen => ({ screen: screen.id, duration: screen.id === 'welcome' ? 3400 : 2400 })),
   },
   {
     id: 'notepad', project: 'Notepad', title: 'Catch the thought.', name: 'Notepad',

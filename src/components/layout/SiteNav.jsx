@@ -51,7 +51,7 @@ export default function SiteNav({
   const itemShape = theme === 'mind' ? 'shrink-0 px-2.5 sm:px-3 py-1.5' : 'shrink-0 rounded-full px-2.5 sm:px-3 py-1.5'
 
   const navItems = [
-    { label: 'Home', short: 'Home', href: '/', key: 'home' },
+    { label: 'Home', short: 'Home', href: '/#work', key: 'home' },
     { label: 'Work', short: 'Work', href: '/work', key: 'work' },
     { label: 'About', short: 'About', href: '/about', key: 'about' },
   ]
@@ -62,6 +62,14 @@ export default function SiteNav({
         href="/"
         className={`site-nav__brand flex items-center gap-2.5 display text-base md:text-lg leading-none shrink-0 transition-colors ${palette.home}`}
         aria-label="Petkov Chakalov, home"
+        onClick={(event) => {
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return
+          const path = location.pathname.replace(/\/$/, '') || '/'
+          if (path !== '/') return
+          event.preventDefault()
+          if (location.hash) history.pushState(null, '', '/')
+          window.dispatchEvent(new HashChangeEvent('hashchange'))
+        }}
       >
         {theme === 'mind' ? (
           <span className="site-nav__monogram" aria-hidden="true">P.</span>

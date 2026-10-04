@@ -11,7 +11,7 @@ export default function ProfileCard({ author = authors.tola, onDismiss }) {
       <p className="x-context">⌖ Lagos, Nigeria&nbsp;&nbsp;·&nbsp;&nbsp;Joined 2021</p>
       <div className="x-follow-count"><strong>486</strong> Following <strong>8.7K</strong> Followers</div>
       <div className="x-mutual"><Avatar tone="blue" initials="NO" /><span>Followed by Nia and 4 others</span></div>
-      <div className="x-profile-card__actions"><button type="button" onClick={onDismiss}>Back to feed</button><button type="button">Follow</button></div>
+      <div className="x-profile-card__actions"><button className="is-live" type="button" onClick={onDismiss}>Back to feed</button><button type="button">Follow</button></div>
     </div>
   )
 }

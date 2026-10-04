@@ -13,7 +13,7 @@ import './social.css'
 
 const SPLASH_MS = 720
 
-export default function SocialUI({ screen, onScreenChange = () => {} }) {
+export default function SocialUI({ screen, onScreenChange = () => {}, live = false }) {
   const isSplash = screen === 'splash'
   const isProfile = screen === 'profile-peek'
   const isCompose = screen === 'compose' || screen === 'compose-ready'
@@ -46,7 +46,8 @@ export default function SocialUI({ screen, onScreenChange = () => {} }) {
         ) : (
           <Feed
             published={screen === 'published'}
-            resetView={screen === 'feed'}
+            demo={!live}
+            resetView={screen === 'feed' && !live}
             onCompose={() => onScreenChange('compose')}
             onMenu={() => onScreenChange('account-menu')}
             onProfile={(author) => {

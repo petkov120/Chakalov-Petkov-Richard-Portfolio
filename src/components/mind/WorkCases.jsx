@@ -2,7 +2,7 @@ import { Annotation, Highlight } from './Marks'
 import CaseStudyIDE from './CaseStudyIDE'
 import { workCases } from '../../data/mind/projects'
 
-export default function WorkCases() {
+export default function WorkCases({ onOpenClinify }) {
   return (
     <section id="cases" className="mind-works mind-section" aria-labelledby="mind-works-title">
       <div className="mind-section__meta">
@@ -14,7 +14,7 @@ export default function WorkCases() {
         <h2 id="mind-works-title">The <Highlight>work</Highlight></h2>
         <Annotation>not a product page.<br />the actual studies.</Annotation>
       </div>
-      <CaseStudyIDE items={workCases} />
+      <CaseStudyIDE items={workCases} onOpenItem={(item) => { if (item.id !== 'clinify') return false; onOpenClinify?.(); return true }} />
     </section>
   )
 }

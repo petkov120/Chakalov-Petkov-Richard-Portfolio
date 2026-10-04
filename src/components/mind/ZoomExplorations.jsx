@@ -12,7 +12,7 @@ function PlayingPhone({ item, playing, replayToken, onReplay, onOpen, index }) {
     return () => observer.disconnect()
   }, [])
   return <li ref={root} className="mind-rail__item" data-study={item.id} data-playing={playing} aria-label={`${index + 1}. ${item.title}`}>
-    <a className="mind-rail__open" href={item.href} aria-label={`Explore ${item.name}`} onClick={event => {
+    <a className="mind-rail__open" href={item.href} aria-label={`Open the ${item.name} prototype`} onClick={event => {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
       if (onOpen) { event.preventDefault(); onOpen(item, event.currentTarget) }
     }}>
@@ -20,7 +20,7 @@ function PlayingPhone({ item, playing, replayToken, onReplay, onOpen, index }) {
       {near && <Suspense fallback={<div className="mind-rail__placeholder">{item.title}</div>}><StudioInteractionPreview item={item} playing={playing} replayToken={replayToken} /></Suspense>}
       {!near && <div className="mind-rail__placeholder">{item.title}</div>}
     </MindPhone>
-    <span className="mind-rail__open-hint" aria-hidden="true">Explore project ↗</span></a>
+    <span className="mind-rail__open-hint" aria-hidden="true">Open prototype ↗</span></a>
     <div className="mind-rail__caption"><div><span className="mind-label">{String(index + 1).padStart(2, '0')} / {item.project}</span><h3>{item.name}</h3></div><button type="button" onClick={onReplay} aria-label={`Replay ${item.title}`} title={`Replay ${item.title}`}><span aria-hidden="true">↻</span></button></div>
   </li>
 }

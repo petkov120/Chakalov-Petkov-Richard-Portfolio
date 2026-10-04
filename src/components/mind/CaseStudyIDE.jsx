@@ -1,68 +1,51 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import './case-study-ide.css'
 
-const GROUPS = ['Live Work', 'Side Projects']
+const FILTERS = [
+  { id: 'live', label: 'Live', origin: 'Live Work' },
+  { id: 'side', label: 'Side project', origin: 'Side Projects' },
+]
 
-export default function CaseStudyIDE({ items }) {
-  const [activeId, setActiveId] = useState(items[0]?.id)
-  const active = items.find(item => item.id === activeId) ?? items[0]
-  const groups = GROUPS.map(label => ({ label, items: items.filter(item => item.origin === label) })).filter(group => group.items.length)
-
-  if (!active) return null
+export default function CaseStudyIDE({ items, onOpenItem }) {
+  const [activeFilter, setActiveFilter] = useState('live')
+  const active = FILTERS.find(filter => filter.id === activeFilter) ?? FILTERS[0]
+  const visibleItems = useMemo(() => items.filter(item => item.origin === active.origin), [items, active.origin])
 
   return (
-    <div className="mind-ide">
-      <div className="mind-ide__titlebar">
-        <div className="mind-ide__dots" aria-hidden="true"><i /><i /><i /></div>
-        <p className="mind-ide__title">case-studies.tsx — Petkov Chakalov</p>
-        <div className="mind-ide__titlebar-spacer" aria-hidden="true" />
+    <div className="mind-work-gallery">
+      <div className="mind-work-gallery__filters" role="tablist" aria-label="Filter work">
+        {FILTERS.map(filter => {
+          const count = items.filter(item => item.origin === filter.origin).length
+          return (
+            <button
+              key={filter.id}
+              type="button"
+              role="tab"
+              aria-selected={activeFilter === filter.id}
+              className="mind-work-gallery__filter"
+              onClick={() => setActiveFilter(filter.id)}
+            >
+              <span>{filter.label}</span>
+              <em>{count}</em>
+            </button>
+          )
+        })}
       </div>
-      <div className="mind-ide__body">
-        <nav className="mind-ide__sidebar" aria-label="Case studies">
-          <p className="mind-ide__sidebar-label">Explorer</p>
-          {groups.map(group => (
-            <div className="mind-ide__group" key={group.label}>
-              <p className="mind-ide__group-label"><span aria-hidden="true">▾</span>{group.label}</p>
-              <ul>
-                {group.items.map(item => (
-                  <li key={item.id}>
-                    <button type="button" className="mind-ide__file" aria-current={item.id === active.id ? 'true' : undefined} onClick={() => setActiveId(item.id)}>
-                      <span className={`mind-ide__dot mind-ide__dot--${item.id}`} aria-hidden="true" />
-                      <span>{item.name}.tsx</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </nav>
-        <div className="mind-ide__main">
-          <div className="mind-ide__tabs" role="tablist" aria-label="Open case studies">
-            {items.map(item => (
-              <button key={item.id} type="button" role="tab" aria-selected={item.id === active.id} className="mind-ide__tab" onClick={() => setActiveId(item.id)}>
-                <span className={`mind-ide__dot mind-ide__dot--${item.id}`} aria-hidden="true" />
-                <span>{item.name}.tsx</span>
-              </button>
-            ))}
-          </div>
-          <div className="mind-ide__pane">
-            <a className="mind-ide__preview" href={active.href} aria-label={`Open the ${active.name} case study`}>
-              <span className="mind-ide__preview-chrome" aria-hidden="true"><i /><i /><i /><em>petkov.dev/{active.id}</em></span>
-              <span className="mind-ide__preview-stage"><img src={active.src} alt={active.alt} loading="lazy" decoding="async" /></span>
-            </a>
-            <div className="mind-ide__meta">
-              <p className="mind-ide__comment">// {active.field}</p>
-              <h3>{active.name}</h3>
-              <p>{active.blurb}</p>
-              <a className="mind-link" href={active.href}>Open case study <span aria-hidden="true">↗</span></a>
-            </div>
-          </div>
-          <div className="mind-ide__statusbar">
-            <span>{active.origin}</span>
-            <span className="mind-ide__statusbar-mid">main</span>
-            <span>TSX · UTF-8</span>
-          </div>
-        </div>
+
+      <div className="mind-work-gallery__grid">
+        {visibleItems.map(item => (
+          <a key={item.id} className={'mind-work-card mind-work-card--' + item.id} href={item.href} aria-label={'Open the ' + item.name + ' case study'} onClick={(event) => { if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; if (onOpenItem?.(item)) event.preventDefault() }}>
+            <span className="mind-work-card__image">
+              <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
+            </span>
+            <span className="mind-work-card__body">
+              <span className="mind-work-card__kicker">{item.origin === 'Live Work' ? 'Live' : 'Side project'} · {item.field}</span>
+              <strong>{item.name}</strong>
+              <span>{item.blurb}</span>
+              {item.proof ? <span className="mind-work-card__proof">{item.proof}</span> : null}
+            </span>
+          </a>
+        ))}
       </div>
     </div>
   )

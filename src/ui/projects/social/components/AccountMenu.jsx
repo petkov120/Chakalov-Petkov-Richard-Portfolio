@@ -45,6 +45,7 @@ export default function AccountMenu({ onDismiss, onCreatorStudio }) {
             <button
               key={item.id}
               type="button"
+              className={item.id === 'studio' ? 'is-live' : undefined}
               onClick={item.id === 'studio' ? onCreatorStudio : undefined}
             >
               <Glyph path={MENU_ICONS[item.id]} />
