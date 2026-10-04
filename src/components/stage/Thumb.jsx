@@ -1,4 +1,5 @@
 import './thumb.css'
+import VideoThumb from './VideoThumb'
 
 /**
  * One thumbnail style for the gallery and the Work page.
@@ -6,7 +7,8 @@ import './thumb.css'
  *   with a second screen peeking out behind it. Nothing is cropped mid-sentence.
  * - "cover": a photograph that is meant to fill the frame.
  */
-export default function Thumb({ thumb, alt, accent }) {
+export default function Thumb({ thumb, alt, accent, playing }) {
+  if (thumb.mode === 'video') return <VideoThumb thumb={thumb} alt={alt} playing={playing}/>
   if (thumb.mode === 'cover') {
     return <span className="thumb thumb--cover"><img src={thumb.main} alt={alt} style={{ '--from': thumb.from, '--to': thumb.to }} decoding="async" draggable="false" /></span>
   }

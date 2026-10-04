@@ -53,13 +53,13 @@ function CarSelect() {
       <div className="hg-cargrid">
         {cars.map(car => (
           <div key={car.name} className={`hg-gcard${car === picked ? ' is-on' : ''}`} style={{ '--tint': car.color }}>
-            <b>{car.rating}</b><CarArt type={car.type} color={car.color} /><strong>{car.name}</strong><small>{car.cls}</small>
+            <b>{car.rating}</b><CarArt car={car} /><strong>{car.name}</strong><small>{car.cls}</small>
           </div>
         ))}
       </div>
       <aside className="hg-panel hg-panel--pick">
         <small>{picked.cls}</small><h3>{picked.name}</h3>
-        <div className="hg-pick__art" style={{ '--tint': picked.color }}><CarArt type={picked.type} color={picked.color} /></div>
+        <div className="hg-pick__art" style={{ '--tint': picked.color }}><CarArt car={picked} /></div>
         <ul className="hg-bars"><Bar label="Top speed" value={picked.stats[0]} /><Bar label="Accel" value={picked.stats[1]} /><Bar label="Handling" value={picked.stats[2]} /><Bar label="Boost" value={picked.stats[3]} /></ul>
         <button type="button" className="hg-action">Select car</button>
       </aside>
@@ -81,7 +81,7 @@ function Cars() {
         <div className="hg-tags"><span>Engine III</span><span>Turbo II</span><span>Tyres — Slick</span><span>Livery — Ember</span></div>
         <button type="button" className="hg-action">Select car</button>
       </aside>
-      <div className="hg-strip">{list.map((car, i) => <div key={car.name} className={`hg-chip${i === 0 ? ' is-on' : ''}`}><CarArt type={car.type} color={car.color} /><span>{car.name}</span></div>)}</div>
+      <div className="hg-strip">{list.map((car, i) => <div key={car.name} className={`hg-chip${i === 0 ? ' is-on' : ''}`} style={{ '--car-color': car.color }}><CarArt car={car} /><span>{car.name}</span></div>)}</div>
       <Prompts items={[['A', 'Select'], ['B', 'Back'], ['Y', 'Tune']]} />
     </>
   )

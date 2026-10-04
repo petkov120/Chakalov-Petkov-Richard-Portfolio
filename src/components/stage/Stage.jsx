@@ -83,7 +83,7 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
             </li>
           : <li key={entry.key} className="stage__item stage__item--tile" data-key={entry.key} data-focus={focused} style={{ '--i': index }}>
               <a className="stage__link" href={entry.href} draggable="false" aria-label={`Open ${entry.name}: ${entry.line}`} onClick={event => activate(entry, event)} onPointerMove={tilt} onPointerLeave={untilt}>
-                <span className="stage__frame"><Thumb thumb={entry.data.thumb} alt={entry.data.alt} accent={entry.data.accent} /></span>
+                <span className="stage__frame"><Thumb thumb={entry.data.thumb} alt={entry.data.alt} accent={entry.data.accent} playing={running && focused} /></span>
               </a>
             </li>
       })}

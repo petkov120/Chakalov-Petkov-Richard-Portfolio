@@ -17,7 +17,7 @@ const fromPrototype = item => ({
 const fromCase = item => ({
   key: item.id, type: 'tile', group: item.origin === 'Live Work' ? 'live' : 'side', data: item,
   kind: item.origin === 'Live Work' ? 'Live work' : 'Side project', name: item.name, line: item.blurb, note: item.proof,
-  accent: item.accent, cta: 'View case study', href: item.href,
+  accent: item.accent, cta: item.cta ?? 'View case study', href: item.href,
 })
 
 export function buildWall(prototypes, cases) {
