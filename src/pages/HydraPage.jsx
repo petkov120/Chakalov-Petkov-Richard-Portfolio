@@ -10,7 +10,7 @@ import '../components/hydra/hydra.css'
 export default function HydraPage() {
   return (
     <div className="mind-site">
-      <div className="mind-interior">
+      <div className="mind-interior" style={{ '--accent': '#ff3b3b' }}>
         <SiteNav theme="mind" current="work" />
         <header className="hp-intro hp-intro--race">
           <span className="mind-label">Hydra Motorsport / 2026</span>

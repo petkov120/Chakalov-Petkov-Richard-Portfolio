@@ -38,6 +38,31 @@
   .hrd-hud { padding: .65rem .75rem; }
 }
 
+/* ---------- embedded product demo ---------- */
+.kb-demo { display: grid; gap: 1rem; }
+.kb-demo header { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: .65rem 1rem; }
+.kb-demo header small { font: 500 .6875rem/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.kb-demo header h2 { font: 600 clamp(1.65rem, 3.2vw, 3rem)/1 var(--font-ui); letter-spacing: -.04em; }
+.kb-demo header p { grid-column: 2; max-width: 43rem; font-size: .9375rem; line-height: 1.55; color: #b4b4bb; }
+.kb-demo header a { grid-column: 3; grid-row: 1 / span 2; align-self: center; display: inline-flex; align-items: center; gap: .45rem; min-height: 2.5rem; padding: 0 .9rem; border: 1px solid #34343b; border-radius: 999px; background: rgb(255 255 255 / .045); color: #f4f4f5; font: 600 .75rem/1 var(--font-ui); text-decoration: none; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
+.kb-demo header a:hover { transform: translateY(-1px); border-color: rgb(255 255 255 / .28); background: rgb(255 255 255 / .09); }
+.kb-demo__shell { position: relative; overflow: hidden; border-radius: .875rem; border: 1px solid #2a2a30; background: #07080b; box-shadow: 0 40px 100px rgb(0 0 0 / .6); }
+.kb-demo__bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 3rem; padding: 0 1rem; border-bottom: 1px solid #27272e; background: linear-gradient(180deg, #17181d, #0d0e12); color: #f8f8f8; }
+.kb-demo__bar span { display: inline-flex; align-items: center; gap: .45rem; font: 700 .75rem/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+.kb-demo__bar i { font: normal 500 .6875rem/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: #8f9098; }
+.kb-demo iframe { display: block; width: 100%; height: min(78vh, 860px); min-height: 640px; border: 0; background: #fff; }
+@media (max-width: 860px) {
+  .kb-demo header { grid-template-columns: 1fr; }
+  .kb-demo header p, .kb-demo header a { grid-column: auto; grid-row: auto; }
+  .kb-demo header a { justify-self: start; }
+  .kb-demo iframe { height: 760px; min-height: 620px; }
+}
+@media (max-width: 560px) {
+  .kb-demo__bar { padding: 0 .75rem; }
+  .kb-demo__bar i { display: none; }
+  .kb-demo iframe { height: 700px; min-height: 560px; }
+}
+
 /* ---------- artboard: everything below is drawn at 1920 × 1080 and scaled ---------- */
 .hgd-artboard { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: .875rem; background: #000; border: 1px solid #2a2a30; box-shadow: 0 40px 100px rgb(0 0 0 / .6); }
 .hgd-board { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden; color: #fff; font: 400 26px/1.35 'Open Sans', Inter, system-ui, sans-serif; }

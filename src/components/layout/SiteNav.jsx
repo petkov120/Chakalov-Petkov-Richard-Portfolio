@@ -71,18 +71,7 @@ export default function SiteNav({
           window.dispatchEvent(new HashChangeEvent('hashchange'))
         }}
       >
-        {theme === 'mind' ? (
-          <span className="site-nav__monogram" aria-hidden="true">P.</span>
-        ) : (
-          <img
-            src="/images/weaver-mark.svg"
-            width="32"
-            height="32"
-            className="size-8 shrink-0"
-            alt=""
-            aria-hidden="true"
-          />
-        )}
+        <span className="site-nav__monogram" aria-hidden="true">P.</span>
         <span className="hidden md:inline" aria-hidden="true">Petkov Chakalov</span>
       </a>
 

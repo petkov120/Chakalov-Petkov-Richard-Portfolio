@@ -1,0 +1,56 @@
+.ef-training { color: #fff; font-family: Inter, system-ui, sans-serif; letter-spacing: 0; }
+.ef-training__title { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 18px; }
+.ef-training__title small { font: 700 11px/1 var(--font-mono); color: #d7ff42; }
+.ef-training__title h2 { margin: 7px 0 0; font: 700 27px/1.15 var(--font-ui); letter-spacing: 0; }
+.ef-training__title > span { display: flex; align-items: center; gap: 7px; font-size: 11px; color: #aaa; }
+.ef-training__title i { width: 5px; height: 5px; background: #d7ff42; border-radius: 50%; }
+.ef-training__stage { position: relative; height: 680px; min-height: 420px; max-height: 80svh; overflow: hidden; background: #26392b; outline: none; isolation: isolate; touch-action: none; }
+.ef-training__stage:focus-visible { outline: 2px solid #d7ff42; outline-offset: 3px; }
+.ef-training__mount, .ef-training canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.ef-training__hud { position: absolute; left: 22px; top: 20px; display: flex; background: rgb(20 29 26 / 86%); border-left: 3px solid #d7ff42; padding: 12px 18px; gap: 28px; pointer-events: none; }
+.ef-training__hud span { display: grid; gap: 5px; min-width: 40px; font: 600 10px/1 var(--font-mono); text-transform: uppercase; color: #b4c1b8; }
+.ef-training__hud strong { color: #fff; font: 700 30px/1 var(--font-ui); font-variant-numeric: tabular-nums; }
+.ef-training__tools { position: absolute; right: 20px; top: 20px; display: flex; gap: 8px; }
+.ef-training button { position: relative; display: inline-flex; justify-content: center; align-items: center; gap: 8px; width: 40px; height: 40px; padding: 0; border: 1px solid rgb(255 255 255 / 24%); border-radius: 4px; background: rgb(20 29 26 / 86%); color: #fff; cursor: pointer; font: 600 12px/1 Inter, system-ui, sans-serif; touch-action: manipulation; }
+.ef-training button:hover { background: #35443b; }
+.ef-training button:focus-visible { outline: 2px solid #d7ff42; outline-offset: 3px; }
+.ef-training button:disabled { opacity: .5; cursor: wait; }
+.ef-training button[aria-pressed="true"] { color: #d7ff42; border-color: #d7ff42; }
+.ef-training [data-tooltip]::after { content: attr(data-tooltip); position: absolute; top: calc(100% + 8px); right: 0; padding: 8px 10px; width: max-content; max-width: 160px; white-space: normal; background: #19241d; color: #fff; font-size: 11px; line-height: 1.3; opacity: 0; visibility: hidden; pointer-events: none; }
+.ef-training [data-tooltip]:hover::after, .ef-training [data-tooltip]:focus-visible::after { opacity: 1; visibility: visible; }
+.ef-training__player { position: absolute; bottom: 25px; left: 22px; display: flex; align-items: center; gap: 11px; padding: 10px 16px 10px 12px; background: rgb(20 29 26 / 86%); border-left: 3px solid #e44263; pointer-events: none; }
+.ef-training__player > span { font: 700 29px/1 var(--font-ui); color: #e4ef9c; }
+.ef-training__player > div { display: grid; gap: 5px; }
+.ef-training__player strong { font-size: 12px; }
+.ef-training__player small { font: 500 9px/1 var(--font-mono); color: #c5cec6; }
+.ef-training__status { position: absolute; bottom: 39px; right: 23px; color: #fff; font: 700 11px/1 var(--font-mono); text-shadow: 0 1px 5px #152319; pointer-events: none; }
+.ef-training__power { position: absolute; right: 22px; bottom: 24px; width: 112px; height: 4px; background: rgb(15 32 24 / 48%); pointer-events: none; }
+.ef-training__power > span { display: block; width: 100%; height: 100%; background: #dcf393; transform-origin: left; transition: transform 100ms linear; }
+.ef-training__stick { display: none; position: absolute; bottom: 104px; left: 25px; width: 92px; height: 92px; border: 1px solid rgb(255 255 255 / 42%); border-radius: 50%; background: rgb(15 32 24 / 18%); pointer-events: none; }
+.ef-training__stick > span { position: absolute; width: 34px; height: 34px; left: 28px; top: 28px; border: 1px solid rgb(255 255 255 / 60%); border-radius: 50%; background: rgb(255 255 255 / 25%); }
+.ef-training__stick.is-active { display: block; border-color: #d7ff42; }
+.ef-training__goal { position: absolute; top: 25%; left: 0; right: 0; text-align: center; font: 800 64px/1 var(--font-ui); color: #f1ffb1; text-shadow: 0 3px 12px #193127; pointer-events: none; }
+.ef-training__loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; background: #26392b; font-size: 13px; }
+.ef-training__loading > svg { animation: ef-spin 1s linear infinite; color: #d7ff42; }
+.ef-training__loading button { width: auto; padding: 0 15px; }
+@keyframes ef-spin { to { transform: rotate(360deg); } }
+@media (pointer: coarse) { .ef-training__stick { display: block; } }
+@media (max-width: 680px) {
+  .ef-training__title h2 { font-size: 23px; }
+  .ef-training__title > span { font-size: 10px; }
+  .ef-training__stage { height: 620px; min-height: 400px; max-height: 78svh; }
+  .ef-training__hud { top: 12px; left: 12px; padding: 11px 13px; gap: 19px; }
+  .ef-training__hud strong { font-size: 26px; }
+  .ef-training__tools { right: 12px; top: 12px; gap: 6px; }
+  .ef-training__player { left: 12px; bottom: 16px; gap: 8px; padding: 9px 11px; }
+  .ef-training__status { right: 12px; bottom: 34px; font-size: 10px; }
+  .ef-training__power { right: 12px; bottom: 20px; width: 88px; }
+  .ef-training__stick { left: 17px; bottom: 95px; }
+}
+@media (prefers-reduced-motion: reduce) { .ef-training__loading > svg { animation: none; } }
+.ef-training__hint { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); display: none; gap: 8px; align-items: center; white-space: nowrap; font: 500 10px/1 var(--font-mono); color: #c5cec6; text-shadow: 0 1px 5px #152319; pointer-events: none; }
+.ef-training__hint kbd { padding: 4px 6px; border: 1px solid rgb(255 255 255 / 30%); border-radius: 3px; background: rgb(20 29 26 / 70%); font: inherit; color: #fff; }
+@media (hover: hover) and (pointer: fine) { .ef-training__hint { display: flex; } }
+.ef-training__stage:fullscreen { height: 100%; max-height: none; width: 100%; }
+.ef-training__stage:-webkit-full-screen { height: 100%; max-height: none; width: 100%; }
+@media (max-width: 900px) { .ef-training__hint { display: none !important; } }
