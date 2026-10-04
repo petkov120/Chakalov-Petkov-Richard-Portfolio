@@ -6,6 +6,7 @@ import VideoThumb from './VideoThumb'
  * - "window": the product, fully visible in a frame, on a gradient from the project's colour,
  *   with a second screen peeking out behind it. Nothing is cropped mid-sentence.
  * - "cover": a photograph that is meant to fill the frame.
+ * - "video": a lazy preview with project-specific labels and a still-image fallback.
  */
 export default function Thumb({ thumb, alt, accent, playing }) {
   if (thumb.mode === 'video') return <VideoThumb thumb={thumb} alt={alt} playing={playing}/>

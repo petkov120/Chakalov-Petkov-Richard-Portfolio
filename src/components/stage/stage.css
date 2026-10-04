@@ -15,17 +15,40 @@
 
 /* ---- header row ---- */
 .stage__bar { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding: 1.25rem var(--edge) .25rem; }
-.stage__name h1 { font: 600 1.375rem/1.1 var(--font-ui); letter-spacing: -.03em; }
-.stage__name p { margin-top: .25rem; }
+.stage__name h1 {
+  font: 600 1.375rem/1.1 var(--font-ui); letter-spacing: -.03em; color: #f6f6f3;
+  text-shadow: 0 1px 0 rgb(255 255 255 / .34), 0 -1px 1px rgb(0 0 0 / .85), 0 10px 16px rgb(0 0 0 / .45);
+}
+.stage__name p {
+  margin-top: .25rem;
+  text-shadow: 0 1px 0 rgb(255 255 255 / .16), 0 5px 8px rgb(0 0 0 / .4);
+}
 .stage__filters { display: flex; gap: .5rem; }
 .stage__filters button {
   display: inline-flex; align-items: center; gap: .5rem; min-height: 2.5rem; padding: 0 1rem; border-radius: 999px;
-  border: 1px solid var(--line); background: var(--surface); color: var(--text); cursor: pointer;
-  font: 500 .75rem/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; transition: background .2s;
+  border: 1px solid #3a3a40; color: var(--text); cursor: pointer;
+  background: linear-gradient(180deg, #323236 0%, #161618 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .2), inset 0 -7px 10px rgb(0 0 0 / .55), 0 6px 12px rgb(0 0 0 / .35);
+  font: 500 .75rem/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase;
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease), background .2s;
 }
-.stage__filters button:hover:not(:disabled) { background: #1d1d20; }
-.stage__filters button[aria-pressed='true'] { background: var(--text); color: var(--bg); border-color: var(--text); }
+.stage__filters button:hover:not(:disabled) {
+  background: linear-gradient(180deg, #3a3a40 0%, #1c1c20 100%);
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .28), inset 0 -7px 10px rgb(0 0 0 / .5), 0 10px 16px rgb(0 0 0 / .4);
+}
+.stage__filters button:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: inset 0 3px 6px rgb(0 0 0 / .55), inset 0 1px 0 rgb(255 255 255 / .06);
+}
+.stage__filters button[aria-pressed='true'] {
+  background: linear-gradient(180deg, #ffffff 0%, #d4d4ce 100%); color: var(--bg); border-color: #fff;
+  box-shadow: inset 0 1px 0 #fff, inset 0 -6px 10px rgb(0 0 0 / .2), 0 8px 14px rgb(0 0 0 / .38);
+}
+.stage__filters button[aria-pressed='true']:hover { background: linear-gradient(180deg, #ffffff 0%, #e4e4de 100%); }
+.stage__filters button:disabled { opacity: .4; cursor: default; box-shadow: inset 0 1px 0 rgb(255 255 255 / .06); }
 .stage__filters em { font-style: normal; font-size: .6875rem; opacity: .55; }
+.stage__filters button[aria-pressed='true'] em { opacity: .62; }
 
 /* ---- track ---- */
 .stage__track {
@@ -115,6 +138,7 @@
 @media (max-height: 699px) and (min-width: 761px) { .stage__text h3 { margin-bottom: .5rem; } .stage__line { font-size: .9375rem; } }
 @media (prefers-reduced-motion: reduce) {
   .stage__link, .stage__text, .stage__item[data-focus='true'] :is(.thumb__main, .thumb__back, .thumb--cover img) { animation: none; }
-  .stage__item, .stage__frame { transition: none; }
+  .stage__item, .stage__frame, .stage__filters button { transition: none; }
+  .stage__filters button:hover:not(:disabled), .stage__filters button:active:not(:disabled) { transform: none; }
   .stage__frame { transform: none; }
 }

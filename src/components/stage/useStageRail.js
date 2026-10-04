@@ -20,15 +20,24 @@ export default function useStageRail(rail, keys, reduced) {
   const focusRef = useRef(null)
   keysRef.current = keys
   focusRef.current = focusKey
+  const pending = useRef({ key: null, until: 0 }) // the piece a button press is already travelling to
   const behavior = reduced ? 'instant' : 'smooth'
 
   const centre = useCallback(key => {
-    rail.current?.querySelector(`[data-key="${key}"]`)?.scrollIntoView({ inline: 'center', block: 'nearest', behavior })
+    const node = rail.current
+    const item = node?.querySelector(`[data-key="${key}"]`)
+    if (!item) return
+    // Scroll the rail itself: scrollIntoView on a snap scroller is unreliable in Safari/Firefox and can also move the page.
+    const left = item.getBoundingClientRect().left - node.getBoundingClientRect().left + node.scrollLeft - (node.clientWidth - item.offsetWidth) / 2
+    const max = node.scrollWidth - node.clientWidth
+    pending.current = { key, until: performance.now() + 700 }
+    node.scrollTo({ left: Math.max(0, Math.min(max, left)), behavior })
   }, [rail, behavior])
 
   const step = useCallback(direction => {
     const list = keysRef.current
-    const at = list.indexOf(focusRef.current ?? list[0])
+    const from = pending.current.until > performance.now() ? pending.current.key : focusRef.current
+    const at = list.indexOf(from ?? list[0])
     const next = list[Math.max(0, Math.min(list.length - 1, at + direction))]
     if (next) centre(next)
   }, [centre])

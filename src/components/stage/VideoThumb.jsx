@@ -8,7 +8,7 @@ export default function VideoThumb({ thumb, alt, playing }) {
   const [reduced, setReduced] = useState(true)
   const [loaded, setLoaded] = useState(false)
   const [failed, setFailed] = useState(false)
-  const active = visible && !failed && (playing ?? (!reduced && hovered))
+  const active = visible && !failed && (playing ?? (!reduced && (hovered || thumb.autoplay !== false)))
 
   useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)')
@@ -41,15 +41,15 @@ export default function VideoThumb({ thumb, alt, playing }) {
     return () => document.removeEventListener('visibilitychange', pause)
   }, [active])
 
-  return <span className="thumb thumb--video" ref={root} data-playing={active && loaded} onPointerEnter={() => setHovered(true)} onPointerLeave={() => setHovered(false)}>
+  return <span className="thumb thumb--video" ref={root} data-playing={active && loaded} data-presentation={thumb.presentation || 'immersive'} onPointerEnter={() => setHovered(true)} onPointerLeave={() => setHovered(false)}>
     <img className="thumb-video__poster" src={thumb.main} alt={alt} loading="lazy" decoding="async" draggable="false"/>
     <video ref={video} muted playsInline loop preload="none" aria-hidden="true" tabIndex={-1}
       onLoadedData={() => setLoaded(true)} onError={() => { setFailed(true); setLoaded(false) }}
       onTimeUpdate={() => { const el=video.current; if(progress.current)progress.current.style.transform='scaleX('+(el.duration?el.currentTime/el.duration:0)+')' }}/>
     <span className="thumb-video__shade"/>
-    <span className="thumb-video__brand">HYDRA <span>RACE</span></span>
+    <span className="thumb-video__brand">{thumb.title}<span>{thumb.category}</span></span>
     <span className="thumb-video__play" aria-hidden="true"><Play size={30} fill="currentColor" strokeWidth={1.5}/></span>
-    <span className="thumb-video__footer" aria-hidden="true"><span><Play size={14} fill="currentColor"/>Play race</span><span>Coastal Circuit <VolumeX size={15}/></span></span>
+    <span className="thumb-video__footer" aria-hidden="true"><span><Play size={14} fill="currentColor"/>{thumb.action || 'View project'}</span><span>{thumb.caption}<VolumeX size={15}/></span></span>
     <span className="thumb-video__timeline" aria-hidden="true"><i ref={progress}/></span>
   </span>
 }
