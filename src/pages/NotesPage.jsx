@@ -1,110 +1,56 @@
-import NotesMangaPanel from '../components/notes/NotesMangaPanel'
 import SiteNav from '../components/layout/SiteNav'
+import MindFooter from '../components/layout/MindFooter'
 import { notesChapters, notesFinale, notesIntro } from '../data/notes'
+import '../components/mind/home.css'
+import '../components/hydra/hydra.css'
+import './manga.css'
 
-const riseDelays = ['rise-3', 'rise-4', 'rise-5', 'rise-6', 'rise-6', 'rise-6']
+// The sound effect that opens each chapter when it has no photograph of its own.
+const sfx = { '01': 'Why?!', '02': 'Who for?', '03': 'Fuse!', '04': 'Not the goal', '05': 'Rep. Rep. Rep.', '06': 'AI ≠ story', Final: 'Still writing' }
 
-function NotesProse({ paragraphs }) {
-  return (
-    <div className="notes-page__prose">
-      {paragraphs.map((block) => {
-        const isBeat = block.type === 'beat'
-        return (
-          <p
-            key={block.text}
-            className={
-              isBeat
-                ? 'notes-page__beat display text-xl md:text-2xl leading-snug text-vault-text/92 text-pretty'
-                : 'notes-page__line text-[1.05rem] md:text-lg text-vault-muted leading-[1.75] text-pretty max-w-prose'
-            }
-          >
-            {block.text}
-          </p>
-        )
-      })}
-    </div>
-  )
+function Panels({ chapter, panel, paragraphs, extra }) {
+  const art = panel?.src
+    ? <div className="mg-panel mg-art">
+        <img src={panel.src} alt={panel.alt ?? ''} loading="lazy" decoding="async" />
+        {panel.caption && <p className="mg-narration">{panel.caption}</p>}
+      </div>
+    : <div className="mg-panel mg-sfx mg-speed"><span>{sfx[chapter]}</span></div>
+  const items = [art, ...paragraphs.map(block => block.type === 'beat'
+    ? <div className="mg-panel mg-bubble mg-tone" key={block.text}><p>{block.text}</p></div>
+    : <div className={`mg-panel mg-text${block.text.length < 90 ? ' mg-text--short' : ''}`} key={block.text}><p>{block.text}</p></div>), ...(extra ?? [])]
+  return <div className="mg-page" data-count={Math.min(7, Math.max(4, items.length))}>{items.map((node, i) => <PanelKey key={i}>{node}</PanelKey>)}</div>
 }
+const PanelKey = ({ children }) => children
 
 export default function NotesPage() {
   return (
-    <main className="theme-vault notes-page min-h-screen">
-      <div className="px-6 md:px-12 pt-12 md:pt-20 pb-24 md:pb-32 max-w-wide mx-auto">
-        <SiteNav theme="vault" current="about" />
-
-        <header className="notes-page__intro mb-14 md:mb-20 rise rise-2">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-vault-muted mb-6">
-            {notesIntro.eyebrow}
-          </p>
-          <blockquote className="notes-page__epigraph display text-[1.65rem] md:text-[2rem] italic text-vault-text/88 leading-[1.2] text-balance max-w-2xl mb-8">
-            “{notesIntro.epigraph.replace(/^"|"$/g, '')}”
-          </blockquote>
-          <p className="display text-[2rem] md:text-[2.65rem] text-vault-text leading-[1.08] text-balance max-w-2xl">
-            {notesIntro.lead}
-          </p>
-          <p className="notes-page__intro-lead mt-5 text-[1.05rem] md:text-lg text-vault-muted leading-[1.75] text-pretty max-w-prose">
-            {notesIntro.sublead}
-          </p>
+    <div className="mind-site">
+      <div className="mind-interior" style={{ '--accent': '#e5383b' }}>
+        <SiteNav theme="mind" current="about" />
+        <header className="hp-intro hp-intro--race">
+          <span className="mind-label">{notesIntro.eyebrow} / About / 2026</span>
+          <h1>This isn’t an <span>about</span> page.</h1>
+          <p>{notesIntro.sublead}</p>
         </header>
+        <main className="manga-page">
+          <div className="mg-wrap">
+        {notesChapters.map(ch => (
+          <section className="mg-chapter" key={ch.chapter} aria-labelledby={`ch-${ch.chapter}`}>
+            <div className="mg-head"><b>Ch. {ch.chapter}</b><h2 id={`ch-${ch.chapter}`}>{ch.title}</h2></div>
+            <Panels chapter={ch.chapter} panel={ch.panel} paragraphs={ch.paragraphs} />
+          </section>
+        ))}
 
-        <div className="space-y-0">
-          {notesChapters.map((ch, i) => (
-            <article
-              key={ch.chapter}
-              className={`border-t border-vault-rule py-12 md:py-[4.5rem] rise ${riseDelays[i] ?? 'rise-6'}`}
-            >
-              <div className="grid md:grid-cols-12 gap-6 md:gap-12">
-                <div className="md:col-span-2 md:pt-1">
-                  <span className="notes-page__chapter font-mono text-xs text-vault-muted">
-                    Ch. {ch.chapter}
-                  </span>
-                </div>
-                <div className="md:col-span-10 space-y-7 md:space-y-8">
-                  <h2 className="display text-[1.85rem] md:text-[2.35rem] leading-[1.1] text-balance text-vault-text">
-                    {ch.title}
-                  </h2>
-
-                  <NotesMangaPanel panel={ch.panel} />
-
-                  <NotesProse paragraphs={ch.paragraphs} />
-                </div>
-              </div>
-            </article>
-          ))}
-
-          <article className="border-t border-vault-rule py-12 md:py-[4.5rem] rise rise-6">
-            <div className="space-y-8">
-              <div className="grid md:grid-cols-12 gap-6 md:gap-12">
-                <div className="md:col-span-2 md:pt-1">
-                  <span className="notes-page__chapter font-mono text-xs text-vault-muted">
-                    {notesFinale.chapter}
-                  </span>
-                </div>
-                <div className="md:col-span-10">
-                  <h2 className="display text-[1.85rem] md:text-[2.35rem] leading-[1.1] text-balance text-vault-text">
-                    {notesFinale.title}
-                  </h2>
-                </div>
-              </div>
-
-              <NotesMangaPanel panel={notesFinale.panel} />
-
-              <div className="grid md:grid-cols-12 gap-6 md:gap-12">
-                <div className="hidden md:block md:col-span-2" aria-hidden />
-                <div className="md:col-span-10 space-y-8">
-                  <NotesProse paragraphs={notesFinale.paragraphs} />
-
-                  <blockquote className="notes-page__closing-quote">
-                    {notesFinale.quote.lines.map((line) => (
-                      <p key={line}>{line}</p>
-                    ))}
-                  </blockquote>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
+        <section className="mg-chapter mg-final" aria-labelledby="ch-final">
+          <div className="mg-head"><b>{notesFinale.chapter}</b><h2 id="ch-final">{notesFinale.title}</h2></div>
+          <Panels chapter="Final" panel={notesFinale.panel} paragraphs={notesFinale.paragraphs}
+            extra={[<blockquote className="mg-panel mg-quote" key="quote" style={{ margin: 0 }}>{notesFinale.quote.lines.map(line => <p key={line}>{line}</p>)}</blockquote>]} />
+          <p className="mg-continued">To be continued</p>
+        </section>
+          </div>
+        </main>
+        <MindFooter />
       </div>
-    </main>
+    </div>
   )
 }

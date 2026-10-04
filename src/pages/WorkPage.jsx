@@ -33,7 +33,7 @@ export default function WorkPage() {
         <section className="wk-controls" aria-label="Filter work">
           <label className="wk-search">
             <span className="sr-only">Search work</span>
-            <input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Search Clinify, UniversityX, Hydra, Kestbook" />
+            <input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Search Clinify, UniversityX, Hydra, Kestbook, eFootball" />
           </label>
           <div className="wk-filters" role="group" aria-label="Work type">
             {FILTERS.map(item => <button key={item.id} type="button" aria-pressed={filter === item.id} onClick={() => setFilter(item.id)}>{item.label}</button>)}

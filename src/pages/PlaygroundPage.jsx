@@ -72,7 +72,10 @@ export default function PlaygroundPage() {
   const [isMobileShowcase, setIsMobileShowcase] = useState(false)
   const [targetOffset, setTargetOffset] = useState(INITIAL_OFFSET)
   const [renderOffset, setRenderOffset] = useState(INITIAL_OFFSET)
-  const [activeItem, setActiveItem] = useState(null)
+  const [activeItem, setActiveItem] = useState(() => {
+    const design = new URLSearchParams(window.location.search).get('design')
+    return playgroundItems.find(item => item.id === design) ?? null
+  })
   const [lightboxOrigin, setLightboxOrigin] = useState({ x: 50, y: 50 })
   const [draggingId, setDraggingId] = useState(null)
   const [isPanning, setIsPanning] = useState(false)

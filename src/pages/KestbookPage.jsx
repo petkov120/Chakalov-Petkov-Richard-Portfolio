@@ -2,6 +2,7 @@ import SiteNav from '../components/layout/SiteNav'
 import MindFooter from '../components/layout/MindFooter'
 import ScrollReveal from '../components/motion/ScrollReveal'
 import Artboard from '../components/hydra/Artboard'
+import { ExternalLink, Play } from 'lucide-react'
 import '../components/mind/home.css'
 import '../components/hydra/hydra.css'
 
@@ -17,16 +18,48 @@ const screens = [
   { id: 'documents', file: '07-documents.png', label: 'Documents', purpose: 'Receipts, notices, and agreements, kept with the people they belong to.' },
 ]
 
+function KestbookInteractiveDemo() {
+  return (
+    <section className="kb-demo" aria-label="Kestbook interactive prototype">
+      <header>
+        <small>Interactive prototype</small>
+        <h2>Live property ledger demo</h2>
+        <p>
+          A usable Kestbook flow embedded directly into the case page, with the same hands-on
+          prototype energy as Hydra Race.
+        </p>
+        <a href="/kestbook-demo/" target="_blank" rel="noreferrer">
+          <ExternalLink size={17} />
+          Open full demo
+        </a>
+      </header>
+      <div className="kb-demo__shell">
+        <div className="kb-demo__bar">
+          <span><Play size={14} /> Kestbook demo</span>
+          <i>Local prototype</i>
+        </div>
+        <iframe
+          title="Kestbook interactive demo"
+          src="/kestbook-demo/"
+          loading="lazy"
+          allow="clipboard-write"
+        />
+      </div>
+    </section>
+  )
+}
+
 export default function KestbookPage() {
   return (
     <div className="mind-site">
-      <div className="mind-interior">
+      <div className="mind-interior" style={{ '--accent': '#c9a46c' }}>
         <SiteNav theme="mind" current="work" />
         <header className="hp-intro hp-intro--race">
           <span className="mind-label">Kestbook / Property books / 2026</span>
           <h1>Kest<span>book</span></h1>
         </header>
         <main className="hp-shots">
+          <KestbookInteractiveDemo />
           {screens.map((screen, index) => (
             <ScrollReveal as="figure" className="hp-shot" key={screen.id}>
               <Artboard label={`${screen.label}: ${screen.purpose}`}>
