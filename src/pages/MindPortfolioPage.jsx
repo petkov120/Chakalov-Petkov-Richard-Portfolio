@@ -3,13 +3,13 @@ import SiteNav from '../components/layout/SiteNav'
 import EntranceScene from '../components/mind/EntranceScene'
 import Stage from '../components/stage/Stage'
 import { Annotation, Highlight } from '../components/mind/Marks'
+import MindFooter from '../components/layout/MindFooter'
 import { useReducedMotion } from '../components/mind/motion'
 import useShowcaseRoute from '../components/mind/useShowcaseRoute'
 import { workCases, zoomExplorations } from '../data/mind/projects'
 import '../components/mind/home.css'
 
 const InteractionShowcase = lazy(() => import('../components/mind/InteractionShowcase'))
-const EMAIL = 'petkovrichard8@gmail.com'
 const SKILLS = ['Product design', 'UX systems', 'React', 'Frontend implementation', 'AI workflows', 'Healthcare operations', 'Figma']
 
 export default function MindPortfolioPage() {
@@ -68,16 +68,7 @@ export default function MindPortfolioPage() {
           </div>
         </section>
       </main>
-      <footer className="mind-footer">
-        <span className="mind-label">Good things start with a conversation.</span>
-        <a href={`mailto:${EMAIL}`}>What are you<br /><Highlight>thinking?</Highlight><span aria-hidden="true">↗</span></a>
-        <div>
-          <span>© 2026 Petkov Chakalov</span><span>Lagos, Nigeria</span>
-          <a href={`mailto:${EMAIL}`}>Email ↗</a>
-          <a href="https://github.com/petkov120" target="_blank" rel="noreferrer">GitHub ↗</a>
-          <a href={`mailto:${EMAIL}?subject=Resume%20request`}>Resume ↗</a>
-        </div>
-      </footer>
+      <MindFooter />
     </div>}
     {project && <Suspense fallback={<div className="mind-reader-loading" role="status">Opening project…</div>}>
       <InteractionShowcase item={project} projects={zoomExplorations} origin={showcase.entry?.rect} initialScreen={showcase.entry?.id === project.id ? showcase.entry.screen : undefined}

@@ -65,6 +65,9 @@
 .stage__frame img { width: 106%; height: 106%; max-width: none; margin: -3% 0 0 -3%; object-fit: cover; object-position: 0 0; pointer-events: none; transform: translate(var(--shift-x, 0), var(--shift-y, 0)); transition: transform 260ms var(--ease); }
 .stage__item[data-focus='true'] .stage__frame img { animation: stage-pan 11s ease-in-out infinite alternate; }
 @keyframes stage-pan { to { object-position: 0 100%; } }
+.stage__item[data-pan='x'] .stage__frame img { object-position: 62% 50%; }
+.stage__item[data-pan='x'][data-focus='true'] .stage__frame img { animation-name: stage-pan-x; }
+@keyframes stage-pan-x { from { object-position: 62% 50%; } to { object-position: 80% 50%; } }
 
 /* the source piece hides while its prototype overlay animates out of it */
 .mind-site[data-active-project] [data-study] .stage__link { transition: opacity .2s; }

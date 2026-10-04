@@ -7,6 +7,7 @@ import PlaygroundPage from './pages/PlaygroundPage'
 import NowPage from './pages/NowPage'
 import UIStudioPage from './pages/UIStudioPage'
 import WorkPage from './pages/WorkPage'
+import HydraPage from './pages/HydraPage'
 import GlobalContactCTA from './components/layout/GlobalContactCTA'
 import { roomThemes } from './data/investigations'
 
@@ -18,7 +19,7 @@ const routes = {
   '/interactions/social': MindPortfolioPage,
   '/interactions/investment': MindPortfolioPage,
   '/interactions/notepad': MindPortfolioPage,
-  '/interactions/hydra': MindPortfolioPage,
+  '/hydra': HydraPage,
   '/investigations': MindPortfolioPage,
   '/clinify': ClinifyPage,
   '/universityx': UniversityXPage,
@@ -64,7 +65,7 @@ export default function App() {
     const slug = pathname.slice(1)
     const room = roomThemes[slug]
 
-    if (Page === MindPortfolioPage) {
+    if (Page === MindPortfolioPage || Page === HydraPage) {
       body.classList.add('theme-mind')
     } else if (room) {
       body.classList.add(room)
@@ -80,7 +81,7 @@ export default function App() {
   return (
     <>
       <Page />
-      {Page !== MindPortfolioPage && pathname !== '/ui' && <GlobalContactCTA />}
+      {Page !== MindPortfolioPage && Page !== HydraPage && pathname !== '/ui' && <GlobalContactCTA />}
     </>
   )
 }

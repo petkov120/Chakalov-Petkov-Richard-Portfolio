@@ -1,4 +1,3 @@
-import HydraUI, { hydraScreens } from './projects/hydra/HydraUI'
 import InvestmentUI, { investmentScreens } from './projects/InvestmentUI'
 import NotepadUI, { notepadScreens } from './projects/NotepadUI'
 import SocialUI, { socialScreens } from './projects/social/SocialUI'
@@ -27,12 +26,5 @@ export const uiProjects = [
     brief: '/ui/social/brief.md',
     screens: socialScreens,
     Component: SocialUI,
-  },
-  {
-    id: 'hydra',
-    name: 'Hydra Race',
-    file: 'src/ui/projects/hydra/HydraUI.jsx',
-    screens: hydraScreens,
-    Component: HydraUI,
   },
 ]

@@ -1,0 +1,152 @@
+/* ---------- page ---------- */
+.hp-intro { padding: clamp(2.5rem, 6vw, 5rem) var(--edge) clamp(1.75rem, 3vw, 2.5rem); }
+.hp-intro .mind-label { display: block; margin-bottom: 1.25rem; }
+.hp-intro h1 { font: 600 clamp(3rem, 9vw, 8rem)/.92 var(--font-ui); letter-spacing: -.055em; }
+.hp-intro h1 span { color: var(--accent); }
+.hp-intro p { max-width: 38rem; margin-top: 1.5rem; font-size: 1.0625rem; line-height: 1.6; color: #c4c4ca; }
+.hp-meta { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.75rem; }
+.hp-meta span { padding: .4375rem .75rem; border: 1px solid var(--line); border-radius: 999px; font: 500 .625rem/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+.hp-shots { display: grid; gap: clamp(2.5rem, 6vw, 5.5rem); padding: 0 var(--edge) clamp(3rem, 7vw, 6rem); }
+.hp-shot { margin: 0; }
+.hp-shot figcaption { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: .5rem 1.25rem; padding-top: 1rem; }
+.hp-shot figcaption small { font: 500 .6875rem/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.hp-shot figcaption strong { font: 600 clamp(1.25rem, 2.2vw, 1.75rem)/1.1 var(--font-ui); letter-spacing: -.03em; }
+.hp-shot figcaption p { grid-column: 2 / -1; max-width: 40rem; font-size: .9375rem; line-height: 1.55; color: #b4b4bb; }
+.hp-shot figcaption em { font: normal 500 .625rem/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+@media (max-width: 760px) { .hp-shot figcaption { grid-template-columns: auto 1fr; } .hp-shot figcaption em { grid-column: 2; } }
+
+/* ---------- artboard: everything below is drawn at 1920 × 1080 and scaled ---------- */
+.hgd-artboard { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: .875rem; background: #000; border: 1px solid #2a2a30; box-shadow: 0 40px 100px rgb(0 0 0 / .6); }
+.hgd-board { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden; color: #fff; font: 400 26px/1.35 'Open Sans', Inter, system-ui, sans-serif; }
+.hgd-board h2, .hgd-board h3, .hgd-board p, .hgd-board ul, .hgd-board ol { margin: 0; padding: 0; list-style: none; }
+.hgd-board button { font: inherit; color: inherit; border: 0; cursor: default; }
+.hgd-board small { font-size: 22px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgb(255 255 255 / .68); }
+.hg-original { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* backdrops: the photos are cropped so their baked-in text falls outside the frame */
+.hg-bg { position: absolute; inset: 0; background-size: cover; background-position: 50% 0; transform-origin: 50% 0; }
+.hg-bg--sky { background-image: url(/images/playground/hydra-home-screen.webp); transform: scale(1.35); }
+.hg-bg--snow { background-image: url(/images/playground/hydra-onboarding-2.webp); transform: scale(1.45); }
+.hg-bg--hud { background-image: url(/images/playground/hydra-onboarding-2.webp); background-position: 50% 0; transform: scale(1.12); }
+.hg-shade { position: absolute; inset: 0; background: #05060a; }
+.hg-shade--hud { opacity: 1; background: linear-gradient(180deg, rgb(5 6 10 / .6), transparent 24%, transparent 58%, rgb(5 6 10 / .97) 78%), radial-gradient(90% 80% at 50% 45%, transparent 55%, rgb(5 6 10 / .6)); }
+
+/* shared kit */
+.hg-tabs { position: absolute; z-index: 3; top: 154px; left: 280px; display: flex; align-items: center; gap: 14px; }
+.hg-tabs > b, .hg-tabs span { display: grid; place-items: center; height: 54px; }
+.hg-tabs > b { width: 54px; border: 2px solid #fff; background: rgb(0 0 0 / .7); font-size: 26px; font-weight: 400; }
+.hg-tabs span { min-width: 212px; padding: 0 34px; background: rgb(0 0 0 / .72); font-size: 26px; text-transform: none; }
+.hg-tabs .is-on { background: #fff; color: #111; }
+.hg-prompts { position: absolute; z-index: 3; right: 150px; bottom: 64px; display: flex; gap: 30px; font-size: 28px; }
+.hg-prompts span { display: flex; align-items: center; gap: 10px; }
+.hg-prompts i { display: grid; place-items: center; width: 46px; height: 46px; border: 2px solid #fff; border-radius: 50%; font-style: normal; font-size: 26px; }
+.hg-action { display: grid; place-items: center; width: 100%; height: 86px; margin-top: 36px; background: #1b5cc7; font-size: 34px; font-weight: 600; }
+.hg-panel { position: absolute; z-index: 2; padding: 44px 48px; background: rgb(0 0 0 / .68); border: 1px solid rgb(255 255 255 / .22); }
+.hg-panel h3 { margin-bottom: 26px; font-size: 24px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: rgb(255 255 255 / .72); }
+.hg-bars li { display: grid; grid-template-columns: 220px 1fr 60px; align-items: center; gap: 22px; margin-bottom: 22px; font-size: 28px; }
+.hg-bars i, .hg-vote i { display: block; height: 14px; background: rgb(255 255 255 / .18); }
+.hg-bars b, .hg-vote b { display: block; height: 100%; background: #ff7a1a; }
+.hg-bars em, .hg-vote em { font-style: normal; font-weight: 700; text-align: right; }
+.hg-tags { display: flex; flex-wrap: wrap; gap: 14px; }
+.hg-tags span { padding: 12px 22px; border: 1px solid rgb(255 255 255 / .5); font-size: 24px; }
+
+/* single player */
+.hg-grid { position: absolute; z-index: 2; top: 270px; left: 150px; display: grid; grid-template-columns: repeat(3, 560px); gap: 36px; }
+.hg-card { position: relative; height: 280px; padding: 36px; overflow: hidden; border: 1px solid #fff; background: linear-gradient(150deg, #2b4a7a, #0e1a30); }
+.hg-card h3 { margin: 0 0 6px; font-size: 42px; font-weight: 700; text-transform: uppercase; letter-spacing: .01em; color: #fff; }
+.hg-card p { font-size: 26px; color: rgb(255 255 255 / .82); }
+.hg-card--sky { background: linear-gradient(0deg, rgb(5 6 10 / .6), transparent), url(/images/playground/hydra-home-screen.webp) 50% 30% / 150% auto; }
+.hg-card--snow { background: linear-gradient(0deg, rgb(5 6 10 / .6), transparent), url(/images/playground/hydra-onboarding-2.webp) 45% 25% / 190% auto; }
+.hg-card--dusk { background: linear-gradient(150deg, #5a2a4a, #170a1a); }
+.hg-card.is-locked { opacity: .55; }
+.hg-stars { position: absolute; left: 36px; bottom: 28px; display: flex; gap: 8px; font-size: 40px; }
+.hg-stars i { font-style: normal; color: rgb(255 255 255 / .3); }
+.hg-stars .is-on { color: #ff7a1a; }
+.hg-lock { position: absolute; left: 36px; bottom: 32px; padding: 8px 16px; border: 1px solid #fff; font-size: 22px; letter-spacing: .12em; text-transform: uppercase; }
+
+/* cars */
+.hg-showcase { position: absolute; z-index: 2; top: 270px; left: 150px; }
+.hg-showcase h2 { margin-top: 10px; font: italic 800 120px/.95 'Exo 2', Inter, sans-serif; text-transform: uppercase; text-shadow: 0 10px 50px rgb(0 0 0 / .6); }
+.hg-panel--stats { top: 250px; right: 150px; width: 600px; padding: 36px 40px; }
+.hg-panel--stats .hg-bars li { margin-bottom: 16px; }
+.hg-panel--stats .hg-action { height: 76px; margin-top: 26px; }
+.hg-panel--stats h3:nth-of-type(2) { margin-top: 36px; }
+.hg-strip { position: absolute; z-index: 2; left: 150px; bottom: 130px; display: flex; gap: 16px; }
+.hg-chip { display: flex; align-items: flex-end; width: 190px; height: 130px; padding: 18px; background: linear-gradient(150deg, #2a2d3a, #11131c); border: 1px solid rgb(255 255 255 / .35); font-size: 26px; font-weight: 600; }
+.hg-chip.is-on { border: 3px solid #fff; background: linear-gradient(150deg, #7d1220, #2a0a14); }
+
+/* lobby */
+.hg-panel--lobby { top: 250px; left: 150px; width: 1040px; }
+.hg-panel--lobby header { display: flex; align-items: baseline; gap: 30px; margin-bottom: 18px; }
+.hg-panel--lobby header h3 { margin: 0; }
+.hg-panel--lobby header span { font-size: 26px; color: rgb(255 255 255 / .72); }
+.hg-panel--lobby header em { margin-left: auto; font-style: normal; font-size: 28px; font-weight: 700; color: #ff7a1a; }
+.hg-rows li { display: grid; grid-template-columns: 50px 56px 1fr 280px 180px; align-items: center; gap: 22px; height: 64px; border-top: 1px solid rgb(255 255 255 / .16); font-size: 26px; }
+.hg-rows b { color: rgb(255 255 255 / .6); font-weight: 600; }
+.hg-rows i { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #1b5cc7; font-style: normal; font-weight: 700; }
+.hg-rows span { color: rgb(255 255 255 / .72); }
+.hg-rows em { font-style: normal; text-align: right; color: rgb(255 255 255 / .6); }
+.hg-rows .is-ready { color: #52e08a; font-weight: 700; }
+.hg-rows .is-open { opacity: .45; }
+.hg-rows .is-open i { background: transparent; border: 2px dashed #fff; }
+.hg-panel--vote { top: 250px; right: 150px; width: 520px; }
+.hg-vote { display: grid; grid-template-columns: 1fr 40px; gap: 10px 14px; margin-bottom: 24px; font-size: 28px; }
+.hg-vote i { grid-column: 1; grid-row: 2; }
+.hg-vote em { grid-column: 2; grid-row: 1 / 3; align-self: center; }
+
+/* race hud */
+.hg-hud { position: absolute; z-index: 2; display: grid; gap: 4px; }
+.hg-hud strong { font: italic 800 120px/1 'Exo 2', Inter, sans-serif; text-shadow: 0 8px 40px rgb(0 0 0 / .6); }
+.hg-hud sup { font-size: 48px; color: rgb(255 255 255 / .7); }
+.hg-hud--pos { top: 110px; left: 130px; }
+.hg-hud--lap { top: 110px; left: 50%; transform: translateX(-50%); text-align: center; }
+.hg-hud--lap strong { font-size: 76px; }
+.hg-hud--lap strong + small { margin-top: 12px; }
+.hg-minimap { position: absolute; z-index: 2; top: 100px; right: 130px; width: 220px; height: 220px; padding: 22px; background: rgb(0 0 0 / .6); border: 1px solid rgb(255 255 255 / .25); }
+.hg-nitro { position: absolute; z-index: 2; left: 90px; bottom: 90px; width: 420px; height: 150px; padding: 30px 34px; background: rgb(0 0 0 / .8); border: 1px solid rgb(255 255 255 / .25); display: grid; align-content: center; gap: 18px; }
+.hg-nitro i { display: block; height: 22px; background: rgb(255 255 255 / .18); }
+.hg-nitro b { display: block; width: 68%; height: 100%; background: linear-gradient(90deg, #ff7a1a, #ffc15a); }
+.hg-speedo { position: absolute; z-index: 2; left: 50%; bottom: 90px; width: 560px; height: 300px; transform: translateX(-50%); text-align: center; }
+.hg-speedo svg { position: absolute; inset: 0 70px auto; width: 420px; }
+.hg-speedo strong { position: absolute; inset: 70px 0 auto; font: italic 800 150px/1 'Exo 2', Inter, sans-serif; text-shadow: 0 10px 50px rgb(255 122 26 / .5); }
+.hg-speedo span { position: absolute; inset: 218px 0 auto; font: italic 700 30px/1 'Exo 2', sans-serif; color: #ff7a1a; letter-spacing: .08em; text-transform: uppercase; }
+.hg-speedo em { position: absolute; left: 0; bottom: 0; display: grid; place-items: center; width: 74px; height: 74px; border: 3px solid #fff; font: italic 800 44px/1 'Exo 2', sans-serif; }
+.hg-standings { position: absolute; z-index: 2; right: 90px; bottom: 90px; width: 400px; padding: 14px 0; background: rgb(0 0 0 / .8); border: 1px solid rgb(255 255 255 / .25); }
+.hg-standings li { display: grid; grid-template-columns: 48px 1fr auto; align-items: center; height: 64px; padding: 0 28px 0 22px; font-size: 26px; }
+.hg-standings b { color: rgb(255 255 255 / .6); font-weight: 600; }
+.hg-standings em { font-style: normal; color: rgb(255 255 255 / .7); }
+.hg-standings .is-you { background: #1b5cc7; }
+
+/* results */
+.hg-panel--board { top: 130px; left: 150px; width: 1130px; }
+.hg-panel--board header { margin-bottom: 26px; }
+.hg-panel--board h2 { margin-top: 8px; font-size: 64px; font-weight: 700; }
+.hg-table { width: 100%; border-collapse: collapse; font-size: 28px; }
+.hg-table td { height: 78px; padding: 0 14px; border-top: 1px solid rgb(255 255 255 / .16); }
+.hg-table td:first-child { width: 60px; color: rgb(255 255 255 / .6); }
+.hg-table td:nth-child(3) { color: rgb(255 255 255 / .7); }
+.hg-table td:nth-child(n+4) { text-align: right; font-variant-numeric: tabular-nums; }
+.hg-table .is-you td { background: #1b5cc7; color: #fff; }
+.hg-winner { position: absolute; z-index: 2; top: 130px; right: 150px; width: 520px; display: grid; gap: 22px; }
+.hg-pilot { height: 300px; background: url(/images/playground/hydra-onboarding-race.webp) -1503px -294px / 2131px auto no-repeat; border: 1px solid rgb(255 255 255 / .25); }
+.hg-winner strong { display: block; font: italic 800 140px/.9 'Exo 2', sans-serif; background: linear-gradient(100deg, #fff, #ff7a1a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hg-winner sup { font-size: 48px; }
+.hg-winner li { padding: 12px 0; border-top: 1px solid rgb(255 255 255 / .16); font-size: 28px; color: rgb(255 255 255 / .72); }
+.hg-winner b { color: #ff7a1a; font-size: 32px; margin-right: 8px; }
+
+/* progress */
+.hg-level { position: absolute; z-index: 2; top: 270px; left: 150px; width: 1620px; }
+.hg-level h2 { margin: 8px 0 24px; font-size: 96px; font-weight: 700; }
+.hg-level i { display: block; height: 18px; background: rgb(255 255 255 / .18); }
+.hg-level b { display: block; width: 64%; height: 100%; background: linear-gradient(90deg, #ff7a1a, #ffc15a); }
+.hg-level span { display: block; margin-top: 16px; font-size: 26px; color: rgb(255 255 255 / .72); }
+.hg-ladder { position: absolute; z-index: 2; top: 590px; left: 150px; width: 1620px; display: flex; justify-content: space-between; }
+.hg-ladder::before { content: ''; position: absolute; top: 28px; left: 28px; right: 28px; height: 4px; background: rgb(255 255 255 / .22); }
+.hg-ladder li { position: relative; display: grid; justify-items: center; gap: 16px; width: 150px; font-size: 24px; color: rgb(255 255 255 / .7); }
+.hg-ladder i { display: grid; place-items: center; width: 60px; height: 60px; border: 3px solid rgb(255 255 255 / .6); border-radius: 50%; background: #05060a; font-style: normal; font-weight: 700; }
+.hg-ladder .is-done i { background: #fff; color: #111; border-color: #fff; }
+.hg-ladder .is-now i { background: #1b5cc7; border-color: #1b5cc7; color: #fff; box-shadow: 0 0 0 10px rgb(27 92 199 / .3); }
+.hg-ladder .is-now span, .hg-ladder .is-done span { color: #fff; }
+.hg-rewards { position: absolute; z-index: 2; left: 150px; bottom: 150px; display: grid; grid-template-columns: repeat(4, 380px); gap: 36px; }
+.hg-rewards div { display: grid; gap: 8px; padding: 26px 30px; background: rgb(0 0 0 / .68); border: 1px solid rgb(255 255 255 / .3); }
+.hg-rewards strong { font-size: 36px; font-weight: 700; }

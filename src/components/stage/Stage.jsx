@@ -80,7 +80,7 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
                 </span>
               </a>
             </li>
-          : <li key={entry.key} className="stage__item stage__item--tile" data-key={entry.key} data-focus={focused} style={{ '--i': index }}>
+          : <li key={entry.key} className="stage__item stage__item--tile" data-key={entry.key} data-focus={focused} data-pan={entry.data.pan} style={{ '--i': index }}>
               <a className="stage__link" href={entry.href} draggable="false" aria-label={`Open ${entry.name}: ${entry.line}`} onClick={event => activate(entry, event)} onPointerMove={tilt} onPointerLeave={untilt}>
                 <span className="stage__frame"><img src={entry.data.src} alt={entry.data.alt} loading="lazy" decoding="async" draggable="false" /></span>
               </a>
