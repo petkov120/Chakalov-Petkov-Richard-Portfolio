@@ -195,3 +195,26 @@
 @media (min-width: 761px) and (max-width: 1100px) and (min-height: 561px) {
   .collage-art { width: min(123%, calc((100svh - 225px) * 1.08)); margin-left: auto; justify-self: end; }
 }
+
+/* The Enter button */
+.collage-enter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  min-height: 48px;
+  min-width: 148px;
+  padding: 0 18px;
+  background: var(--collage-ink);
+  color: #fff !important;
+  border: 0;
+  font: 800 11px/1 Inter, Arial, sans-serif !important;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.collage-enter span { font-size: 16px; letter-spacing: 0; }
+.collage-enter:hover, .collage-enter:focus-visible {
+  background: var(--collage-yellow);
+  color: var(--collage-ink) !important;
+}

@@ -1,67 +1,24 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import SiteNav from '../components/layout/SiteNav'
 import EntranceScene from '../components/mind/EntranceScene'
-import { InteractionReview } from '../components/mind/InteractionStudy'
-import ZoomExplorations from '../components/mind/ZoomExplorations'
+import Stage from '../components/stage/Stage'
 import { Annotation, Highlight } from '../components/mind/Marks'
 import { useReducedMotion } from '../components/mind/motion'
+import useShowcaseRoute from '../components/mind/useShowcaseRoute'
 import { workCases, zoomExplorations } from '../data/mind/projects'
-import '../components/mind/mind.css'
-import '../components/mind/interaction-rail.css'
-import '../components/mind/gallery-dark.css'
+import '../components/mind/home.css'
 
-const galleryTiles = [...workCases.filter(item => item.origin === 'Live Work'), ...workCases.filter(item => item.origin !== 'Live Work')]
 const InteractionShowcase = lazy(() => import('../components/mind/InteractionShowcase'))
 const EMAIL = 'petkovrichard8@gmail.com'
-const RESUME_MAILTO = `mailto:${EMAIL}?subject=Resume%20request`
-const readLegacyOverlay = () => location.pathname === '/interactions/card-removal' ? { kind: 'study' } : null
-
-const readOverlay = () => {
-  const project = zoomExplorations.find(item => item.href === location.pathname)
-  return project ? { kind: 'showcase', id: project.id } : readLegacyOverlay()
-}
+const SKILLS = ['Product design', 'UX systems', 'React', 'Frontend implementation', 'AI workflows', 'Healthcare operations', 'Figma']
 
 export default function MindPortfolioPage() {
   const reduced = useReducedMotion()
+  // Onboarding plays only on the bare homepage URL; any deep link goes straight in.
   const [entered, setEntered] = useState(() => location.pathname !== '/' || !!location.hash)
-  const [preparing, setPreparing] = useState(false)
-  const [overlay, setOverlay] = useState(readOverlay)
-  const [closing, setClosing] = useState(false)
-  const [showcaseEntry, setShowcaseEntry] = useState(null)
-  const returnFocus = useRef(null)
+  const [preparing, setPreparing] = useState(false) // the interior mounts under the entrance portal
   const work = useRef(null)
-  const workBg = useRef(null)
-  const currentOverlay = useRef(overlay)
-  currentOverlay.current = overlay
-  const [archive] = useState(() => location.pathname === '/interactions' || zoomExplorations.some(item => item.href === location.pathname))
-
-  useEffect(() => {
-    const node = workBg.current
-    if (!node || reduced || !entered) {
-      node?.style.setProperty('--hero-parallax', '0')
-      return undefined
-    }
-
-    let frame = 0
-    const update = () => {
-      frame = 0
-      const distance = Math.max(1, innerHeight * 1.05)
-      const progress = Math.min(1, Math.max(0, scrollY / distance))
-      node.style.setProperty('--hero-parallax', progress.toFixed(3))
-    }
-    const requestUpdate = () => {
-      if (!frame) frame = requestAnimationFrame(update)
-    }
-
-    update()
-    addEventListener('scroll', requestUpdate, { passive: true })
-    addEventListener('resize', requestUpdate)
-    return () => {
-      removeEventListener('scroll', requestUpdate)
-      removeEventListener('resize', requestUpdate)
-      cancelAnimationFrame(frame)
-    }
-  }, [entered, reduced])
+  const showcase = useShowcaseRoute(zoomExplorations)
 
   const enter = useCallback(() => {
     setEntered(true)
@@ -69,98 +26,62 @@ export default function MindPortfolioPage() {
     window.scrollTo({ top: 0, behavior: 'instant' })
     requestAnimationFrame(() => work.current?.focus({ preventScroll: true }))
   }, [])
-  useEffect(() => {
-    const showOnboard = () => {
-      const path = location.pathname.replace(/\/$/, '') || '/'
-      if (path !== '/' || location.hash) return
+
+  useEffect(() => { // the logo, from the homepage, replays the onboarding
+    const replay = () => {
+      if ((location.pathname.replace(/\/$/, '') || '/') !== '/' || location.hash) return
       setPreparing(false)
       setEntered(false)
       window.scrollTo({ top: 0, behavior: 'instant' })
     }
-    window.addEventListener('hashchange', showOnboard)
-    return () => window.removeEventListener('hashchange', showOnboard)
+    window.addEventListener('hashchange', replay)
+    return () => window.removeEventListener('hashchange', replay)
   }, [])
-  useEffect(() => {
-    const back = () => {
-      const next = readOverlay()
-      if (currentOverlay.current && !next) {
-        if (currentOverlay.current.kind === 'showcase') setClosing(true)
-        else setOverlay(null)
-      } else { setClosing(false); setOverlay(next); setEntered(true) }
-    }
-    window.addEventListener('popstate', back)
-    return () => window.removeEventListener('popstate', back)
-  }, [])
-  useEffect(() => {
-    if (overlay && overlay.kind !== 'showcase' && !history.state?.mindOverlay) requestAnimationFrame(() => document.getElementById('interactions')?.scrollIntoView({ behavior: 'instant', block: 'center' }))
-    // Direct project links open without replaying the entrance.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  const openProject = (item, trigger) => {
-    if (currentOverlay.current) return
-    returnFocus.current = trigger
-    const rect = trigger.querySelector('.mind-phone').getBoundingClientRect()
-    const screen = trigger.querySelector('.mind-studio-preview')?.dataset.screen || item.posterScreen
-    setShowcaseEntry({ id: item.id, screen, rect: { left: rect.left, top: rect.top, width: rect.width, height: rect.height } })
-    history.pushState({ mindOverlay: true, returnUrl: location.pathname + location.search + location.hash }, '', item.href)
-    setClosing(false)
-    setOverlay({ kind: 'showcase', id: item.id })
-  }
-  const changeProject = useCallback(id => {
-    const item = zoomExplorations.find(project => project.id === id)
-    if (!item) return
-    history.replaceState(history.state, '', item.href)
-    setOverlay({ kind: 'showcase', id })
-  }, [])
-  const getReturnRect = useCallback(() => {
-    const item = document.querySelector(`[data-study="${currentOverlay.current?.id}"]`)
-    const track = item?.closest('.mind-rail__track')
-    if (!item || !track) return null
-    const r = item.getBoundingClientRect(), railRect = track.getBoundingClientRect()
-    if (r.left < railRect.left || r.right > railRect.right) track.scrollLeft += r.left - railRect.left - 22
-    const result = item.querySelector('.mind-phone').getBoundingClientRect()
-    return result.bottom > 0 && result.top < innerHeight ? { left: result.left, top: result.top, width: result.width, height: result.height } : null
-  }, [])
-  const finishClose = useCallback(() => {
-    const kind = currentOverlay.current?.kind
-    const projectId = currentOverlay.current?.id
-    setOverlay(null)
-    setClosing(false)
-    requestAnimationFrame(() => {
-      const target = kind === 'showcase' ? document.querySelector(`[data-study="${projectId}"] .mind-rail__open`) : returnFocus.current?.isConnected ? returnFocus.current : document.querySelector('.mind-interaction__copy .mind-link')
-      target?.focus({ preventScroll: true })
-    })
-    if (readOverlay()) {
-      if (history.state?.mindOverlay) history.back()
-      else {
-        history.replaceState(null, '', kind === 'showcase' ? '/interactions' : '/#interactions')
-        requestAnimationFrame(() => document.getElementById('interactions')?.scrollIntoView({ behavior: 'instant', block: 'center' }))
-      }
-    }
-  }, [])
-  const closeBook = useCallback(() => setClosing(true), [])
 
-  return <div className="mind-site" data-reduced={reduced} data-active-project={overlay?.kind === 'showcase' ? overlay.id : undefined}>
+  useEffect(() => { if (showcase.id) setEntered(true) }, [showcase.id])
+
+  const project = zoomExplorations.find(item => item.id === showcase.id)
+
+  return <div className="mind-site" data-reduced={reduced} data-active-project={project?.id}>
     {!entered && <EntranceScene onEnter={enter} onPrepare={() => setPreparing(true)} reduced={reduced} />}
-    {(entered || preparing) && <div className="mind-interior" inert={!entered ? '' : undefined}>
-      <div className="mind-work-bg" ref={workBg} aria-hidden="true">
-          <img className="mind-work-bg__statue" src="/images/entrance/statue-floral-cutout.png" alt="" width="1024" height="1536" />
-      </div>
-      <a className="mind-skip" href={archive ? '#interactions' : '#interactions-preview'}>Skip to the work</a>
-      <SiteNav theme="mind" current={archive ? 'work' : 'home'} />
+    {(entered || preparing) && <div className="mind-interior" inert={entered ? undefined : ''}>
+      <div className="mind-work-bg" aria-hidden="true"><img className="mind-work-bg__statue" src="/images/entrance/statue-floral-cutout.png" alt="" width="1024" height="1536" /></div>
+      <a className="mind-skip" href="#gallery">Skip to the work</a>
+      <SiteNav theme="mind" current="home" />
       <main id="work" ref={work} tabIndex={-1}>
-        {!archive && <section id="interactions-preview" className="mind-stage" aria-label="Selected work">
-          <ZoomExplorations items={zoomExplorations} tiles={galleryTiles} reduced={reduced} suspended={!!overlay} onOpen={openProject} standalone
-            masthead={<div className="mind-stage__name"><h1>Petkov Chakalov</h1><p className="mind-label">Design engineer · Lagos</p></div>} />
-        </section>}
-        {archive && <section id="interactions" className="mind-interactions-archive" aria-labelledby="mind-archive-title"><header className="mind-section"><p className="mind-label">Interactive work</p><h1 id="mind-archive-title">Don&apos;t just look. <Highlight>Play</Highlight></h1><p>Small moments from the interfaces I’m making.</p></header><ZoomExplorations items={zoomExplorations} reduced={reduced} suspended={!!overlay} onOpen={openProject} standalone /></section>}
-        {!archive && <>
-          <section id="about" className="mind-about mind-section"><div><p className="mind-label">About</p><h2>Still<br /><Highlight>curious.</Highlight></h2><Annotation tone="pink">A builder, before anything.</Annotation></div><div className="mind-about__story"><img src="/images/notes/nigeria-childhood.png" alt="Petkov as a child, smiling on a lawn in Nigeria" loading="lazy" width="240" height="280" /><p>I’m Petkov Chakalov, a design engineer based in Lagos. I grew up around systems that fail and people who find a way through anyway.</p><p>That is still how I work. Clear questions. Thoughtful software. Products that have to hold when the stakes are real, especially in healthcare and education.</p><a className="mind-link" href="/notes">A little more about me ↗</a><p className="mind-practice__skills"><span>Product design</span><span>UX systems</span><span>React</span><span>Frontend implementation</span><span>AI workflows</span><span>Healthcare operations</span><span>Figma</span></p></div></section>
-        </>}
+        <section id="gallery" aria-label="Selected work">
+          <Stage prototypes={zoomExplorations} cases={workCases} reduced={reduced} suspended={!!project} onOpen={showcase.open}
+            masthead={<div className="stage__name"><h1>Petkov Chakalov</h1><p className="mind-label">Design engineer · Lagos</p></div>} />
+        </section>
+        <section id="about" className="mind-about mind-section">
+          <div>
+            <p className="mind-label">About</p>
+            <h2>Still<br /><Highlight>curious.</Highlight></h2>
+            <Annotation tone="pink">A builder, before anything.</Annotation>
+          </div>
+          <div className="mind-about__story">
+            <img src="/images/notes/nigeria-childhood.png" alt="Petkov as a child, smiling on a lawn in Nigeria" loading="lazy" width="240" height="280" />
+            <p>I’m Petkov Chakalov, a design engineer based in Lagos. I grew up around systems that fail and people who find a way through anyway.</p>
+            <p>That is still how I work. Clear questions. Thoughtful software. Products that have to hold when the stakes are real, especially in healthcare and education.</p>
+            <a className="mind-link" href="/notes">A little more about me ↗</a>
+            <p className="mind-skills">{SKILLS.map(skill => <span key={skill}>{skill}</span>)}</p>
+          </div>
+        </section>
       </main>
-      <footer className="mind-footer mind-section"><span className="mind-label">Good things start with a conversation.</span><a href={`mailto:${EMAIL}`}>What are you<br /><Highlight>thinking?</Highlight><span aria-hidden="true">↗</span></a><div><span>© 2026 Petkov Chakalov</span><span>Lagos, Nigeria</span><a href={`mailto:${EMAIL}`}>Email ↗</a><a href="https://github.com/petkov120" target="_blank" rel="noreferrer">GitHub ↗</a><a href={RESUME_MAILTO}>Resume ↗</a></div></footer>
+      <footer className="mind-footer">
+        <span className="mind-label">Good things start with a conversation.</span>
+        <a href={`mailto:${EMAIL}`}>What are you<br /><Highlight>thinking?</Highlight><span aria-hidden="true">↗</span></a>
+        <div>
+          <span>© 2026 Petkov Chakalov</span><span>Lagos, Nigeria</span>
+          <a href={`mailto:${EMAIL}`}>Email ↗</a>
+          <a href="https://github.com/petkov120" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a href={`mailto:${EMAIL}?subject=Resume%20request`}>Resume ↗</a>
+        </div>
+      </footer>
     </div>}
-    {overlay?.kind === 'showcase' && <Suspense fallback={<div className="mind-reader-loading" role="status">Opening project…</div>}><InteractionShowcase item={zoomExplorations.find(project => project.id === overlay.id)} projects={zoomExplorations} origin={showcaseEntry?.rect} initialScreen={showcaseEntry?.id === overlay.id ? showcaseEntry.screen : undefined} reduced={reduced} closing={closing} onClose={closeBook} onExited={finishClose} onProjectChange={changeProject} getReturnRect={getReturnRect} /></Suspense>}
-    {overlay?.kind === 'study' && <InteractionReview reduced={reduced} onClose={finishClose} />}
+    {project && <Suspense fallback={<div className="mind-reader-loading" role="status">Opening project…</div>}>
+      <InteractionShowcase item={project} projects={zoomExplorations} origin={showcase.entry?.rect} initialScreen={showcase.entry?.id === project.id ? showcase.entry.screen : undefined}
+        reduced={reduced} closing={showcase.closing} onClose={showcase.requestClose} onExited={showcase.finishClose} onProjectChange={showcase.change} getReturnRect={showcase.getReturnRect} />
+    </Suspense>}
   </div>
 }

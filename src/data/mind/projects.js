@@ -59,14 +59,3 @@ export const workCases = [
 ]
 
 export { interactionProjects as zoomExplorations } from './interactions'
-
-export const cardStudy = {
-  slug: 'card-removal', title: 'Letting go, gently.', label: 'Virtual card removal',
-  summary: 'A small interaction. A clearer decision.',
-  notes: [
-    { title: 'Core concept', body: 'Removing a card should make the result clear and leave room to change your mind. This is an interaction concept for the portfolio.' },
-    { title: 'What changes', body: 'The selected card folds away. The space settles, a confirmation appears, and Undo stays available.' },
-    { title: 'Why it works', body: 'Motion connects the action to its result. A persistent undo action gives the person control without a second confirmation screen.' },
-    { title: 'Technical notes', body: 'A semantic React interface with CSS perspective and transform animation. The demonstration runs only while visible. Reduced motion keeps the same controls and feedback.' },
-  ],
-}

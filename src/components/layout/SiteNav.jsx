@@ -26,13 +26,13 @@ const themes = {
     fixedShell: 'bg-paper/92 backdrop-blur-md border-rule',
   },
   mind: {
-    home: 'text-[#101010] hover:text-black',
-    link: 'text-[#55554f] hover:text-[#101010] hover:bg-[#ffe72d]',
-    active: 'text-[#101010] border-[#101010]',
-    muted: 'text-[#55554f]',
-    rule: 'border-[#d8d8d2]',
+    home: 'text-[#f3f3f1] hover:text-white',
+    link: 'text-[#8e8e96] hover:text-[#f3f3f1] hover:bg-white/5',
+    active: 'text-[#f3f3f1] border-white/15',
+    muted: 'text-[#8e8e96]',
+    rule: 'border-white/15',
     shell: 'border-transparent',
-    fixedShell: 'bg-[#fafaf8]/92 backdrop-blur-md border-[#d8d8d2]',
+    fixedShell: 'bg-[#0b0b0c]/90 backdrop-blur-md border-white/15',
   },
 }
 
@@ -42,11 +42,11 @@ export default function SiteNav({
   fixed = false,
 }) {
   const palette = themes[theme] ?? themes.vault
-  const emailTheme = theme === 'vault' ? 'vault' : 'paper'
+  const emailTheme = theme === 'paper' ? 'paper' : 'vault'
 
   const headerClass = fixed
     ? `site-nav site-nav--${theme} site-nav--fixed fixed top-0 inset-x-0 z-50 px-4 sm:px-6 md:px-12 pt-5 sm:pt-6 md:pt-8 pb-4 md:pb-5 flex items-center justify-between gap-4 ${palette.fixedShell}`
-    : `site-nav site-nav--${theme} flex items-center justify-between gap-4 ${theme === 'mind' ? 'mb-0 pb-3' : 'pb-4 md:pb-5 mb-12 md:mb-16'}`
+    : `site-nav site-nav--${theme} flex items-center justify-between gap-4 ${theme === 'mind' ? 'mb-0' : 'pb-4 md:pb-5 mb-12 md:mb-16'}`
 
   const itemShape = theme === 'mind' ? 'shrink-0 px-2.5 sm:px-3 py-1.5' : 'shrink-0 rounded-full px-2.5 sm:px-3 py-1.5'
 
