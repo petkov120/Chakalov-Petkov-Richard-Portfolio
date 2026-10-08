@@ -76,7 +76,10 @@ export default function PrototypeCase({ item, projects, interactive, deviceRef, 
   return <div className="pcase" style={{ '--accent-c': item.accent }}>
     <img className="pcase__artifact" src="/images/prototype/reaching-hands-marble.png" alt="" aria-hidden="true" />
     <header className="pcase__bar">
-      <button type="button" className="pcase__back" onClick={onClose} aria-label="Close, back to all work"><span aria-hidden="true">←</span> <span className="pcase__back-label">All work</span></button>
+      <button type="button" className="pcase__back" onClick={onClose} aria-label="Close, back to all work">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5" /></svg>
+        <span className="pcase__back-label">All work</span>
+      </button>
       <nav className="pcase__switch" aria-label="Prototypes">
         {projects.map(project => <button key={project.id} type="button" aria-current={project.id === item.id ? 'page' : undefined} onClick={() => project.id !== item.id && onProjectChange(project.id)}>{project.name}</button>)}
       </nav>

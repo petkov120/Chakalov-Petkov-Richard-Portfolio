@@ -204,6 +204,8 @@
   .stage__rail {
     flex: none;
     height: clamp(17rem, 78vw, 21rem);
+    overflow: clip;
+    contain: paint;
   }
   .stage__track {
     height: 100%;

@@ -36,7 +36,16 @@
 }
 .pcase__bar, .pcase__layout, .pcase__mobile-cta { z-index: 1; }
 :where(.pcase) button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
-.pcase__back { display: inline-flex; gap: .5rem; padding: .5rem .25rem; border-radius: .5rem; color: var(--text); font-weight: 550; letter-spacing: -.01em; white-space: nowrap; }
+.pcase__back {
+  display: inline-flex; align-items: center; gap: .5rem; min-height: 2.5rem; padding: 0 .875rem 0 .625rem;
+  border: 1px solid #3a3a40 !important; border-radius: 999px; color: var(--text); font-weight: 550; letter-spacing: -.01em; white-space: nowrap;
+  background: linear-gradient(180deg, #343438 0%, #171719 100%) !important;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .22), inset 0 -6px 9px rgb(0 0 0 / .55), 0 6px 12px rgb(0 0 0 / .3);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.pcase__back svg { width: 1.125rem; height: 1.125rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.pcase__back:hover { background: linear-gradient(180deg, #3d3d42 0%, #1d1d20 100%) !important; }
+.pcase__back:active { transform: translateY(1px); background: linear-gradient(180deg, #1b1b1e 0%, #29292d 100%) !important; box-shadow: inset 0 3px 7px rgb(0 0 0 / .68), inset 0 1px 0 rgb(255 255 255 / .08); }
 .pcase__switch { display: flex; gap: .25rem; overflow-x: auto; scrollbar-width: none; }
 .pcase__switch button {
   flex: none; padding: .5rem .875rem; border-radius: 999px; color: var(--muted); font-size: .8125rem; font-weight: 500; letter-spacing: -.005em;
@@ -157,6 +166,7 @@
   .tap-guide[data-low='true'] .tap-guide__label { top: auto; bottom: calc(100% - var(--y) + 1.75rem); }
   .pcase::before { position: absolute; height: 100svh; background: radial-gradient(70% 45% at 50% 45%, color-mix(in srgb, var(--accent-c) 22%, transparent), transparent 72%); }
   .pcase__artifact { position: absolute; left: -24vw; top: 6.5rem; width: 148vw; max-width: none; opacity: .075; }
+  .pcase__back { width: 2.5rem; padding: 0; justify-content: center; }
   .pcase__back-label { display: none; }
   .pcase__switch button { padding: .5rem .75rem; }
   .pcase__layout { display: block; padding: 0 var(--gutter); }

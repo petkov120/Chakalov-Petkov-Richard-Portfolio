@@ -183,7 +183,25 @@
   .collage-location { flex-wrap: wrap; justify-content: flex-end; gap: 6px 10px; font-size: 7px; max-width: 168px; }
   .collage-location i { width: 20px; }
   .collage-flag { width: 22px; height: 16px; }
-  .collage-copy__stage { padding-top: 90px; }
+  .collage-layout { flex: 0 0 auto; }
+  .collage-copy__stage { width: min(88%, 23rem); margin-inline: auto; padding-top: 2.25rem; }
+  .mind-site .collage-copy h1 { width: fit-content; margin-inline: auto; font-size: clamp(3.5rem, 15vw, 4.5rem); text-align: center; }
+  .collage-mind { margin-left: .35rem; }
+
+  /* Keep the phone intro calm: one centered headline and a smaller interactive collage. */
+  .collage-ideas, .collage-loop { display: none; }
+  .collage-art { width: min(82vw, 22rem); margin: .25rem auto .5rem; }
+  .collage-tool { width: 3rem; }
+  .collage-tool--figma { left: 12%; top: 2%; }
+  .collage-tool--vscode { right: 3%; top: 4%; }
+  .collage-tool--cursor { right: 2%; top: 48%; }
+  .collage-pointer { left: 6%; width: 6.5rem; }
+  .collage-same { width: 5.75rem; left: -2%; }
+  .collage-solver { width: 5.25rem; left: 74%; }
+  .collage-loading { width: 8.75rem; right: 5%; }
+  .collage-invitation { width: min(20rem, 100%); margin: .75rem auto 0; }
+  .collage-invitation p { width: fit-content; margin-inline: auto; font-size: .75rem; line-height: 1.45; text-align: left; }
+  .collage-footer { min-height: 2rem; margin-top: .75rem; }
 }
 
 /* Fit the scene to the viewport height so the computer, Enter button and footer are never cropped.

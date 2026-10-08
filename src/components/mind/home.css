@@ -98,6 +98,11 @@ body.theme-mind:has(.mind-interior) { background: #0b0b0c; }
 .site-nav--mind .site-nav__contact :is(a, button):hover { background: none; color: var(--text); }
 @media (max-width: 760px) { .site-nav--mind { padding: 0 var(--gutter); } }
 @media (max-width: 767px) {
+  .mind-interior > .site-nav--mind {
+    z-index: 50;
+    isolation: isolate;
+    background: #0b0b0c;
+  }
   .site-nav--mind .site-nav__toggle {
     width: 2.5rem;
     height: 2.5rem;
