@@ -135,11 +135,13 @@ export default function EntranceScene({ onEnter, onPrepare, reduced }) {
       </header>
       <div className="collage-layout">
         <div className="collage-copy">
-          <FloatingNote {...noteProps} name="ideas note" className="collage-ideas"><span className="collage-note collage-note--yellow">Ideas<br />experiments<br />thoughts<br />in progress…<span className="collage-underline" /></span></FloatingNote>
-          <svg className="collage-loop" viewBox="0 0 150 140" fill="none" aria-hidden="true"><path d="M8 25C45-2 102 22 86 61S49 51 86 44s51 51 36 77m-9-19 9 21 17-15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
-          <h1 id="entrance-title">Welcome<br />to my<br /><span className="collage-mind"><em>mind</em><svg viewBox="0 0 400 46" aria-hidden="true"><path d="M12 24Q180 2 378 9Q210 16 160 34Q310 17 376 29" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" /></svg></span></h1>
+          <div className="collage-copy__stage">
+            <FloatingNote {...noteProps} name="ideas note" className="collage-ideas"><span className="collage-note collage-note--yellow">Ideas<br />experiments<br />thoughts<br />in progress…<span className="collage-underline" /></span></FloatingNote>
+            <svg className="collage-loop" viewBox="0 0 150 140" fill="none" aria-hidden="true"><path d="M8 25C45-2 102 22 86 61S49 51 86 44s51 51 36 77m-9-19 9 21 17-15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+            <h1 id="entrance-title">Welcome<br />to my<br /><span className="collage-mind"><em>mind</em><svg viewBox="0 0 400 46" aria-hidden="true"><path d="M12 24Q180 2 378 9Q210 16 160 34Q310 17 376 29" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" /></svg></span></h1>
+            <span className="collage-stamp">Built<br />by<br />curiosity.</span>
+          </div>
           <div className="collage-invitation"><p>I design and build AI products for<br />healthcare and education, <mark>shipped</mark><br />to paying customers and 3 universities.</p><button type="button" className="collage-enter" onClick={enter} disabled={entering}>See the work <span aria-hidden="true">→</span></button><div className="collage-quest-slot" ref={setQuestControls} /></div>
-          <span className="collage-stamp">Built<br />by<br />curiosity.</span>
         </div>
         <div className="collage-art">
           <IdeaQuest controlsTarget={questControls} still={still} reduced={reduced} entering={entering} />

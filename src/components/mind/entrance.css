@@ -108,7 +108,11 @@
   .collage-header i { width: 28px; }
   .collage-monogram { font-size: 42px; }
   .collage-layout { display: flex; flex-direction: column; min-height: 0; margin: 0; }
-  .collage-copy { width: 100%; padding: 115px 0 10px; }
+  .collage-copy { display: contents; }
+  .collage-copy__stage { position: relative; width: 100%; padding: 115px 0 10px; order: 1; }
+  .collage-art { order: 2; }
+  .collage-invitation { order: 3; align-self: stretch; }
+  .collage-invitation .collage-enter { display: none; }
   .mind-site .collage-copy h1 { font-size: clamp(66px, 16vw, 112px); line-height: .84; letter-spacing: -.078em; }
   .collage-mind { margin: 12px 0 0 12px; padding-inline: 10px 23px; }
   .collage-ideas { top: 7px; left: auto; right: -3px; width: 109px; --tilt: 9deg; }
@@ -179,7 +183,7 @@
   .collage-location { flex-wrap: wrap; justify-content: flex-end; gap: 6px 10px; font-size: 7px; max-width: 168px; }
   .collage-location i { width: 20px; }
   .collage-flag { width: 22px; height: 16px; }
-  .collage-copy { padding-top: 90px; }
+  .collage-copy__stage { padding-top: 90px; }
 }
 
 /* Fit the scene to the viewport height so the computer, Enter button and footer are never cropped.
