@@ -14,22 +14,27 @@
 }
 
 /* ---- header row ---- */
-.stage__bar { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding: 1.25rem var(--edge) .25rem; }
+.stage__bar { position: relative; z-index: 2; display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem 2rem; padding: clamp(1rem, 3vh, 2.75rem) var(--edge) .5rem; }
+.stage__eyebrow {
+  margin-bottom: .7rem;
+  font: 500 .8125rem/1 var(--font-ui); letter-spacing: -.012em; color: #d4d4d7;
+}
 .stage__name h1 {
-  font: 600 1.375rem/1.1 var(--font-ui); letter-spacing: -.03em; color: #f6f6f3;
-  text-shadow: 0 1px 0 rgb(255 255 255 / .34), 0 -1px 1px rgb(0 0 0 / .85), 0 10px 16px rgb(0 0 0 / .45);
+  max-width: 11ch; font: 520 clamp(3.5rem, min(7.2vw, 9.5vh), 7.5rem)/.86 var(--font-display); /* height-aware */ letter-spacing: -.038em; color: #fafaf7; text-wrap: balance;
 }
-.stage__name p {
-  margin-top: .25rem;
-  text-shadow: 0 1px 0 rgb(255 255 255 / .16), 0 5px 8px rgb(0 0 0 / .4);
+.stage__identity {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .45rem; margin-top: .9rem;
+  font: 450 clamp(.75rem, 1vw, .875rem)/1.2 var(--font-ui); letter-spacing: -.012em; color: #aaaab0;
 }
+.stage__identity strong { font-weight: 600; color: #f2f2ef; }
+.stage__identity span { color: #727278; }
 .stage__filters { display: flex; gap: .5rem; }
 .stage__filters button {
   display: inline-flex; align-items: center; gap: .5rem; min-height: 2.5rem; padding: 0 1rem; border-radius: 999px;
   border: 1px solid #3a3a40; color: var(--text); cursor: pointer;
   background: linear-gradient(180deg, #323236 0%, #161618 100%);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / .2), inset 0 -7px 10px rgb(0 0 0 / .55), 0 6px 12px rgb(0 0 0 / .35);
-  font: 500 .75rem/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase;
+  font: 500 .875rem/1 var(--font-ui); letter-spacing: 0;
   transition: transform .2s var(--ease), box-shadow .2s var(--ease), background .2s;
 }
 .stage__filters button:hover:not(:disabled) {
@@ -47,8 +52,11 @@
 }
 .stage__filters button[aria-pressed='true']:hover { background: linear-gradient(180deg, #ffffff 0%, #e4e4de 100%); }
 .stage__filters button:disabled { opacity: .4; cursor: default; box-shadow: inset 0 1px 0 rgb(255 255 255 / .06); }
-.stage__filters em { font-style: normal; font-size: .6875rem; opacity: .55; }
+.stage__filters em { font: 400 .75rem/1 var(--font-mono); font-style: normal; opacity: .55; }
 .stage__filters button[aria-pressed='true'] em { opacity: .62; }
+
+/* what the row is, and how to use it */
+.stage__guide { position: relative; z-index: 2; box-sizing: content-box; padding: .75rem var(--edge) 0; max-width: 46rem; /* content-box: the wide-screen edge padding must not eat the text width */ font: 400 .8125rem/1.4 var(--font-ui); letter-spacing: -.01em; color: var(--muted); }
 
 /* ---- track ---- */
 .stage__track {
@@ -67,7 +75,9 @@
   transform: scale(calc(.8 + var(--f, 1) * .2)); opacity: calc(.34 + var(--f, 1) * .66);
   transition: transform 260ms var(--ease), opacity 260ms var(--ease);
 }
-.stage__item--phone { --w: calc((var(--h) - 10px) * 390 / 844 + 10px); width: var(--w); } /* 10px = the frame padding, so the screen keeps its 390:844 shape */
+/* --b is the bezel. Everything on the device is a fraction of its height, so a small phone
+   is a scaled-down phone, not a big bezel with a tiny screen. The screen keeps its 390:844 shape. */
+.stage__item--phone { --b: calc(var(--h) * .018); --sw: calc((var(--h) - 2 * var(--b)) * 390 / 844); --w: calc(var(--sw) + 2 * var(--b)); width: var(--w); }
 .stage__item--tile { --w: calc(var(--h) * 1.05); width: var(--w); }
 /* first and last items can reach the centre */
 .stage__item:first-child { margin-inline-start: calc(50cqw - var(--w) / 2); }
@@ -78,8 +88,30 @@
 .stage__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-radius: 1.5rem; }
 
 /* live prototype in a phone frame */
-.stage__phone { display: block; height: 100%; padding: 5px; border-radius: 2.25rem; background: #050506; border: 1px solid #34343a; box-shadow: 0 30px 80px rgb(0 0 0 / .7), 0 0 60px rgb(255 255 255 / .04); }
-.stage__screen { display: block; height: 100%; border-radius: 1.8rem; overflow: hidden; background: #fff; }
+/* the device: a brushed-metal band, a black bezel, side buttons and a faint glass sheen */
+.stage__phone {
+  --r: calc(var(--sw) * .141 + var(--b)); /* iPhone screen corners are ~14% of the screen width */
+  position: relative; display: block; height: 100%; padding: var(--b); border-radius: var(--r);
+  background: #050506;
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / .22),
+    inset 0 0 0 calc(var(--b) * .38) #3a3a40,
+    inset 0 0 0 calc(var(--b) * .38 + 1px) rgb(0 0 0 / .8),
+    0 1px 0 rgb(255 255 255 / .08),
+    0 34px 70px -10px rgb(0 0 0 / .75), 0 0 60px rgb(255 255 255 / .04);
+}
+.stage__phone::before, .stage__phone::after { /* power on the right; volume on the left */
+  content: ''; position: absolute; width: calc(var(--b) * .45); border-radius: 2px;
+  background: linear-gradient(90deg, #2a2a2f, #55555c 55%, #2a2a2f);
+}
+.stage__phone::before { right: calc(var(--b) * -.4); top: 24%; height: 11%; }
+.stage__phone::after { left: calc(var(--b) * -.4); top: 19%; height: 7%; box-shadow: 0 calc(var(--h) * .1) 0 #3a3a40; }
+.stage__screen { position: relative; display: block; height: 100%; border-radius: calc(var(--r) - var(--b)); overflow: hidden; background: #fff; isolation: isolate; }
+.stage__screen::after {
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(125deg, rgb(255 255 255 / .1) 0%, rgb(255 255 255 / 0) 34%);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .35);
+}
 .stage__poster { display: grid; place-items: center; height: 100%; padding: 1rem; text-align: center; background: var(--surface); color: var(--muted); font: 500 .75rem/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
 
 /* case-study thumbnail; the artwork itself is in thumb.css. It drifts slowly while focused. */
@@ -101,36 +133,44 @@
 .mind-interior[inert] .stage__link { animation: none; opacity: 0; }
 
 /* ---- info line ---- */
-.stage__info { position: relative; z-index: 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; padding: .875rem var(--edge) 1.75rem; }
-.stage__text { max-width: 42rem; animation: stage-text 420ms var(--ease) both; }
+.stage__info { position: relative; z-index: 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; padding: .875rem var(--edge) clamp(1rem, 2.5vh, 1.75rem); }
+/* Every row has a fixed height whatever the project, because the rail above is sized from the
+   space left over: text that grows or shrinks between projects would resize every piece mid-scroll. */
+.stage__text { min-width: 0; max-width: 42rem; animation: stage-text 420ms var(--ease) both; }
 @keyframes stage-text { from { opacity: 0; translate: 0 .625rem; } to { opacity: 1; translate: 0 0; } }
-.stage__meta { display: flex; gap: .875rem; margin-bottom: .625rem; font: 500 .6875rem/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.stage__meta span:last-child { color: var(--glow); }
-.stage__text h3 { margin-bottom: .875rem; font: 600 clamp(1.875rem, 3.6vw, 3.25rem)/1 var(--font-ui); letter-spacing: -.045em; }
-.stage__line { max-width: 35rem; font-size: 1rem; line-height: 1.5; color: #c4c4ca; }
-.stage__note { margin-top: .625rem; font: 500 .6875rem/1.5 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.stage__meta { display: flex; flex-wrap: nowrap; overflow: hidden; gap: .25rem .875rem; margin-bottom: .5rem; font: 400 .875rem/1.4 var(--font-ui); color: var(--muted); }
+.stage__meta span:first-child { font: 400 .75rem/1.6 var(--font-mono); letter-spacing: .04em; }
+.stage__meta span { white-space: nowrap; }
+.stage__meta .stage__group { color: var(--group); }
+.stage__text h3 { margin-bottom: .625rem; font: 520 clamp(2.5rem, min(4.8vw, 6.8vh), 4.5rem)/.88 var(--font-display); letter-spacing: -.035em; white-space: nowrap; }
+.stage__line { max-width: 35rem; height: 2lh; font-size: 1.0625rem; line-height: 1.5; color: #d0d0d5; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.stage__note { height: 1lh; margin-top: .5rem; font: 400 .875rem/1.5 var(--font-ui); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .stage__actions { display: flex; align-items: center; gap: 1.25rem; flex: none; }
 .stage__cta {
   display: inline-flex; align-items: center; gap: .875rem; min-height: 3.25rem; padding: 0 1.625rem; border: 0; border-radius: 999px;
   background: var(--text); color: var(--bg); text-decoration: none; cursor: pointer;
-  font: 500 .8125rem/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; transition: background .2s, transform .2s var(--ease);
+  font: 500 .9375rem/1 var(--font-ui); letter-spacing: 0; transition: background .2s, transform .2s var(--ease);
 }
 .stage__cta:hover { background: var(--glow); transform: translateY(-2px); }
 .stage__controls { display: flex; gap: .5rem; }
-.stage__controls button { min-width: 2.75rem; height: 2.75rem; border: 1px solid var(--line); border-radius: 999px; background: none; color: var(--muted); cursor: pointer; font: 500 .6875rem/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+.stage__controls button { min-width: 2.75rem; height: 2.75rem; border: 1px solid var(--line); border-radius: 999px; background: none; color: var(--muted); cursor: pointer; font: 500 .875rem/1 var(--font-ui); letter-spacing: 0; }
 .stage__controls button:hover:not(:disabled) { background: rgb(255 255 255 / .08); color: var(--text); }
 .stage__controls button:disabled { opacity: .25; cursor: default; }
 .stage__pause { padding: 0 1rem; }
 
 /* ---- small screens ---- */
 @media (max-width: 760px) {
-  .stage__bar { padding-top: .875rem; }
+  /* The rail gets whatever height the header and info panel leave, so both stay compact on phones. */
+  .stage__bar { align-items: flex-start; gap: .875rem; padding-top: 1rem; }
+  .stage__name h1 { font-size: clamp(2.5rem, 10.5vw, 3.5rem); }
+  .stage__identity { max-width: 22rem; margin-top: .625rem; }
+  .stage__guide { display: none; } /* the pieces explain themselves on touch: tap to bring forward, tap again to open */
   .stage__filters { width: 100%; overflow-x: auto; scrollbar-width: none; }
   .stage__filters button { flex: none; }
   .stage__item--tile { --w: calc(var(--h) * .8); }
   .stage__info { flex-direction: column; align-items: stretch; gap: .875rem; padding-bottom: 1.25rem; }
-  .stage__line { font-size: .875rem; }
+  .stage__line { height: 2lh; font-size: .875rem; -webkit-line-clamp: 2; }
   .stage__actions { justify-content: space-between; }
   .stage__cta { flex: 1; justify-content: center; }
   .stage__pause { display: none; }

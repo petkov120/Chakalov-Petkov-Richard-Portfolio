@@ -1,11 +1,12 @@
 export const universityxEvidence = {
   opening: {
     overview:
-      'UniversityX is an investigation into AI education products that optimize for comprehension, not just response quality. The work had to serve three audiences at once: students, lecturers, and universities.',
+      'UniversityX is an investigation into AI education products that optimize for comprehension, not just response quality. The work had to serve three audiences at once: students, lecturers, and universities. The promise of AI in education has never been access. It is understanding.',
     problem:
       'Most AI education products solve retrieval. They answer quickly, but they rarely detect when understanding has failed. Students can copy a perfect response and still walk away confused.',
     facts: [
-      { label: 'Timeline', value: '2021 to 2023 (2+ years of product evolution)' },
+      { label: 'Role', value: 'Product designer' },
+      { label: 'Timeline', value: '2021 to 2023. Rejoined in 2024 for Wema Bank Hackaholics 5.0' },
       { label: 'AI direction', value: 'Started in 2022, before AI tutoring became mainstream in education products' },
       { label: 'Domain', value: 'AI education, adaptive learning, behavioural design' },
       { label: 'Core value', value: 'Save time, save money, improve understanding' },
@@ -14,7 +15,29 @@ export const universityxEvidence = {
       { label: 'Broader impact', value: 'Contributed to projects with NGN 30M+ in awards' },
     ],
     context:
-      'UniversityX began as a focused learning platform, then evolved into AI tutoring work in 2022, before this direction became mainstream in education products. The promise of AI in education has never been access. It is understanding. The core question became: can AI recognize when an answer failed, and adapt until the learner actually gets it?',
+      'I built UniversityX from 2021 to 2023, then stepped away when I joined Clinify. In 2024 the team brought me back for Hackaholics 5.0, and we won.',
+    roleScope: [
+      'Designed the product from the first learning platform through the 2022 shift to AI tutoring',
+      'Shaped the tutoring model around comprehension, not answer speed',
+      'Rejoined the team in 2024 for Hackaholics 5.0; we won the NGN 10,000,000 prize',
+    ],
+    executive: [
+      {
+        label: 'The mandate',
+        title: 'Design for learning, not answer generation.',
+        body: 'Students could receive a correct AI response without understanding the concept. The product needed to detect confusion, adapt the lesson, and make progress visible.',
+      },
+      {
+        label: 'My ownership',
+        title: 'Product direction across three audiences.',
+        body: 'I designed the learner experience, shaped the shift to AI tutoring, and extended the system to lecturer workflows and institutional visibility.',
+      },
+      {
+        label: 'The result',
+        title: 'Institutional use and external validation.',
+        body: 'UniversityX was used across three institutions. I returned for Hackaholics 5.0 in 2024, where the team won the NGN 10,000,000 prize.',
+      },
+    ],
   },
   cinematic: {
     line: 'The chatbot gave her the answer.',
@@ -294,24 +317,24 @@ export const universityxEvidence = {
       decision: 'Design for comprehension signals, not answer velocity.',
       why: 'Answer quality alone was a weak proxy for learning. We needed to see whether understanding actually happened.',
       tradeoff:
-        'This required more structured flows and adaptation logic, not just an open-ended chat interface.',
+        'Structured tutoring required more content states, assessment logic, and recovery paths than an open chat box. It felt less magically open-ended, but gave the system better evidence of whether to explain, test, or slow down.',
       outcome:
-        'The product moved from retrieval behavior toward guided learning behavior and stronger concept retention.',
+        'The product moved from a retrieval interface toward guided lessons, adaptive re-explanation, and comprehension checks.',
     },
     {
       decision: 'Treat gamification as behavioural infrastructure.',
       why: 'Motivation decayed when progress was invisible. Learners needed proof of momentum.',
       tradeoff:
-        'The team invested in progression mechanics and feedback loops instead of shipping a minimal static lesson UI.',
-      outcome: 'Students had visible progress markers, clearer goals, and stronger consistency over time.',
+        'XP and streaks introduced another system to maintain and risked rewarding activity instead of learning. We tied feedback to completed learning actions rather than adding points everywhere.',
+      outcome: 'The shipped direction gave students visible progress markers, immediate feedback, and clearer goals.',
     },
     {
       decision: 'Build operational tooling for lecturers, not just student interfaces.',
       why: 'Teacher time was constrained by repetitive administrative work.',
       tradeoff:
-        'Product scope expanded beyond learner experience into educator operations and analytics.',
+        'Supporting lecturers expanded the data model, permissions, and navigation beyond the student experience. It slowed the path to a narrower learner-only product, but avoided creating a tool institutions could not operate.',
       outcome:
-        'Administrative burden decreased, making room for more direct teaching and mentorship.',
+        'The product consolidated course setup, analytics, and program management into lecturer-facing workflows.',
     },
   ],
   notBuilt: [

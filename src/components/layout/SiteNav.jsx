@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import EmailActions from '../EmailActions'
 
 const accentMap = {
@@ -43,6 +44,34 @@ export default function SiteNav({
 }) {
   const palette = themes[theme] ?? themes.vault
   const emailTheme = theme === 'paper' ? 'paper' : 'vault'
+  const [menuOpen, setMenuOpen] = useState(false)
+  const headerRef = useRef(null)
+  const toggleRef = useRef(null)
+
+  useEffect(() => {
+    if (!menuOpen) return undefined
+
+    const onKey = (event) => {
+      if (event.key !== 'Escape') return
+      setMenuOpen(false)
+      toggleRef.current?.focus()
+    }
+    const onPointer = (event) => {
+      if (!headerRef.current?.contains(event.target)) setMenuOpen(false)
+    }
+    const onResize = () => {
+      if (window.matchMedia('(min-width: 768px)').matches) setMenuOpen(false)
+    }
+
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('pointerdown', onPointer)
+    window.addEventListener('resize', onResize)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('pointerdown', onPointer)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [menuOpen])
 
   const headerClass = fixed
     ? `site-nav site-nav--${theme} site-nav--fixed fixed top-0 inset-x-0 z-50 px-4 sm:px-6 md:px-12 pt-5 sm:pt-6 md:pt-8 pb-4 md:pb-5 flex items-center justify-between gap-4 ${palette.fixedShell}`
@@ -53,16 +82,18 @@ export default function SiteNav({
   const navItems = [
     { label: 'Home', short: 'Home', href: '/#work', key: 'home' },
     { label: 'Work', short: 'Work', href: '/work', key: 'work' },
-    { label: 'About', short: 'About', href: '/about', key: 'about' },
+    { label: 'About', short: 'About', href: '/#about', key: 'about' },
+    { label: 'Résumé', short: 'CV', href: '/resume', key: 'resume' },
   ]
 
   return (
-    <header className={headerClass}>
+    <header ref={headerRef} className={headerClass}>
       <a
         href="/"
         className={`site-nav__brand flex items-center gap-2.5 display text-base md:text-lg leading-none shrink-0 transition-colors ${palette.home}`}
         aria-label="Petkov Chakalov, home"
         onClick={(event) => {
+          setMenuOpen(false)
           if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return
           const path = location.pathname.replace(/\/$/, '') || '/'
           if (path !== '/') return
@@ -75,10 +106,31 @@ export default function SiteNav({
         <span className="hidden md:inline" aria-hidden="true">Petkov Chakalov</span>
       </a>
 
+      <button
+        ref={toggleRef}
+        type="button"
+        className={`site-nav__toggle ${palette.home}`}
+        aria-expanded={menuOpen}
+        aria-controls="site-nav-menu"
+        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        <span className="site-nav__burger" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </span>
+      </button>
+
       <nav
+        id="site-nav-menu"
+        data-open={menuOpen ? 'true' : 'false'}
         className={`site-nav__links flex min-w-0 items-center justify-end gap-1 sm:gap-1.5 font-mono text-[11px] sm:text-xs uppercase tracking-[0.14em] ${palette.muted} ${
           fixed ? '' : 'rise rise-1'
         }`}
+        onClick={(event) => {
+          if (event.target.closest('a')) setMenuOpen(false)
+        }}
       >
         {navItems.map((item) => {
           const href = item.href

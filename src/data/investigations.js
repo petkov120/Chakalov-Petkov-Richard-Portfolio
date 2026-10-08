@@ -24,7 +24,7 @@ export const investigations = [
     stakes:
       'The chatbot gave her the answer. She still didn\'t understand. That\'s when I stopped building a search box.',
     lens: 'Two students can read the same AI answer. Only one of them actually understood it.',
-    tags: ['EdTech', 'AI tutoring', 'Gamification', '2022 to now'],
+    tags: ['EdTech', 'AI tutoring', 'Gamification', '2021–2023, 2024'],
     accent: 'universityx',
     genre: 'learning',
     href: '/universityx',

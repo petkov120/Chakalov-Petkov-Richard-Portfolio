@@ -73,6 +73,12 @@ export const notesChapters = [
   {
     chapter: '03',
     title: 'When design met engineering',
+    panel: {
+      src: '/images/notes/chapter-03-fuse.webp',
+      alt: 'Manga illustration of Petkov pulling sketches and engineered structures into one bright point',
+      caption: 'Two disciplines. One act of making.',
+      treatment: 'ink',
+    },
     paragraphs: [
       {
         type: 'prose',
@@ -91,6 +97,12 @@ export const notesChapters = [
   {
     chapter: '04',
     title: '₦30 million was never the goal',
+    panel: {
+      src: '/images/notes/chapter-04-hackathon.webp',
+      alt: 'Manga illustration of Petkov and teammates building through a university hackathon night',
+      caption: 'The win was watching belief become real.',
+      treatment: 'ink',
+    },
     paragraphs: [
       {
         type: 'prose',
@@ -111,6 +123,12 @@ export const notesChapters = [
   {
     chapter: '05',
     title: 'The training arc',
+    panel: {
+      src: '/images/notes/chapter-05-training.webp',
+      alt: 'Manga training montage of Petkov lifting, drawing storyboards, and designing interfaces',
+      caption: 'Repetition turns curiosity into craft.',
+      treatment: 'ink',
+    },
     paragraphs: [
       {
         type: 'prose',
@@ -137,6 +155,12 @@ export const notesChapters = [
   {
     chapter: '06',
     title: 'AI is a tool, not the story',
+    panel: {
+      src: '/images/notes/chapter-06-ai-direction.webp',
+      alt: 'Manga illustration of Petkov directing a storm of generated fragments toward a clear human path',
+      caption: 'Leverage needs a human direction.',
+      treatment: 'ink',
+    },
     paragraphs: [
       {
         type: 'prose',

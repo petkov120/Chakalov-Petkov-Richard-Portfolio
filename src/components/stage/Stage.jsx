@@ -1,4 +1,4 @@
-import { lazy, Suspense, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { buildWall, FILTERS } from './wall'
 import useStageRail from './useStageRail'
 import useOnScreen from './useOnScreen'
@@ -6,6 +6,7 @@ import Thumb from './Thumb'
 import './stage.css'
 
 // The live prototype runtime is heavy; it loads only once a phone is near the centre.
+// After that every phone renders its real (paused) screen, so wide screens never show a blank device.
 const Preview = lazy(() => import('../mind/StudioInteractionPreview'))
 
 const modified = event => event.metaKey || event.ctrlKey || event.shiftKey || event.altKey
@@ -23,7 +24,7 @@ function tilt(event) {
 }
 const untilt = event => ['--tilt-x', '--tilt-y', '--shift-x', '--shift-y'].forEach(name => event.currentTarget.style.removeProperty(name))
 
-export default function Stage({ prototypes, cases, reduced, suspended, masthead, onOpen }) {
+export default function Stage({ prototypes, cases, reduced, suspended, masthead, onOpen, onAtmosphere }) {
   const wall = useMemo(() => buildWall(prototypes, cases), [prototypes, cases])
   const [filter, setFilter] = useState('all')
   const shown = useMemo(() => filter === 'all' ? wall : wall.filter(entry => entry.group === filter), [wall, filter])
@@ -40,6 +41,33 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
 
   const current = shown.find(entry => entry.key === focusKey) ?? shown[0]
   const currentIndex = Math.max(0, shown.indexOf(current))
+  const [previewsReady, setPreviewsReady] = useState(false)
+  const phoneNearby = shown.some((entry, index) => entry.type === 'phone' && Math.abs(index - currentIndex) <= 1)
+  useEffect(() => { if (phoneNearby) setPreviewsReady(true) }, [phoneNearby])
+  // While a prototype is open its gallery demo restarts from the first screen, so the phone
+  // flies back onto the start rather than wherever the demo had paused.
+  const [resets, setResets] = useState(0)
+  useEffect(() => { if (suspended) setResets(count => count + 1) }, [suspended])
+
+  useEffect(() => {
+    onAtmosphere?.({ glow: current?.accent ?? '#d6c6aa' })
+  }, [current?.accent, onAtmosphere])
+
+  useEffect(() => {
+    const node = rail.current
+    if (!node || !onAtmosphere || reduced) return undefined
+    let frame = 0
+    const update = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        const max = Math.max(1, node.scrollWidth - node.clientWidth)
+        onAtmosphere({ rail: ((node.scrollLeft / max) - .5).toFixed(3) })
+      })
+    }
+    node.addEventListener('scroll', update, { passive: true })
+    update()
+    return () => { cancelAnimationFrame(frame); node.removeEventListener('scroll', update) }
+  }, [keys, onAtmosphere, reduced])
 
   useLayoutEffect(() => { rail.current?.scrollTo({ left: 0, behavior: 'instant' }) }, [filter]) // a new list starts at its first piece
   const openCurrent = () => {
@@ -64,6 +92,7 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
         {FILTERS.map(f => <button key={f.id} type="button" aria-pressed={filter === f.id} disabled={!counts[f.id]} onClick={() => setFilter(f.id)}>{f.label}<em>{counts[f.id]}</em></button>)}
       </div>
     </div>
+    <p className="stage__guide">Live work first, then prototypes you can use, then side projects. Click a piece to bring it forward, click again to open.</p>
 
     <ul ref={rail} className="stage__track" aria-label="Selected work. Use the arrow keys to move between pieces." {...railProps}>
       {shown.map((entry, index) => {
@@ -74,8 +103,8 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
               <a className="stage__link" href={entry.data.href} draggable="false" aria-label={`Open the ${entry.name} prototype`} onClick={event => activate(entry, event)}>
                 <span className="stage__phone">
                   <span className="stage__screen">
-                    {nearby
-                      ? <Suspense fallback={<span className="stage__poster">{entry.name}</span>}><Preview item={entry.data} playing={running && focused} replayToken={0} /></Suspense>
+                    {nearby || previewsReady
+                      ? <Suspense fallback={<span className="stage__poster">{entry.name}</span>}><Preview key={resets} item={entry.data} playing={running && focused} replayToken={0} /></Suspense>
                       : <span className="stage__poster">{entry.name}</span>}
                   </span>
                 </span>
@@ -91,10 +120,10 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
 
     {current && <div className="stage__info">
       <div className="stage__text" key={current.key} aria-live="polite">
-        <p className="stage__meta"><span>{String(currentIndex + 1).padStart(2, '0')} / {String(shown.length).padStart(2, '0')}</span><span>{current.kind}</span></p>
+        <p className="stage__meta"><span>{String(currentIndex + 1).padStart(2, '0')} / {String(shown.length).padStart(2, '0')}</span><span className="stage__group" data-group={current.group}>{current.kind}</span>{current.credit && <span>{current.credit}</span>}</p>
         <h3>{current.name}</h3>
         <p className="stage__line">{current.line}</p>
-        {current.note && <p className="stage__note">{current.note}</p>}
+        <p className="stage__note">{current.note}</p>
       </div>
       <div className="stage__actions">
         {current.href

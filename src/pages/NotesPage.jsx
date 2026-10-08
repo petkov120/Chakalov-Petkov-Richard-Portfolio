@@ -1,5 +1,6 @@
 import SiteNav from '../components/layout/SiteNav'
 import MindFooter from '../components/layout/MindFooter'
+import { Annotation, Highlight } from '../components/mind/Marks'
 import { notesChapters, notesFinale, notesIntro } from '../data/notes'
 import '../components/mind/home.css'
 import '../components/hydra/hydra.css'
@@ -10,7 +11,7 @@ const sfx = { '01': 'Why?!', '02': 'Who for?', '03': 'Fuse!', '04': 'Not the goa
 
 function Panels({ chapter, panel, paragraphs, extra }) {
   const art = panel?.src
-    ? <div className="mg-panel mg-art">
+    ? <div className={`mg-panel mg-art${panel.treatment === 'ink' ? ' mg-art--ink' : ''}`}>
         <img src={panel.src} alt={panel.alt ?? ''} loading="lazy" decoding="async" />
         {panel.caption && <p className="mg-narration">{panel.caption}</p>}
       </div>
@@ -25,17 +26,29 @@ const PanelKey = ({ children }) => children
 export default function NotesPage() {
   return (
     <div className="mind-site">
-      <div className="mind-interior" style={{ '--accent': '#e5383b' }}>
+      <div className="mind-interior manga-shell" style={{ '--accent': '#e5383b' }}>
         <SiteNav theme="mind" current="about" />
-        <header className="hp-intro hp-intro--race">
-          <span className="mind-label">{notesIntro.eyebrow} / About / 2026</span>
-          <h1>This isn’t an <span>about</span> page.</h1>
-          <p>{notesIntro.sublead}</p>
+        <header className="mind-about mind-about--manga mind-section manga-about-hero">
+          <div>
+            <p className="mind-label">About</p>
+            <h1>Still<br /><Highlight>curious.</Highlight></h1>
+            <Annotation tone="pink">A builder, before anything.</Annotation>
+          </div>
+          <div className="mind-about__story">
+            <img src="/images/notes/nigeria-childhood.png" alt="Petkov as a child, smiling on a lawn in Nigeria" width="240" height="280" />
+            <p>{notesIntro.sublead}</p>
+            <p>I grew up around systems that fail and people who find a way through anyway. This is the longer story behind how that shaped the builder I am becoming.</p>
+            <div className="manga-about-hero__chapter-note">
+              <span>Origin story</span>
+              <strong>Six chapters about curiosity, culture, design and engineering.</strong>
+            </div>
+            <a className="mind-link" href="#chapter-01">Start the story ↓</a>
+          </div>
         </header>
         <main className="manga-page">
           <div className="mg-wrap">
         {notesChapters.map(ch => (
-          <section className="mg-chapter" key={ch.chapter} aria-labelledby={`ch-${ch.chapter}`}>
+          <section className="mg-chapter" id={`chapter-${ch.chapter}`} key={ch.chapter} aria-labelledby={`ch-${ch.chapter}`}>
             <div className="mg-head"><b>Ch. {ch.chapter}</b><h2 id={`ch-${ch.chapter}`}>{ch.title}</h2></div>
             <Panels chapter={ch.chapter} panel={ch.panel} paragraphs={ch.paragraphs} />
           </section>

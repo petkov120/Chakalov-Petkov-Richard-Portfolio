@@ -69,8 +69,12 @@ export default function useStageRail(rail, keys, reduced) {
       if (node.scrollWidth - node.clientWidth <= 2) return
       const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY
       if (!delta) return
-      const atStart = node.scrollLeft <= 1
-      const atEnd = node.scrollLeft + node.clientWidth >= node.scrollWidth - 1
+      // The last piece snaps to centre, which can land a few subpixels short of scrollWidth, so
+      // also treat "the first/last piece is already in focus" as an end. Otherwise the wheel is
+      // swallowed, step() has nowhere to go, and the page can't scroll past the rail.
+      const list = keysRef.current
+      const atStart = node.scrollLeft <= 3 || focusRef.current === list[0]
+      const atEnd = node.scrollLeft + node.clientWidth >= node.scrollWidth - 3 || focusRef.current === list[list.length - 1]
       if ((delta < 0 && atStart) || (delta > 0 && atEnd)) return // let the page scroll past either end
       event.preventDefault()
       const now = performance.now()

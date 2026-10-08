@@ -1,6 +1,15 @@
 import { socialScreens } from '../../ui/projects/social/screens'
-import { investmentScreens } from '../../ui/projects/InvestmentUI'
-import { notepadScreens } from '../../ui/projects/NotepadUI'
+import { investmentScreens } from '../../ui/projects/investmentScreens'
+import { notepadScreens } from '../../ui/projects/notepadScreens'
+
+// guide: per screen, the things worth tapping, in order. The prototype page marks the first
+// whose `opens` screen the visitor hasn't reached yet (steps without `opens` always show).
+// `target` is a selector inside the prototype.
+const xFeedGuide = [
+  { target: '.x-author-trigger[aria-label="Open Tola Adebayo profile"]', label: 'Tap Tola’s photo', opens: 'profile-peek' },
+  { target: '.x-compose-fab', label: 'Write a post', opens: 'compose' },
+  { target: '.x-feed-head__avatar', label: 'Open your menu', opens: 'account-menu' },
+]
 
 export const interactionProjects = [
   {
@@ -10,11 +19,21 @@ export const interactionProjects = [
     summary: 'A calmer way to discover people, share a thought, and make something worth posting.',
     note: 'Keep the context.\nLose the friction.',
     story: [
-      { title: 'Stay in the moment.', focal: 'the conversation', screen: 'profile-peek', body: 'A feed is a place to discover things. Checking who wrote a post should not mean losing the post itself. The profile preview opens over the feed, keeping the conversation in view while identity, context, and a follow action come forward.' },
+      { title: 'Stay in the moment.', focal: 'profile preview', screen: 'profile-peek', body: 'A feed is a place to discover things. Checking who wrote a post should not mean losing the post itself. The profile preview opens over the feed, keeping the conversation in view while identity, context, and a follow action come forward.' },
       { title: 'Give a thought some room.', focal: 'something to say', screen: 'compose-ready', body: 'Composing shifts the attention to writing. Audience and reply permissions stay visible, the keyboard has its own space, and the publish action becomes available when there is something to say. Posting leads back to the feed with clear feedback.' },
       { title: 'A place to make, too.', focal: 'working controls', screen: 'video-studio', body: 'Creator tools connect the account menu to a dedicated studio. The video editor brings trimming, text, image layers, and a moving playhead into that same sequence. These are working controls in the prototype.' },
     ],
     principles: ['Preserve the person’s place.', 'Let motion explain the change.', 'Make the next action clear.'],
+    guide: {
+      feed: xFeedGuide,
+      published: xFeedGuide,
+      'profile-peek': [{ target: '.x-profile-card__actions .is-live', label: 'Back to the feed' }],
+      compose: [{ target: '.x-compose textarea', label: 'Type a few words' }],
+      'compose-ready': [{ target: '.x-compose > header button.is-ready', label: 'Post it' }],
+      'account-menu': [{ target: '.x-menu button.is-live', label: 'Open Creator Studio' }],
+      'creator-studio': [{ target: '.x-cstudio__row.is-new', label: 'Open the video editor' }],
+      'video-studio': [{ target: '.x-video__play[aria-label="Play"]', label: 'Play the clip' }],
+    },
     steps: [
       { screen: 'feed', duration: 3200, action: { selector: '[aria-label="Show newest posts"]', after: 1400 } },
       { screen: 'profile-peek', duration: 2800 },
@@ -41,21 +60,33 @@ export const interactionProjects = [
       { title: 'End with what changed.', focal: 'what changed', screen: 'confirmed', body: 'Confirmation explains the result: the new share count, when the shares settle, and the cash that remains.' },
     ],
     principles: ['Understanding before action.', 'A distinct moment to review.', 'Confirmation with meaning.'],
-    steps: investmentScreens.map(screen => ({ screen: screen.id, duration: screen.id === 'welcome' ? 3400 : 2400 })),
+    guide: {
+      portfolio: [{ target: '.ngx-quick .is-primary', label: 'Invest in a holding', opens: 'asset-detail' }],
+      'asset-detail': [{ target: '.ngx-dock .ngx-action', label: 'Buy it' }],
+      order: [{ target: '.ngx-dock .ngx-action', label: 'Review the order' }],
+      review: [{ target: '.ngx-action--brand', label: 'Confirm it' }],
+      confirmed: [{ target: '.ngx-action--ink', label: 'Done' }],
+    },
+    steps: investmentScreens.filter(screen => screen.id !== 'add-cash' && screen.id !== 'signup').map(screen => ({ screen: screen.id, duration: screen.id === 'welcome' ? 3400 : 2400 })),
   },
   {
     id: 'notepad', accent: '#d9c7a3', project: 'Notepad', title: 'Catch the thought.', name: 'Notepad',
-    href: '/interactions/notepad', mark: 'n.', status: 'Flow study', year: '2026',
+    href: '/interactions/notepad', mark: 'n.', status: 'Working prototype', year: '2026',
     category: 'Personal project / Product exploration', posterScreen: 'notes', screens: notepadScreens,
     summary: 'An idea arrives before it is organised. A quiet little space to catch it, keep it, and find it again.',
     note: 'Write first.\nMake sense of it later.',
-    progress: 'This is an early flow study. The current preview maps capturing, organising, and saving a thought; the detailed interface is still being developed.',
     story: [
       { title: 'Before the thought disappears.', focal: 'the thought', screen: 'quick-capture', body: 'Quick capture is the centre of this idea. A writing surface should be immediately available, with controls that make room for the keyboard rather than competing with the thought.' },
       { title: 'Just enough structure.', focal: 'findable', screen: 'organise', body: 'Organisation comes after capture. A tag, pin, or collection should help the note become findable without turning a small thought into an administrative task.' },
       { title: 'A trustworthy return.', focal: 'saved state', screen: 'saved', body: 'Saving leads back to the note in its expected place. The four-state study lays out that journey, from recent notes through capture and organisation to a clear saved state.' },
     ],
     principles: ['Writing stays primary.', 'Structure earns its place.', 'Saving preserves the thought.'],
+    guide: {
+      notes: [{ target: '.np-compose', label: 'Capture a thought', opens: 'quick-capture' }],
+      'quick-capture': [{ target: '.np-done', label: 'Organise it', opens: 'organise' }],
+      organise: [{ target: '.np-save', label: 'Save the note', opens: 'saved' }],
+      saved: [{ target: '.np-primary', label: 'Back to notes' }],
+    },
     steps: notepadScreens.map(screen => ({ screen: screen.id, duration: 2400 })),
   },
 ]

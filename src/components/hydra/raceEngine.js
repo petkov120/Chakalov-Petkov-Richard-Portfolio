@@ -46,7 +46,8 @@ export async function createRace(mount, roster, publish, minimap) {
   const scene = new T.Scene()
   scene.background = new T.Color('#b9d5dc')
   scene.fog = new T.Fog('#b9d5dc', 180, 620)
-  const camera = new T.PerspectiveCamera(52, 1, .1, 900)
+  // Nothing is drawn closer than ~4m, so a deeper near plane buys depth precision for the stacked ground layers.
+  const camera = new T.PerspectiveCamera(52, 1, .5, 900)
   const pmrem = new T.PMREMGenerator(renderer)
   const room = new RoomEnvironment()
   const environment = pmrem.fromScene(room, .04)
@@ -131,7 +132,7 @@ export async function createRace(mount, roster, publish, minimap) {
   const ground=new T.Mesh(new T.PlaneGeometry(1600,1600),new T.MeshStandardMaterial({color:'#78906c',roughness:1}))
   ground.rotation.x=-Math.PI/2;ground.position.y=-.08;scene.add(ground)
   const ocean=new T.Mesh(new T.PlaneGeometry(1600,700),new T.MeshStandardMaterial({color:'#458c99',roughness:.35,metalness:.3}))
-  ocean.rotation.x=-Math.PI/2;ocean.position.set(0,-.04,-580);scene.add(ocean)
+  ocean.rotation.x=-Math.PI/2;ocean.position.set(0,0,-580);scene.add(ocean)
   const dummy=new T.Object3D()
   function instances(geometry,material,transforms) {
     const mesh=new T.InstancedMesh(geometry,material,transforms.length)
@@ -139,10 +140,15 @@ export async function createRace(mount, roster, publish, minimap) {
     mesh.computeBoundingSphere();scene.add(mesh);return mesh
   }
   const rails=[],curbs=[[],[]],dashes=[]
+  // Span each block between its own endpoints at the offset, so inner corners do not overlap and outer corners do not gap.
+  function chord(i,lane,y,width,height,list,pad=0) {
+    const a=frame(i/420*length,lane).p,b=frame((i+1)/420*length,lane).p
+    list.push([(a.x+b.x)/2,y,(a.z+b.z)/2,width,height,a.distanceTo(b)+pad,Math.atan2(a.x-b.x,a.z-b.z)])
+  }
   for(let i=0;i<420;i++) for(const side of [-1,1]) {
-    const a=frame(i/420*length,side*11.15),b=frame(i/420*length,side*13)
-    curbs[i%2].push([a.p.x,.08,a.p.z,1.1,.13,length/420+.03,a.yaw])
-    rails.push([b.p.x,.8,b.p.z,.28,1.1,length/420+.03,b.yaw])
+    // Alternate kerb heights a few millimetres so the small mitre overlaps cannot z-fight.
+    chord(i,side*11.15,i%2?.08:.085,1.1,.13,curbs[i%2])
+    chord(i,side*13,.8,.28,1.1,rails,.03)
   }
   instances(box,white,curbs[0]);instances(box,red,curbs[1]);instances(box,chrome,rails)
   for(let i=0;i<120;i++) { const a=frame(i/120*length);dashes.push([a.p.x,.055,a.p.z,.13,.02,3,a.yaw]) }
@@ -188,7 +194,7 @@ export async function createRace(mount, roster, publish, minimap) {
     body.linearFactor.set(1,0,1);world.addBody(body)
     return {...car,body,index:i,finish:0}
   })
-  let selected=0,phase='garage',resumePhase='racing',elapsed=0,countdown=3.5,boost=100,quality='auto',disposed=false,visible=true,last=performance.now(),hudTimer=0,accumulator=0,raf=0,slow=0
+  let selected=0,phase='garage',resumePhase='racing',elapsed=0,countdown=3.5,boost=100,quality='auto',disposed=false,visible=true,last=performance.now(),hudTimer=0,accumulator=0,raf=0
   const keys=new Set(), player=racers[0]
   let audio,oscillator,gain,muted=false
   function sound() {
@@ -201,10 +207,10 @@ export async function createRace(mount, roster, publish, minimap) {
     }
     audio.resume().catch(()=>{})
   }
-  const camTarget=new T.Vector3(),lookTarget=new T.Vector3()
+  const camTarget=new T.Vector3(),lookTarget=new T.Vector3(),smoothedLook=new T.Vector3()
   function reset() {
-    racers.forEach((r,i)=>{r.body.position.set(i%2?3:-3,0,-8-Math.floor(i/2)*7);r.body.velocity.set(0,0,0);r.body.angularVelocity.set(0,0,0);r.finish=0;r.body.aabbNeedsUpdate=true})
-    elapsed=0;countdown=3.5;boost=100;accumulator=0;keys.clear()
+    racers.forEach((r,i)=>{r.body.position.set(i%2?3:-3,0,-8-Math.floor(i/2)*7);r.body.velocity.set(0,0,0);r.body.angularVelocity.set(0,0,0);r.finish=0;r.prevX=r.body.position.x;r.prevZ=r.body.position.z;r.body.aabbNeedsUpdate=true})
+    elapsed=0;countdown=3.5;boost=100;accumulator=0;smoothedLook.set(0,0,0);keys.clear()
   }
   function snapshot() {
     const position=1+racers.slice(1).filter(r=>player.finish ? r.finish && r.finish<player.finish : r.finish || r.body.position.z>player.body.position.z).length
@@ -243,8 +249,14 @@ export async function createRace(mount, roster, publish, minimap) {
       const corner=1-a.dot(b),target=47+r.index*1.2-Math.min(18,corner*85)
       r.body.velocity.z=T.MathUtils.damp(r.body.velocity.z,target, .5,dt)
       let lane=(r.index%3-1)*5+Math.sin(d*.012+r.index)*.8
-      for(const other of racers) if(other!==r&&other.body.position.z>d&&other.body.position.z-d<16&&Math.abs(other.body.position.x-lane)<2.5) lane=other.body.position.x>0?-5:5
-      r.body.velocity.x=T.MathUtils.clamp((lane-r.body.position.x)*1.7,-5,5)
+      for(const other of racers) if(other!==r&&other.body.position.z>d-5&&other.body.position.z-d<16&&Math.abs(other.body.position.x-lane)<2.5) lane=other.body.position.x>0?-5:5
+      let vx=T.MathUtils.clamp((lane-r.body.position.x)*1.7,-5,5)
+      // Never steer into a car alongside: overwriting velocity every step would otherwise push through the contact solver.
+      for(const other of racers) {
+        const dx=other.body.position.x-r.body.position.x
+        if(other!==r&&Math.abs(other.body.position.z-d)<4.8&&Math.abs(dx)<2.4&&Math.sign(dx)===Math.sign(vx)) vx=0
+      }
+      r.body.velocity.x=vx
     }
     world.step(dt)
     for(const r of racers) {
@@ -267,17 +279,22 @@ export async function createRace(mount, roster, publish, minimap) {
     const dt=Math.min(raw,.1);last=now
     if(!visible||document.hidden)return
     if(phase==='paused'||phase==='finished')return
-    if(quality==='auto'&&raw>.026) {slow+=dt;if(slow>3&&renderer.getPixelRatio()>1){renderer.setPixelRatio(1);resize();slow=0}}
     accumulator+=dt
-    while(accumulator>=1/60){step(1/60);accumulator-=1/60}
+    while(accumulator>=1/60){
+      for(const r of racers){r.prevX=r.body.position.x;r.prevZ=r.body.position.z}
+      step(1/60);accumulator-=1/60
+    }
+    // Draw between the last two physics steps so motion stays smooth at any refresh rate.
+    const alpha=accumulator*60
     for(const r of racers) {
-      const f=frame(r.body.position.z,r.body.position.x)
+      r.drawX=T.MathUtils.lerp(r.prevX,r.body.position.x,alpha);r.drawZ=T.MathUtils.lerp(r.prevZ,r.body.position.z,alpha)
+      const f=frame(r.drawZ,r.drawX)
       r.root.position.copy(f.p);r.root.position.y=.075
       r.root.visible=r===player||r.root.position.distanceToSquared(player.root.position)<(quality==='low'?14400:40000)
       r.root.rotation.set(0,f.yaw-Math.atan2(r.body.velocity.x,Math.max(15,r.body.velocity.z))*.5,0)
       r.wheels.forEach(w=>{w.rotation.x-=r.body.velocity.z*dt/.39})
     }
-    const f=frame(player.body.position.z,player.body.position.x)
+    const f=frame(player.drawZ,player.drawX)
     if(phase==='garage') {
       const side=new T.Vector3(f.tangent.z,0,-f.tangent.x)
       camTarget.copy(player.root.position).addScaledVector(f.tangent,8).addScaledVector(side,8)
@@ -291,7 +308,9 @@ export async function createRace(mount, roster, publish, minimap) {
       lookTarget.copy(player.root.position).addScaledVector(f.tangent,11);lookTarget.y=.85
       camera.position.addScaledVector(f.tangent,player.body.velocity.z*dt)
     }
-    camera.position.lerp(camTarget,1-Math.exp(-5*dt));camera.lookAt(lookTarget)
+    camera.position.lerp(camTarget,1-Math.exp(-5*dt))
+    if(smoothedLook.lengthSq()===0)smoothedLook.copy(lookTarget)
+    smoothedLook.lerp(lookTarget,1-Math.exp(-9*dt));camera.lookAt(smoothedLook)
     const targetFov=phase==='garage'?48:56+player.body.velocity.z*.14
     camera.fov=T.MathUtils.damp(camera.fov,targetFov,3,dt);camera.updateProjectionMatrix()
     renderer.render(scene,camera)

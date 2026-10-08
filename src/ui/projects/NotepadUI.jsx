@@ -1,13 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import './notepad.css'
 import './notepad-personality.css'
-
-const screens = [
-  { id: 'notes', label: 'Notes', purpose: 'Find the right thought quickly' },
-  { id: 'quick-capture', label: 'Quick capture', purpose: 'Write before the thought disappears' },
-  { id: 'organise', label: 'Organise', purpose: 'Add only the structure that helps later' },
-  { id: 'saved', label: 'Saved', purpose: 'Trust that the thought is findable' },
-]
+import { notepadScreens as screens } from './notepadScreens'
 
 const seedNotes = [
   { id: 1, title: 'Let them look around first', body: 'The product should earn the sign-up. Show one useful moment before asking for an email.', time: '9:24 AM', tag: 'Product', pinned: true, tint: 'amber' },

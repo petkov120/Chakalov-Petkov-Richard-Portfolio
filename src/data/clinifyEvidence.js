@@ -86,18 +86,35 @@ export const clinifyEvidence = {
     problem:
       'Care managers were switching tools to do one job, and every switch invited mistakes. AI voice made outreach faster, but it also raised the stakes. Every flow had to respect HIPAA: assigned access only, no open browse, and a human decision before any patient contact.',
     facts: [
-      { label: 'Role', value: 'Design Engineer' },
+      { label: 'Role', value: 'Founding designer & design engineer' },
       { label: 'Timeline', value: '18 months from MVP to production' },
       { label: 'Team', value: '2 Engineers, 1 PM, me as founding designer' },
       { label: 'Responsibilities', value: 'UX, UI, system design, frontend execution' },
       { label: 'Status', value: 'Shipped to paying enterprise customers' },
     ],
     context:
-      'Founding designer and design engineer. I owned the product from research through shipped UI, then moved into production frontend with AI-assisted workflows and Git-based delivery alongside engineering.',
+      'I was the founding designer and later moved into frontend delivery. I owned the experience from research and workflow definition through production UI, working directly with two engineers and one product manager.',
     roleScope: [
       'Owned UX and UI from research to shipped product',
       'Used AI-assisted implementation to move from concepts to production faster',
       'Worked in Git-based workflows with engineering to ship safely',
+    ],
+    executive: [
+      {
+        label: 'The mandate',
+        title: 'Turn fragmented outreach into one safe workflow.',
+        body: 'Care managers were using separate tools for email, SMS, and calling. Clinify needed one operational model without weakening access control or accountability.',
+      },
+      {
+        label: 'My ownership',
+        title: 'Research → product model → production frontend.',
+        body: 'I defined the interaction model, designed the system, worked through compliance constraints, and helped implement the shipped frontend alongside engineering.',
+      },
+      {
+        label: 'The result',
+        title: 'A production platform with paying customers.',
+        body: 'In 18 months, the product moved from MVP to a shared communication workspace with email, SMS, and human-approved AI voice.',
+      },
     ],
   },
   heroStage: {
@@ -286,16 +303,23 @@ export const clinifyEvidence = {
   ],
   decisions: [
     {
+      decision: 'Search by assigned member ID instead of exposing a directory.',
+      why: 'Care managers arrived with a member ID and were only permitted to access assigned patients. A browse-first table suggested broader access than the workflow allowed.',
+      tradeoff: 'We gave up browse and open-ended discovery. That made a valid member ID essential and required clearer empty, invalid, and unauthorized states—but it kept the interface aligned with assigned access.',
+      outcome: 'The interface opens one permitted member in context, with outreach and history attached to that record.',
+      refs: ['Fig 01', 'Fig 02'],
+    },
+    {
       decision: 'One communication center instead of three separate tools.',
       why: 'Care managers plan by campaign, not by channel. Separate tools made one task feel like three products.',
-      tradeoff: 'Each channel could have had a simpler, dedicated UI. We bet on one orchestration layer instead.',
+      tradeoff: 'A shared hub made the system harder to design and implement: permissions, drafts, delivery states, and history had to work consistently across three channels. Separate tools would have shipped with fewer dependencies.',
       outcome: 'One hub for email, SMS, and AI voice. Teams stopped switching tools mid task.',
       refs: ['Fig S.1', 'Fig 09'],
     },
     {
       decision: 'The AI runs the call. A care manager starts it.',
       why: 'Teams wanted AI speed but could not allow unreviewed patient contact. A human trigger was required.',
-      tradeoff: 'We ruled out fully autonomous outreach (Fig 04). No queue and walk away flow.',
+      tradeoff: 'Human approval adds time to every campaign and prevents a fully unattended queue. We accepted lower theoretical throughput to preserve recipient review, accountability, and a clear stop point.',
       outcome: 'Care managers control who gets called and when. AI handles script, dialing, and logging after approval.',
       refs: ['Fig 04', 'Fig 06'],
     },
@@ -307,6 +331,16 @@ export const clinifyEvidence = {
       'AI assisted implementation to move from product decisions to shipped frontend faster.',
       'Git based workflow for version control, reviews, and safer iteration with engineering.',
       'Permission scoped interaction model and call state logic to keep workflows reliable.',
+    ],
+  },
+  collaboration: {
+    label: 'How I worked',
+    title: 'Design decisions moved through the product team, not over the wall.',
+    body: 'I worked with two engineers and one product manager. We used workflow reviews to align on the operating model, then Git-based delivery to resolve implementation details in the product itself.',
+    items: [
+      'Product: shaped campaign requirements and customer priorities with the PM.',
+      'Engineering: defined shared channel behavior, permission boundaries, and call states together.',
+      'Delivery: moved from design artifacts into production frontend, using reviewable Git changes.',
     ],
   },
   results: {
@@ -325,12 +359,12 @@ export const clinifyEvidence = {
         detail: 'Time from MVP to production with AI voice in market',
       },
       {
-        value: '↓ risk',
-        detail: 'Recipient actions remain auditable with human approval before contact',
+        value: 'Auditable',
+        detail: 'Recipient actions retain a human approval step before patient contact',
       },
       {
-        value: '↑ confidence',
-        detail: 'Care teams execute outreach without rebuilding workflows after channel changes',
+        value: 'Human-led',
+        detail: 'AI handles execution only after a care manager chooses the recipient and starts the call',
       },
     ],
   },

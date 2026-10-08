@@ -1,14 +1,14 @@
 /* Work page: the same dark system and the same thumbnails as the gallery. */
 .wk-intro { padding: clamp(2.5rem, 6vw, 5rem) var(--edge) 1.5rem; }
 .wk-intro .mind-label { display: block; margin-bottom: 1rem; }
-.wk-intro h1 { font: 600 clamp(3rem, 9vw, 8rem)/.92 var(--font-ui); letter-spacing: -.055em; }
+.wk-intro h1 { font: 520 clamp(4rem, 10vw, 9.5rem)/.86 var(--font-display); letter-spacing: -.04em; }
 .wk-controls { display: flex; flex-wrap: wrap; gap: 1rem; padding: .5rem var(--edge) 2rem; }
 .wk-search { flex: 1 1 18rem; }
 .wk-search input { width: 100%; height: 3rem; padding: 0 1.25rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--text); font: 400 .9375rem var(--font-ui); }
 .wk-search input::placeholder { color: var(--muted); }
 .wk-search input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.wk-filters { display: flex; gap: .5rem; }
-.wk-filters button { min-height: 3rem; padding: 0 1.125rem; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--text); cursor: pointer; font: 500 .75rem/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; transition: background .2s; }
+.wk-filters { display: flex; gap: .5rem; min-width: 0; max-width: 100%; overflow-x: auto; scrollbar-width: none; } /* scrolls sideways on phones, like the homepage filters */
+.wk-filters button { flex: none; white-space: nowrap; min-height: 3rem; padding: 0 1.125rem; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--text); cursor: pointer; font: 500 .875rem/1 var(--font-ui); letter-spacing: 0; transition: background .2s; }
 .wk-filters button:hover { background: #1d1d20; }
 .wk-filters button[aria-pressed='true'] { background: var(--text); color: var(--bg); border-color: var(--text); }
 
@@ -21,9 +21,16 @@
 .wk-card:hover .thumb__main { translate: 0 -.4rem; } .wk-card:hover .thumb__back { translate: 0 .3rem; }
 .wk-card .thumb__main, .wk-card .thumb__back { transition: translate .35s cubic-bezier(.22, .8, .2, 1); }
 .wk-card__body { display: grid; gap: .5rem; padding: 1.25rem 1.5rem 1.5rem; }
-.wk-card small { font: 500 .6875rem/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.wk-card strong { font: 600 clamp(1.5rem, 2.6vw, 2rem)/1.05 var(--font-ui); letter-spacing: -.04em; }
+.wk-card small { font: 400 .875rem/1.4 var(--font-ui); color: var(--muted); }
+.wk-card strong { font: 520 clamp(2.2rem, 3.2vw, 2.8rem)/.92 var(--font-display); letter-spacing: -.03em; }
 .wk-card__body > span { font-size: .9375rem; line-height: 1.5; color: #b4b4bb; }
-.wk-card em { font: normal 500 .6875rem/1.5 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.wk-card em { font: normal 400 .875rem/1.5 var(--font-ui); color: var(--muted); }
 .wk-empty { grid-column: 1 / -1; padding: 3rem 0; color: var(--muted); }
 @media (prefers-reduced-motion: reduce) { .wk-card { animation: none; transition: none; } }
+
+/* prototypes: the resting screen in a phone, centred in the same 4:3 frame */
+.wk-card__media--phone { display: grid; place-items: center; padding: 1.25rem 0 0; background: radial-gradient(60% 70% at 50% 40%, rgb(255 255 255 / .06), transparent 70%), #0d0d0f; }
+.wk-phone { display: block; height: 100%; aspect-ratio: 390 / 844; padding: 4px; border-radius: 1.5rem 1.5rem 0 0; border: 1px solid #34343a; border-bottom: 0; background: #050506; overflow: hidden; pointer-events: none; }
+.wk-phone > * { border-radius: 1.2rem 1.2rem 0 0; overflow: hidden; height: 100%; background: #fff; }
+.wk-card small[data-group] { color: var(--group); }
+.wk-card__cta { margin-top: .375rem; font: 500 .9375rem/1.5 var(--font-ui); color: var(--text); }

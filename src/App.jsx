@@ -1,18 +1,20 @@
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import MindPortfolioPage from './pages/MindPortfolioPage'
-import ClinifyPage from './pages/ClinifyPage'
-import UniversityXPage from './pages/UniversityXPage'
-import NotesPage from './pages/NotesPage'
-import PlaygroundPage from './pages/PlaygroundPage'
-import NowPage from './pages/NowPage'
-import UIStudioPage from './pages/UIStudioPage'
-import WorkPage from './pages/WorkPage'
-import HydraPage from './pages/HydraPage'
-import KestbookPage from './pages/KestbookPage'
-import EfootballPage from './pages/EfootballPage'
-import QuickHandPage from './pages/QuickHandPage'
-import GlobalContactCTA from './components/layout/GlobalContactCTA'
 import { roomThemes } from './data/investigations'
+
+const ClinifyPage = lazy(() => import('./pages/ClinifyPage'))
+const UniversityXPage = lazy(() => import('./pages/UniversityXPage'))
+const NotesPage = lazy(() => import('./pages/NotesPage'))
+const PlaygroundPage = lazy(() => import('./pages/PlaygroundPage'))
+const NowPage = lazy(() => import('./pages/NowPage'))
+const UIStudioPage = lazy(() => import('./pages/UIStudioPage'))
+const WorkPage = lazy(() => import('./pages/WorkPage'))
+const HydraPage = lazy(() => import('./pages/HydraPage'))
+const KestbookPage = lazy(() => import('./pages/KestbookPage'))
+const EfootballPage = lazy(() => import('./pages/EfootballPage'))
+const QuickHandPage = lazy(() => import('./pages/QuickHandPage'))
+const ResumePage = lazy(() => import('./pages/ResumePage'))
+const GlobalContactCTA = lazy(() => import('./components/layout/GlobalContactCTA'))
 
 const routes = {
   '/': MindPortfolioPage,
@@ -36,6 +38,7 @@ const routes = {
   '/about': NotesPage,
   '/ui': UIStudioPage,
   '/work': WorkPage,
+  '/resume': ResumePage,
 }
 
 function getPathname() {
@@ -51,7 +54,7 @@ export default function App() {
   useEffect(() => {
     const rawPath = window.location.pathname.replace(/\/$/, '')
     if (rawPath === '/investigations') {
-      window.history.replaceState({}, '', '/#works')
+      window.history.replaceState({}, '', '/#work')
     }
   }, [])
 
@@ -71,7 +74,7 @@ export default function App() {
     const slug = pathname.slice(1)
     const room = roomThemes[slug]
 
-    if (Page === MindPortfolioPage || Page === HydraPage || Page === KestbookPage || Page === EfootballPage || Page === QuickHandPage || Page === NotesPage || Page === WorkPage) {
+    if (Page === MindPortfolioPage || Page === HydraPage || Page === KestbookPage || Page === EfootballPage || Page === QuickHandPage || Page === NotesPage || Page === WorkPage || Page === ClinifyPage || Page === UniversityXPage || Page === ResumePage) {
       body.classList.add('theme-mind')
     } else if (room) {
       body.classList.add(room)
@@ -85,9 +88,9 @@ export default function App() {
   }, [pathname, Page])
 
   return (
-    <>
+    <Suspense fallback={<div className="app-route-loading" role="status">Loading…</div>}>
       <Page />
-      {Page !== MindPortfolioPage && Page !== HydraPage && Page !== KestbookPage && Page !== EfootballPage && Page !== QuickHandPage && Page !== NotesPage && Page !== WorkPage && pathname !== '/ui' && <GlobalContactCTA />}
-    </>
+      {Page !== MindPortfolioPage && Page !== HydraPage && Page !== KestbookPage && Page !== EfootballPage && Page !== QuickHandPage && Page !== NotesPage && Page !== WorkPage && Page !== ClinifyPage && Page !== UniversityXPage && pathname !== '/ui' && Page !== ResumePage && <GlobalContactCTA />}
+    </Suspense>
   )
 }

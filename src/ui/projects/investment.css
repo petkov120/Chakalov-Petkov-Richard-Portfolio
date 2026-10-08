@@ -1,452 +1,511 @@
+/*
+  Nera: a calm brokerage UI. Grey canvas, white cards.
+  Colour roles: black = commands and controls; Nera purple = brand moments and
+  the two actions that move money (Confirm order, Add cash); green/red = gain/loss only.
+
+  Type scale (one role per job, no in-between sizes):
+    display-xl 44/600   amount being entered
+    display    34/600   balance, price
+    title      24/600   outcome headlines
+    section    18/600   section titles
+    headline   15/600   names, labels that lead a row, buttons
+    body       15/400   row labels and values, paragraphs at 14/1.5
+    callout    13/500   deltas, hints, tabs, chips
+    caption    12/500   meta, timestamps, quick-action labels
+    micro      10/600   tab bar
+  Ink levels: primary, secondary, tertiary. Hierarchy comes from weight and ink
+  before size.
+
+  Spacing: 4px base. Gutter 20, card padding 18, related items 12 apart,
+  sections 28–32 apart.
+*/
 .ngx {
+  --canvas: #f2f2f5;
+  --card: #fff;
+  --ink: #111113;
+  --ink-2: #5c5c64;
+  --ink-3: #9a9aa2;
+  --line: #ececf0;
+  --fill: #f4f4f7;
+  --up: #23933f;
+  --up-soft: #e7f5ea;
+  --down: #d23b30;
+  --down-soft: #fbeceb;
+  --gutter: 20px;
+  --pad: 18px;
+  --radius: 20px;
+  --lift: 0 0 0 .5px rgba(17, 17, 19, .07), 0 1px 3px rgba(17, 17, 19, .04);
+  --brand: #7c3aed;
+  --brand-2: #8b5cf6;
+  --brand-ink: #3b1578;
+  --brand-soft: #f1ebfe;
+  --brand-line: linear-gradient(180deg, var(--brand-2), #6d28d9);
+  /* The original Nera gradient: night violet into electric violet, vignetted. */
+  --brand-grad:
+    radial-gradient(130% 80% at 50% -8%, transparent 30%, rgba(0, 0, 0, .5) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, .55) 0%, rgba(0, 0, 0, .08) 26%, transparent 48%, rgba(0, 0, 0, .55) 100%),
+    linear-gradient(168deg, #120814 0%, #3b1578 34%, #7c3aed 62%, #1a0a28 100%);
+  --band: 450px;
+  --spring: cubic-bezier(.3, 1.3, .6, 1);
+  --font: Geist, Inter, system-ui, sans-serif;
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  color: #0e0f0c;
-  background: #f6f4ef;
-  font-family: Inter, system-ui, sans-serif;
-  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  background: var(--canvas);
+  font: 400 15px/1.45 var(--font);
+  letter-spacing: -.006em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
-.ngx--violet {
-  color: #fff;
-  background:
-    radial-gradient(130% 80% at 50% -8%, transparent 30%, rgba(0, 0, 0, .55) 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, .72) 0%, rgba(0, 0, 0, .12) 24%, transparent 46%, rgba(0, 0, 0, .62) 100%),
-    linear-gradient(168deg, #120814 0%, #3b1578 34%, #7c3aed 62%, #1a0a28 100%);
-}
-.ngx button { font-family: inherit; color: inherit; }
+.ngx button { font: inherit; letter-spacing: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .ngx :where(h2, h3, p) { margin: 0; }
-.ngx ul { margin: 0; padding: 0; list-style: none; }
+.ngx :where(ul, ol, dl) { margin: 0; padding: 0; list-style: none; }
+.ngx svg { flex: none; }
+.ngx :where(button) { transition: transform 220ms var(--spring), background-color 140ms ease, opacity 140ms ease; }
+.ngx :where(.ngx-action, .ngx-icon, .ngx-row, .ngx-line, .ngx-chips button, .ngx-copy, .ngx-method):active { transform: scale(.97); transition-duration: 80ms; }
+.ngx .is-up { color: var(--up); }
+.ngx .is-down { color: var(--down); }
 
+/* ── Type roles ────────────────────────────────── */
+.ngx .ngx-amount { font: 600 44px/1 var(--font); letter-spacing: -.05em; }
+.ngx :is(.ngx-total, .ngx-onboard h2) { font: 600 34px/1.05 var(--font); letter-spacing: -.045em; }
+.ngx .ngx-done h2 { font: 600 24px/1.2 var(--font); letter-spacing: -.03em; }
+.ngx :is(.ngx-section h3, .ngx-subhead, .ngx-picker__bar strong, .ngx-quote--review strong) { font: 600 18px/1.3 var(--font); letter-spacing: -.02em; }
+.ngx :is(.ngx-row strong, .ngx-quote strong, .ngx-note__head, .ngx-promo strong, .ngx-points strong, .ngx-topbar__title,
+  .ngx-method strong, .ngx-line--method strong, .ngx-rows .is-total dt) { font: 600 15px/1.3 var(--font); letter-spacing: -.01em; }
+.ngx .ngx-action { font: 600 16px/1 var(--font); letter-spacing: -.01em; }
+.ngx :is(.ngx-rows dt, .ngx-rows dd, .ngx-line > span, .ngx-line > strong, .ngx-grid dt, .ngx-grid dd, .ngx-alloc__label) { font: 400 15px/1.3 var(--font); }
+.ngx :is(.ngx-rows dd, .ngx-line > strong, .ngx-grid dd, .ngx-alloc__label b) { font-weight: 500; }
+.ngx .ngx-rows .is-total dd { font: 600 18px/1.2 var(--font); letter-spacing: -.02em; }
+.ngx :is(.ngx-note p + p, .ngx-done p, .ngx-promo p) { font: 400 14px/1.5 var(--font); }
+.ngx .ngx-onboard__lockup p { font: 400 17px/1.45 var(--font); letter-spacing: -.012em; }
+.ngx :is(.ngx-delta, .ngx-today, .ngx-amount__hint, .ngx-tabs button, .ngx-chips button, .ngx-segment span, .ngx-row small,
+  .ngx-quote small, .ngx-points small, .ngx-method small, .ngx-line--method small, .ngx-promo__link,
+  .ngx-line__action, .ngx-link, .ngx-progress strong, .ngx-notice) { font: 500 13px/1.35 var(--font); letter-spacing: 0; }
+.ngx :is(.ngx-row small, .ngx-quote small, .ngx-points small, .ngx-method small, .ngx-line--method small, .ngx-notice) { font-weight: 400; }
+.ngx :is(.ngx-hero__label, .ngx-section span, .ngx-note__head small, .ngx-step, .ngx-quick button, .ngx-progress small,
+  .ngx-ranges button, .ngx-fine) { font: 500 12px/1.35 var(--font); letter-spacing: .005em; }
+.ngx .ngx-fine { font-weight: 400; line-height: 1.55; }
+.ngx .ngx-tabbar button { font: 600 10px/1 var(--font); letter-spacing: .01em; }
+.ngx .ngx-keypad :is(span, button) { font: 400 26px/1 var(--font); letter-spacing: -.02em; }
+
+/* Figures: proportional when large (they read as a shape), tabular in lists (they align). */
+.ngx :is(.ngx-total, .ngx-amount) { font-variant-numeric: proportional-nums; }
+.ngx :is(.ngx-rows dd, .ngx-row__side, .ngx-grid dd, .ngx-line > strong, .ngx-alloc__label b, .ngx-delta) { font-variant-numeric: tabular-nums; }
+.ngx-money { display: inline-flex; align-items: baseline; }
+.ngx-money__cur { align-self: flex-start; margin: .14em .06em 0 0; font-size: .54em; font-weight: 500; line-height: 1; }
+.ngx-money__dec { color: var(--ink-3); }
+.ngx-total { margin-left: -.02em; }
+
+/* ── Device chrome ─────────────────────────────── */
 .ngx-status {
   position: relative;
+  z-index: 3;
   display: flex;
+  flex: 0 0 52px;
   align-items: flex-end;
   justify-content: space-between;
-  flex: 0 0 58px;
-  padding: 0 22px 8px;
-  font-size: 13px;
-  font-weight: 650;
+  padding: 0 26px 8px 32px;
+  font: 600 15px/1 var(--font);
 }
-.ngx-status i {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  width: 108px;
-  height: 28px;
-  border-radius: 999px;
-  background: #0e0f0c;
-  transform: translateX(-50%);
-}
-.ngx-status__market {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: #3d5c28;
-  font-size: 12px;
-  font-weight: 650;
-}
-.ngx-status__market b {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #9fe870;
-  box-shadow: 0 0 0 3px rgba(159, 232, 112, .35);
-}
-.ngx-status--light { color: #fff; }
+.ngx-status > i { position: absolute; top: 11px; left: 50%; width: 104px; height: 30px; border-radius: 999px; background: #000; transform: translateX(-50%); }
+.ngx-status__icons { display: inline-flex; align-items: center; gap: 5px; }
+.ngx-status__icons svg { fill: currentColor; }
+.ngx-battery { position: relative; display: block; width: 23px; height: 11px; padding: 1.5px; border: 1px solid rgba(17, 17, 19, .35); border-radius: 3.5px; }
+.ngx-battery::after { content: ''; position: absolute; top: 3px; right: -3px; width: 1.5px; height: 4px; border-radius: 0 1px 1px 0; background: rgba(17, 17, 19, .35); }
+.ngx-battery i { display: block; width: 78%; height: 100%; border-radius: 1.5px; background: currentColor; }
+.ngx-indicator { position: absolute; bottom: 8px; left: 50%; z-index: 4; width: 134px; height: 5px; border-radius: 999px; background: var(--ink); transform: translateX(-50%); }
 
-.ngx-screen--home,
-.ngx-screen--asset { padding: 2px 20px 0; }
-.ngx-wallet__bar { display: flex; align-items: center; justify-content: space-between; }
-.ngx-switch { display: flex; align-items: center; gap: 2px; }
-.ngx-switch button {
-  height: 36px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: rgba(255, 255, 255, .72);
-  font-size: 15px;
-  font-weight: 600;
-}
-.ngx-switch button.is-on {
-  color: #fff;
-  background: rgba(255, 255, 255, .18);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .32);
-}
-.ngx-bell {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  color: #fff;
-  background: rgba(255, 255, 255, .16);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .3);
-}
-.ngx-bell svg { width: 16px; height: 16px; }
-.ngx-wallet__id {
+.ngx-screen {
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 28px;
-  font-size: 15px;
-  font-weight: 650;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0 var(--gutter) 34px;
+  animation: ngx-in 260ms ease-out both;
 }
-.ngx-wallet__id i { width: 1px; height: 14px; background: rgba(255, 255, 255, .45); }
-.ngx-logo {
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  color: #3b1578;
-  background: #fff;
-  font-size: 8px;
-  font-weight: 800;
-}
-.ngx-logo--ink { color: #fff; background: #1a1c19; }
-.ngx-logo--stone { color: #0e0f0c; background: #e7e3da; }
-.ngx-logo--sand { color: #5c3b12; background: #f3e2c4; }
-.ngx-wallet__balance {
-  margin-top: 8px;
-  font-size: 42px;
-  font-weight: 560;
-  letter-spacing: -.045em;
-  line-height: 1;
-  text-align: center;
-}
-.ngx-wallet__balance small { margin-right: 2px; font-size: .58em; font-weight: 500; }
-.ngx-wallet__move {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 12px;
-  color: rgba(255, 255, 255, .92);
-  font-size: 14px;
-  font-weight: 550;
-}
-.ngx-orbits { display: flex; justify-content: center; gap: 28px; margin-top: 22px; }
-.ngx-orbit {
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
-}
-.ngx-orbit > span {
-  display: grid;
-  place-items: center;
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .16);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .34);
-}
-.ngx-orbit svg { width: 22px; height: 22px; }
-.ngx-wallet__note { margin-top: 14px; text-align: center; font-size: 13px; color: rgba(255, 255, 255, .9); }
-.ngx--violet .ngx-back { color: #fff; }
-.ngx-brand { display: block; width: 132px; height: 132px; filter: drop-shadow(0 22px 28px rgba(0, 0, 0, .4)); }
+@keyframes ngx-in { from { opacity: 0; transform: translateY(6px); } }
+
+/* ── Atoms ─────────────────────────────────────── */
+.ngx-brand { display: block; width: 72px; height: 72px; }
 .ngx-brand img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.ngx-brand--mini { width: 24px; height: 24px; filter: drop-shadow(0 3px 5px rgba(17, 5, 35, .35)); }
-.ngx-onboard { justify-content: center; align-items: center; overflow: hidden; padding: 0 28px 48px; }
-.ngx-onboard__lockup { display: grid; justify-items: center; gap: 14px; }
-.ngx-onboard h2 { font-size: 56px; font-weight: 620; letter-spacing: -.055em; line-height: .86; }
-.ngx-onboard__place { color: rgba(255, 255, 255, .7); font-size: 12px; font-weight: 680; letter-spacing: .16em; text-transform: uppercase; }
-.ngx-launch { position: relative; display: grid; place-items: center; padding: 0; border: 0; background: transparent; color: inherit; }
+.ngx-brand--mini { width: 18px; height: 18px; }
+
+.ngx-topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; }
+.ngx-topbar__title { position: absolute; left: 50%; transform: translateX(-50%); }
+.ngx-topbar__trail { display: flex; align-items: center; justify-content: flex-end; gap: 2px; min-width: 36px; }
+.ngx-step { color: var(--ink-3); }
+
+.ngx-icon { position: relative; display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; background: transparent; }
+.ngx-icon:hover { background: rgba(17, 17, 19, .05); }
+.ngx-icon[aria-pressed='true'] svg path { fill: currentColor; }
+.ngx-icon > b { position: absolute; top: 8px; right: 9px; width: 7px; height: 7px; border: 1.5px solid var(--canvas); border-radius: 50%; background: var(--down); }
+
+.ngx-card { margin-top: 12px; border-radius: var(--radius); background: var(--card); box-shadow: var(--lift); }
+.ngx-link { padding: 0; border: 0; background: none; color: var(--ink-2); }
+
+.ngx-tile { display: grid; flex: none; place-items: center; width: 40px; height: 40px; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 1px var(--line); font: 600 11px/1 var(--font); }
+.ngx-tile img { width: 80%; height: 80%; object-fit: contain; }
+.ngx-tile--lg { width: 44px; height: 44px; border-radius: 13px; }
+
+.ngx-delta { display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; }
+.ngx-delta.is-up { color: var(--up); }
+.ngx-delta.is-down { color: var(--down); }
+
+.ngx-dock { margin-top: auto; padding-top: 16px; }
+.ngx-dock--pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ngx-dock--bar { margin: 0 calc(var(--gutter) * -1) -34px; padding: 12px var(--gutter) 34px; background: var(--card); box-shadow: inset 0 1px 0 var(--line); }
+.ngx .ngx-action { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 54px; border: 0; border-radius: 999px; color: #fff; background: var(--ink); }
+.ngx .ngx-action--quiet { color: var(--ink); background: var(--card); box-shadow: var(--lift); }
+.ngx .ngx-action:disabled { opacity: .3; cursor: default; }
+
+.ngx-rows div { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; }
+.ngx-rows div + div { box-shadow: inset 0 1px 0 var(--line); }
+.ngx-rows dt { display: inline-flex; align-items: center; gap: 5px; color: var(--ink-2); }
+.ngx-rows dt svg { color: var(--ink-3); }
+.ngx-rows dd { margin: 0; }
+.ngx-rows div.is-total { min-height: 60px; box-shadow: inset 0 1px 0 var(--ink); }
+.ngx-rows .is-total dt { color: var(--ink); }
+.ngx-card.ngx-rows { padding: 0 var(--pad); }
+.ngx-fine { margin-top: 14px; padding: 0 4px; color: var(--ink-3); }
+
+/* ── Chart ─────────────────────────────────────── */
+.ngx-chart { display: block; width: 100%; height: 132px; overflow: visible; color: var(--up); }
+.ngx-chart.is-down { color: var(--down); }
+.ngx-card .ngx-chart { width: calc(100% + var(--pad) * 2); margin: 20px calc(var(--pad) * -1) 0; }
+.ngx-chart__base { stroke: var(--ink-3); stroke-opacity: .55; stroke-width: 1; stroke-dasharray: 2 4; vector-effect: non-scaling-stroke; }
+.ngx-chart__line { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.ngx-chart__dot { fill: currentColor; stroke: var(--card); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.ngx-ranges { display: flex; align-items: center; margin-top: 16px; }
+.ngx-ranges > div { display: flex; flex: 1; justify-content: space-between; }
+.ngx-ranges button { height: 28px; padding: 0 10px; border: 0; border-radius: 8px; background: transparent; color: var(--ink-3); font-weight: 600; }
+.ngx-ranges button.is-on { color: var(--up); background: var(--up-soft); }
+.ngx-chart.is-down + .ngx-ranges button.is-on { color: var(--down); background: var(--down-soft); }
+
+/* ── Onboarding ────────────────────────────────── */
+.ngx-onboard { padding-top: 56px; }
+.ngx-onboard__lockup { display: grid; justify-items: start; }
+.ngx-onboard h2 { margin-top: 24px; }
+.ngx-onboard__lockup p { max-width: 280px; margin-top: 14px; color: var(--ink-2); }
+.ngx-points { display: grid; margin-top: 36px; padding: 0 var(--pad); }
+.ngx-points li { display: grid; grid-template-columns: 22px 1fr; gap: 14px; padding: 16px 0; }
+.ngx-points li + li { box-shadow: inset 0 1px 0 var(--line); }
+.ngx-points svg { margin-top: 1px; color: var(--ink); }
+.ngx-points span { display: grid; gap: 3px; }
+.ngx-points small { color: var(--ink-2); }
+.ngx-onboard__foot { display: grid; gap: 18px; justify-items: center; margin-top: auto; }
+.ngx-launch { position: relative; display: grid; place-items: center; padding: 0; border: 0; background: transparent; }
 .ngx-launch .ngx-brand { position: relative; z-index: 1; }
 .ngx-launch__flame {
   position: absolute;
   z-index: 0;
   top: 72%;
   left: 50%;
-  width: 22px;
-  height: 28px;
+  width: 16px;
+  height: 20px;
   border-radius: 999px;
-  background: linear-gradient(#fff, #ddd6fe 28%, rgba(124, 58, 237, .35) 62%, transparent);
+  background: linear-gradient(#fff, #ddd6fe 28%, rgba(124, 58, 237, .4) 62%, transparent);
   opacity: 0;
-  filter: blur(.4px);
   transform: translateX(-50%) scaleY(.2);
   transform-origin: top center;
   pointer-events: none;
 }
 .ngx-onboard.is-launching .ngx-launch { animation: ngx-rocket 980ms cubic-bezier(.55, .05, .85, .45) forwards; }
 .ngx-onboard.is-launching .ngx-launch__flame { animation: ngx-flame 980ms ease-in forwards; }
-.ngx-onboard.is-launching h2,
-.ngx-onboard.is-launching .ngx-onboard__place { animation: ngx-word-fade 380ms ease 80ms forwards; }
+.ngx-onboard.is-launching :is(h2, .ngx-onboard__lockup p, .ngx-points, .ngx-onboard__foot) { animation: ngx-word-fade 380ms ease 80ms forwards; }
 @keyframes ngx-rocket {
   0% { transform: translateY(0) scale(1); }
-  16% { transform: translateY(14px) scale(.94); }
+  16% { transform: translateY(10px) scale(.94); }
   100% { transform: translateY(-680px) scale(1.08); }
 }
 @keyframes ngx-flame {
-  0%, 14% { opacity: 0; height: 16px; }
-  28% { opacity: 1; height: 92px; }
-  100% { opacity: .15; height: 210px; }
+  0%, 14% { opacity: 0; height: 12px; }
+  28% { opacity: 1; height: 70px; }
+  100% { opacity: .15; height: 180px; }
 }
-@keyframes ngx-word-fade { to { opacity: 0; transform: translateY(10px); } }
+@keyframes ngx-word-fade { to { opacity: 0; transform: translateY(8px); } }
+
+/* ── Portfolio ─────────────────────────────────── */
+.ngx-screen--home { padding: 0; }
+.ngx-scroll { flex: 1; min-height: 0; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; overscroll-behavior: contain; padding: 0 var(--gutter) 120px; }
+.ngx-scroll::-webkit-scrollbar { display: none; }
+
+.ngx-hero { margin-top: 24px; padding: 0 2px; }
+.ngx-hero__label { color: var(--ink-3); }
+.ngx-hero .ngx-total { margin-top: 8px; }
+.ngx-hero .ngx-today { margin-top: 14px; }
+.ngx-today { display: flex; align-items: center; gap: 4px; color: var(--ink-3); }
+
+.ngx-quick { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 28px; }
+.ngx-quick button { display: grid; justify-items: center; gap: 8px; padding: 0; border: 0; background: none; color: var(--ink-2); }
+.ngx-quick button > span { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; color: var(--ink); background: var(--card); box-shadow: var(--lift); transition: transform 220ms var(--spring), box-shadow 160ms ease; }
+.ngx-quick button:active > span { transform: scale(.92); }
+.ngx-quick button.is-primary { color: var(--ink); }
+.ngx-quick button.is-primary > span { color: #fff; background: var(--ink); box-shadow: 0 6px 16px rgba(17, 17, 19, .2); }
+.ngx-quick button[aria-pressed='true'] { color: var(--ink); }
+.ngx-quick button[aria-pressed='true'] > span { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.ngx-notice { display: flex; align-items: flex-start; gap: 10px; margin-top: 20px; padding: 14px 16px; border-radius: 14px; color: var(--ink-2); background: var(--card); box-shadow: var(--lift); animation: ngx-in 220ms ease-out both; }
+.ngx-notice svg { margin-top: 1px; color: var(--ink-3); }
+
+.ngx-summary { margin-top: 28px; padding: 0 var(--pad) 16px; }
+.ngx-tabs { display: flex; gap: 22px; margin: 0 calc(var(--pad) * -1); padding: 0 var(--pad); box-shadow: inset 0 -1px 0 var(--line); }
+.ngx-tabs button { height: 48px; padding: 0; border: 0; background: none; color: var(--ink-3); }
+.ngx-tabs button.is-on { color: var(--ink); font-weight: 600; box-shadow: inset 0 -2px 0 var(--ink); }
+.ngx-alloc { display: grid; gap: 18px; padding: 22px 0 6px; }
+.ngx-alloc li { display: grid; gap: 8px; }
+.ngx-alloc__label { display: flex; justify-content: space-between; }
+.ngx-alloc__bar { display: block; height: 4px; border-radius: 999px; background: var(--fill); }
+.ngx-alloc__bar i { display: block; height: 100%; border-radius: inherit; background: var(--ink); }
+
+.ngx-line { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 56px; padding: 0 14px 0 var(--pad); border: 0; text-align: left; }
+.ngx-line > span:first-child:not(.ngx-line__icon) { flex: 1; color: var(--ink-2); }
+.ngx-line > svg { color: var(--ink-3); }
+
+.ngx-promo { position: relative; margin-top: 12px; padding: var(--pad) 44px var(--pad) var(--pad); border-radius: var(--radius); color: #fff; background: radial-gradient(120% 140% at 100% 0%, #2a2140 0%, #121214 58%); }
+.ngx-promo p { margin-top: 6px; color: rgba(255, 255, 255, .64); }
+.ngx-promo__link { display: inline-flex; align-items: center; gap: 2px; margin-top: 14px; padding: 0; border: 0; background: none; font-weight: 600; }
+.ngx .ngx-promo__link { color: #fff; }
+.ngx-promo__close { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .1); }
+.ngx .ngx-promo__close { color: rgba(255, 255, 255, .7); }
+
+.ngx-section { display: flex; align-items: baseline; justify-content: space-between; margin-top: 32px; padding: 0 2px; }
+.ngx-section span { color: var(--ink-3); }
+.ngx-list { margin-top: 12px; padding: 0 var(--pad); }
+.ngx-list li + li .ngx-row { background: linear-gradient(var(--line), var(--line)) 54px 0 / calc(100% - 54px) 1px no-repeat; }
+.ngx-row { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 14px; align-items: center; width: 100%; min-height: 72px; padding: 0; border: 0; background: transparent; text-align: left; }
+.ngx-row__main, .ngx-row__side { display: grid; gap: 3px; min-width: 0; }
+.ngx-row__side { justify-items: end; }
+.ngx-row__side strong { font-weight: 500; }
+.ngx-row small { color: var(--ink-3); }
+
+.ngx-tabbar { position: absolute; right: 0; bottom: 0; left: 0; z-index: 2; height: 104px; padding: 0 16px; background: linear-gradient(rgba(242, 242, 245, 0), var(--canvas) 42%); }
+.ngx-tabbar > div { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-top: 20px; padding: 5px; border-radius: 999px; background: rgba(255, 255, 255, .94); box-shadow: var(--lift), 0 10px 28px rgba(17, 17, 19, .08); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+.ngx-tabbar button { display: grid; justify-items: center; align-content: center; gap: 4px; height: 48px; padding: 0; border: 0; border-radius: 999px; background: transparent; color: var(--ink-3); }
+.ngx-tabbar button.is-on { color: var(--ink); background: var(--fill); }
+
+/* ── Asset ─────────────────────────────────────── */
+.ngx-scroll--asset { margin: 0 calc(var(--gutter) * -1); padding-bottom: 28px; }
+.ngx-scroll--asset .ngx-summary { margin-top: 8px; padding: var(--pad) var(--pad) 16px; }
+.ngx-quote { display: flex; align-items: center; gap: 12px; }
+.ngx-quote span { display: grid; gap: 2px; }
+.ngx-quote small { color: var(--ink-3); }
+.ngx-total--asset { margin-top: 22px; }
+.ngx-summary .ngx-total--asset + .ngx-today { margin-top: 14px; }
+.ngx-note { margin-top: 12px; padding: 16px var(--pad); }
+.ngx-note__head { display: flex; align-items: center; gap: 8px; }
+.ngx-note__head small { margin-left: auto; color: var(--ink-3); }
+.ngx-note p + p { margin-top: 8px; color: var(--ink-2); }
+.ngx-subhead { margin: 32px 2px 0; }
+.ngx-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 28px; padding: 0 var(--pad); }
+.ngx-grid div { display: flex; align-items: center; justify-content: space-between; min-height: 52px; }
+.ngx-grid div:nth-child(n + 3) { box-shadow: inset 0 1px 0 var(--line); }
+.ngx-grid dt { color: var(--ink-2); }
+.ngx-grid dd { margin: 0; }
+
+/* ── Order / review / add cash ─────────────────── */
+.ngx-ticket { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; min-height: 0; margin-top: 8px; padding: 24px var(--pad); text-align: center; }
+.ngx-segment { display: flex; padding: 3px; border: 0; border-radius: 999px; background: var(--fill); }
+.ngx-segment span { padding: 6px 14px; border-radius: 999px; color: var(--ink-3); transition: background-color 160ms ease, color 160ms ease; }
+.ngx-segment span.is-on { color: var(--ink); background: var(--card); box-shadow: 0 1px 2px rgba(17, 17, 19, .1); }
+.ngx-amount { display: flex; align-items: center; margin-top: 28px; }
+.ngx-amount small { margin-left: 8px; color: var(--ink-3); font: 500 18px/1 var(--font); letter-spacing: -.01em; }
+.ngx-amount.is-empty { color: var(--ink-3); }
+.ngx-amount.is-over { color: var(--down); animation: ngx-shake 320ms ease; }
+.ngx-amount.is-long { font-size: 36px; }
+@keyframes ngx-shake { 25% { translate: -5px 0; } 50% { translate: 4px 0; } 75% { translate: -2px 0; } }
+.ngx-caret { width: 2px; height: 38px; margin-left: 4px; border-radius: 1px; background: var(--ink); animation: ngx-blink 1s steps(1) infinite; }
+@keyframes ngx-blink { 50% { opacity: 0; } }
+.ngx-amount__hint { margin-top: 14px; color: var(--ink-3); }
+.ngx-amount__hint.is-over { color: var(--down); }
+.ngx-chips { display: flex; gap: 8px; margin-top: 24px; }
+.ngx-chips button { height: 34px; padding: 0 14px; border: 0; border-radius: 999px; background: transparent; box-shadow: inset 0 0 0 1px var(--line); color: var(--ink-2); }
+.ngx-chips button.is-on { color: #fff; background: var(--ink); box-shadow: none; }
+.ngx-keypad { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 12px; }
+.ngx .ngx-keypad :is(span, button) { display: grid; place-items: center; height: 54px; padding: 0; border: 0; border-radius: 14px; background: transparent; }
+.ngx-keypad button:active { background: var(--card); }
+.ngx-screen--sheet .ngx-dock { padding-top: 10px; }
+.ngx-line--method { gap: 12px; padding: 14px var(--pad) 14px 14px; }
+.ngx-line__icon { display: grid; flex: none; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--fill); }
+.ngx-line--method > span:nth-child(2), .ngx-method > span:nth-child(2) { display: grid; flex: 1; gap: 2px; }
+.ngx-line--method small, .ngx-method small { color: var(--ink-3); }
+.ngx-line__action { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--ink-3); }
+.ngx-quote--review { margin-top: 8px; padding: 16px var(--pad) 16px 16px; }
+
+/* ── Done ──────────────────────────────────────── */
+.ngx-done { display: grid; flex: 1; align-content: center; justify-items: center; text-align: center; }
+.ngx-done__mark { position: relative; display: grid; place-items: center; width: 76px; height: 76px; }
+.ngx-done__mark > span { display: grid; place-items: center; width: 76px; height: 76px; border-radius: 50%; color: #fff; background: var(--up); box-shadow: 0 0 0 8px var(--up-soft), 0 12px 28px rgba(35, 147, 63, .24); animation: ngx-pop 560ms var(--spring) both; }
+.ngx-done__mark > span svg path { stroke-dasharray: 30; stroke-dashoffset: 30; animation: ngx-draw 360ms ease-out 240ms forwards; }
+.ngx-done__mark i { position: absolute; top: 50%; left: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: var(--up); opacity: 0; animation: ngx-burst 820ms cubic-bezier(.2, .7, .3, 1) 200ms both; }
+.ngx-done__mark i:nth-child(3n) { background: var(--ink); }
+.ngx-done__mark i:nth-child(3n + 1) { background: #9bd3a7; }
+@keyframes ngx-pop { from { transform: scale(.5); opacity: 0; } }
+@keyframes ngx-draw { to { stroke-dashoffset: 0; } }
+@keyframes ngx-burst {
+  0% { opacity: 1; transform: rotate(var(--a)) translateY(0) scale(.5); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(var(--a)) translateY(-70px) scale(1); }
+}
+.ngx-done h2 { margin-top: 32px; }
+.ngx-done p { max-width: 260px; margin-top: 8px; color: var(--ink-2); }
+.ngx-receipt { margin-top: 24px; padding: 0 var(--pad); }
+.ngx-receipt .ngx-progress { margin: 18px 0; }
+.ngx-receipt .ngx-progress + .ngx-rows { box-shadow: inset 0 1px 0 var(--line); }
+.ngx-progress { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); }
+.ngx-progress::before { content: ''; position: absolute; top: 3px; right: 0; left: 0; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--up) 18%, var(--line) 18%); }
+.ngx-progress li { position: relative; display: grid; gap: 2px; }
+.ngx-progress b { width: 8px; height: 8px; margin-bottom: 10px; border-radius: 50%; background: var(--card); box-shadow: inset 0 0 0 2px var(--ink-3); }
+.ngx-progress li.is-done b { background: var(--up); box-shadow: 0 0 0 3px var(--up-soft); }
+.ngx-progress strong { font-weight: 600; }
+.ngx-progress small { color: var(--ink-3); }
+.ngx-copy { display: inline-flex; align-items: center; gap: 6px; padding: 0; border: 0; background: none; font-weight: 500; }
+.ngx-copy svg { color: var(--ink-3); }
+
+/* ── Picker sheet ──────────────────────────────── */
+.ngx-overlay { position: absolute; inset: -52px 0 0; z-index: 5; display: flex; align-items: flex-end; background: rgba(17, 17, 19, .28); animation: ngx-fade 200ms ease both; }
+@keyframes ngx-fade { from { opacity: 0; } }
+.ngx-picker { position: relative; width: 100%; padding: 8px var(--gutter) 40px; border-radius: 24px 24px 0 0; background: var(--card); animation: ngx-rise 360ms var(--spring) both; }
+@keyframes ngx-rise { from { transform: translateY(60px); } }
+.ngx-grabber { display: block; width: 36px; height: 5px; margin: 0 auto; border-radius: 999px; background: var(--line); }
+.ngx-picker__bar { display: flex; align-items: center; justify-content: space-between; margin: 12px 0 4px; }
+.ngx-method { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 68px; padding: 0; border: 0; background: none; text-align: left; }
+.ngx-picker li + li .ngx-method { box-shadow: inset 0 1px 0 var(--line); }
+.ngx-radio { width: 20px; height: 20px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--ink-3); transition: box-shadow 180ms var(--spring); }
+.ngx-method.is-on .ngx-radio { box-shadow: inset 0 0 0 6px var(--ink); }
+
+/* Trim leading on large figures where supported, so spacing is measured from the digits, not the line box. */
+@supports (text-box: trim-both cap alphabetic) {
+  .ngx :is(.ngx-total, .ngx-onboard h2) { text-box: trim-both cap alphabetic; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .ngx-onboard.is-launching .ngx-launch,
-  .ngx-onboard.is-launching .ngx-launch__flame,
-  .ngx-onboard.is-launching h2,
-  .ngx-onboard.is-launching .ngx-onboard__place { animation: none; }
-}
-.ngx-sheet {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-height: 0;
-  margin: 22px -20px 0;
-  padding: 18px 20px 12px;
-  border-radius: 28px 28px 0 0;
-  color: #0e0f0c;
-  background: #f4f7f2;
-}
-.ngx-sheet h2 { margin: 0 0 4px; font-size: 22px; font-weight: 680; letter-spacing: -.03em; }
-.ngx-sheet h3 { margin: 0 0 2px; font-size: 15px; font-weight: 700; }
-
-.ngx-screen {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-height: 0;
-  padding: 6px 20px 24px;
-  animation: ngx-in 280ms ease both;
-}
-.ngx-kicker { color: #6a6963; font-size: 13px; font-weight: 500; }
-.ngx-screen > h2 {
-  margin-top: 4px;
-  font-size: 28px;
-  font-weight: 650;
-  letter-spacing: -.04em;
-  line-height: 1.05;
-}
-.ngx-balance {
-  margin-top: 14px;
-  font-size: 40px;
-  font-weight: 620;
-  letter-spacing: -.045em;
-  line-height: .95;
-}
-.ngx-day {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-  color: #3f3e39;
-  font-size: 14px;
-  font-weight: 550;
-}
-.ngx-pill {
-  display: inline-flex;
-  align-items: center;
-  height: 24px;
-  padding: 0 8px;
-  border-radius: 7px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: -.01em;
-}
-.ngx-pill--up { color: #163300; background: #9fe870; }
-.ngx-pill--down { color: #7a2218; background: #f6d2cc; }
-
-.ngx-cash {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-top: 18px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: #fff;
-}
-.ngx-cash span { color: #6a6963; font-size: 13px; }
-.ngx-cash strong { font-size: 18px; font-weight: 680; letter-spacing: -.03em; }
-
-.ngx-screen > h3 {
-  margin: 22px 0 4px;
-  font-size: 15px;
-  font-weight: 680;
-}
-.ngx-row {
-  display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: center;
-  width: 100%;
-  padding: 13px 0;
-  border: 0;
-  border-bottom: 1px solid #e7e3da;
-  background: transparent;
-  text-align: left;
-}
-button.ngx-row { cursor: pointer; }
-.ngx-mark {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 750;
-  letter-spacing: -.03em;
-}
-.ngx-mark--forest { color: #9fe870; background: #163300; }
-.ngx-mark--ink { color: #f6f4ef; background: #1a1c19; }
-.ngx-mark--stone { color: #0e0f0c; background: #e7e3da; }
-.ngx-mark--sand { color: #5c3b12; background: #f3e2c4; }
-.ngx-row__name, .ngx-row__price { display: grid; gap: 3px; min-width: 0; }
-.ngx-row__price { justify-items: end; }
-.ngx-row__name strong, .ngx-row__price strong {
-  overflow: hidden;
-  font-size: 15px;
-  font-weight: 650;
-  letter-spacing: -.02em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.ngx-row__name small { color: #6a6963; font-size: 12px; font-weight: 550; }
-
-.ngx-back {
-  align-self: flex-start;
-  margin: 0 0 14px -2px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: #3d5c28;
-  font-size: 14px;
-  font-weight: 650;
-}
-.ngx-back::before { content: '←  '; }
-.ngx-pair {
-  color: #6a6963;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .08em;
-}
-.ngx-price {
-  margin-top: 6px;
-  font-size: 36px;
-  font-weight: 650;
-  letter-spacing: -.045em;
-  line-height: 1;
-}
-.ngx-chart {
-  position: relative;
-  height: 128px;
-  margin: 16px 0 0;
-  overflow: hidden;
-  border-radius: 18px;
-  background: #fff;
-}
-.ngx-chart svg { display: block; width: 100%; height: 108px; }
-.ngx-chart figcaption {
-  position: absolute;
-  top: 12px;
-  left: 14px;
-  color: #6a6963;
-  font-size: 12px;
-  font-weight: 600;
-}
-.ngx-why {
-  margin-top: 14px;
-  color: #3f3e39;
-  font-size: 15px;
-  line-height: 1.45;
-}
-.ngx-hold {
-  margin-top: 14px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: #fff;
-  font-size: 15px;
-  line-height: 1.4;
-}
-.ngx-hold strong { font-weight: 720; }
-.ngx-dock { margin-top: auto; padding-top: 18px; }
-.ngx-action {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 54px;
-  border: 0;
-  border-radius: 999px;
-  background: #9fe870;
-  color: #163300;
-  font-size: 16px;
-  font-weight: 750;
-  letter-spacing: -.02em;
+  .ngx-screen, .ngx-picker, .ngx-overlay, .ngx-amount, .ngx-caret, .ngx-done__mark > span, .ngx-done__mark i, .ngx-done__mark path, .ngx-notice,
+  .ngx-onboard.is-launching :is(.ngx-launch, .ngx-launch__flame, h2, .ngx-onboard__lockup p, .ngx-points, .ngx-onboard__foot) { animation: none; }
+  .ngx-done__mark > span svg path { stroke-dashoffset: 0; }
 }
 
-.ngx-chips { display: flex; gap: 8px; margin-top: 16px; }
-.ngx-chips span {
-  display: grid;
-  place-items: center;
-  height: 36px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: #fff;
-  color: #3f3e39;
-  font-size: 13px;
-  font-weight: 650;
-}
-.ngx-chips .is-selected { color: #f6f4ef; background: #0e0f0c; }
-.ngx-note {
-  margin-top: 16px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: #e7f8d4;
-  color: #163300;
-  font-size: 15px;
-  font-weight: 680;
-}
-.ngx-lines { display: grid; gap: 0; margin-top: 8px; }
-.ngx-lines div {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 13px 0;
-  border-bottom: 1px solid #e7e3da;
-}
-.ngx-lines dt { color: #6a6963; font-size: 14px; }
-.ngx-lines dd { margin: 0; font-size: 15px; font-weight: 680; letter-spacing: -.02em; }
-.ngx-lines--card {
-  margin-top: 18px;
-  padding: 4px 16px;
-  border-radius: 18px;
-  background: #fff;
-}
-.ngx-lines--card div:last-child { border-bottom: 0; }
-.ngx-lines--card div:last-child dd { font-size: 17px; }
+/* ── Brand colour layer ────────────────────────── */
+/* Money-moving actions only; every other button stays black. */
+.ngx .ngx-action--brand { background: var(--brand-line); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 8px 20px rgba(109, 40, 217, .28); }
+.ngx .ngx-action--brand:disabled { box-shadow: none; }
 
-.ngx-screen--done { padding-top: 12px; }
-.ngx-done { display: flex; flex: 1; flex-direction: column; justify-content: center; }
-.ngx-check {
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  margin-bottom: 22px;
-  border-radius: 50%;
-  color: #163300;
-  background: #9fe870;
-}
-.ngx-check svg { width: 30px; height: 30px; }
-.ngx-done h2 { font-size: 32px; font-weight: 650; letter-spacing: -.04em; line-height: 1.08; }
-.ngx-done p { margin-top: 14px; max-width: 280px; color: #3f3e39; font-size: 16px; line-height: 1.45; }
+/* Brand voice: where Nera explains something, and the app's own navigation. */
+.ngx-note__head svg { color: var(--brand); }
+.ngx-tabbar button.is-on { color: var(--brand); background: var(--brand-soft); }
 
-@keyframes ngx-in { from { opacity: 0; transform: translateY(8px); } }
+/* Market status pill (top of portfolio) */
+.ngx-market { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border-radius: 999px; font: 500 12px/1 var(--font); }
+.ngx-market b { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 3px rgba(74, 222, 128, .2); animation: ngx-live 2.4s ease-in-out infinite; }
+@keyframes ngx-live { 50% { box-shadow: 0 0 0 5px rgba(74, 222, 128, .06); } }
+@media (prefers-reduced-motion: reduce) { .ngx-market b { animation: none; } }
+.ngx-promo { background: radial-gradient(120% 150% at 100% 0%, rgba(167, 139, 250, .55) 0%, transparent 55%), linear-gradient(150deg, #3b1578 0%, #1e0c3a 70%); }
+
+/* Success */
+.ngx-done__mark > span { background: linear-gradient(160deg, var(--brand-2), #5b21b6); box-shadow: 0 0 0 8px var(--brand-soft), 0 12px 28px rgba(109, 40, 217, .3); }
+.ngx-done__mark i { background: var(--brand); }
+.ngx-done__mark i:nth-child(3n) { background: var(--brand-ink); }
+.ngx-done__mark i:nth-child(3n + 1) { background: #c4b5fd; }
+.ngx-progress::before { background: linear-gradient(90deg, var(--brand) 18%, var(--line) 18%); }
+.ngx-progress li.is-done b { background: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
+
+/* Brand band: status bar and the portfolio header sit on the gradient; cards overlap its edge.
+   Root and scroller paint the same gradient box so there is no seam, and the scroller's copy
+   is attached locally so it scrolls away with the header. */
+.ngx--brand { background-color: var(--canvas); background-image: var(--brand-grad); background-size: 100% var(--band); background-repeat: no-repeat; }
+.ngx--brand .ngx-status { color: #fff; }
+.ngx--brand .ngx-battery { border-color: rgba(255, 255, 255, .45); }
+.ngx--brand .ngx-battery::after { background: rgba(255, 255, 255, .45); }
+.ngx--brand .ngx-indicator { background: var(--ink); }
+.ngx--brand .ngx-screen--home .ngx-scroll { background-color: var(--canvas); background-image: var(--brand-grad); background-size: 100% var(--band); background-position: 0 -52px; background-repeat: no-repeat; background-attachment: local; }
+.ngx--brand .ngx-market { color: rgba(255, 255, 255, .86); background: rgba(255, 255, 255, .1); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14); }
+.ngx--brand .ngx-screen--home .ngx-topbar .ngx-icon { color: #fff; }
+.ngx--brand .ngx-screen--home .ngx-topbar .ngx-icon:hover { background: rgba(255, 255, 255, .1); }
+.ngx--brand .ngx-icon > b { border-color: #2a1052; }
+.ngx--brand .ngx-hero { color: #fff; }
+.ngx--brand .ngx-hero__label { color: rgba(255, 255, 255, .6); }
+.ngx--brand .ngx-hero .ngx-money__dec { color: rgba(255, 255, 255, .42); }
+.ngx--brand .ngx-hero .ngx-today { color: rgba(255, 255, 255, .6); }
+.ngx--brand .ngx-hero .ngx-delta.is-up { color: #86efac; }
+.ngx--brand .ngx-hero .ngx-delta.is-down { color: #fca5a5; }
+.ngx--brand .ngx-quick button { color: rgba(255, 255, 255, .78); }
+.ngx--brand .ngx-quick button > span { color: #fff; background: rgba(255, 255, 255, .1); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.ngx--brand .ngx-quick button.is-primary { color: #fff; }
+.ngx--brand .ngx-quick button.is-primary > span { color: var(--brand-ink); background: #fff; box-shadow: 0 8px 20px rgba(10, 4, 24, .35); }
+.ngx--brand .ngx-quick button[aria-pressed='true'] { color: #fff; }
+.ngx--brand .ngx-quick button[aria-pressed='true'] > span { box-shadow: inset 0 0 0 1.5px #fff; }
+.ngx--brand .ngx-notice { color: rgba(255, 255, 255, .85); background: rgba(255, 255, 255, .1); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14); }
+.ngx--brand .ngx-notice svg { color: rgba(255, 255, 255, .6); }
+
+/* Onboarding: pure white, purple only on the call to action. */
+.ngx--plain { background: #fff; }
+.ngx--plain .ngx-points { background: none; box-shadow: inset 0 1px 0 var(--line), inset 0 -1px 0 var(--line); border-radius: 0; padding: 0; }
+.ngx--plain .ngx-points svg { color: var(--brand); }
+
+/* ── Sign up ───────────────────────────────────── */
+.ngx .ngx-signup h2 { font: 600 24px/1.2 var(--font); letter-spacing: -.03em; }
+.ngx .ngx-signup__head p { font: 400 15px/1.45 var(--font); }
+.ngx :is(.ngx-field__prefix, .ngx-match small, .ngx-choice small, .ngx-resend, .ngx-inline) { font: 500 13px/1.35 var(--font); letter-spacing: 0; }
+.ngx :is(.ngx-match strong, .ngx-choice strong) { font: 600 15px/1.3 var(--font); letter-spacing: -.01em; }
+.ngx .ngx-field__value { font: 500 22px/1 var(--font); letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.ngx .ngx-otp span { font: 600 24px/1 var(--font); font-variant-numeric: tabular-nums; }
+
+.ngx-signup .ngx-topbar { gap: 16px; }
+.ngx-steps { display: grid; flex: 1; grid-auto-flow: column; gap: 4px; }
+.ngx-steps li { height: 4px; border-radius: 999px; background: var(--line); transition: background-color 240ms ease; }
+.ngx-steps li.is-on { background: var(--ink); }
+.ngx-signup__head { margin-top: 20px; }
+.ngx-signup__head p { margin-top: 8px; color: var(--ink-2); }
+.ngx-signup .ngx-keypad { margin-top: auto; }
+.ngx-signup .ngx-dock { padding-top: 16px; }
+.ngx-signup .ngx-keypad + .ngx-dock { margin-top: 8px; padding-top: 8px; }
+.ngx-dock--stack { display: grid; justify-items: center; gap: 16px; }
+
+.ngx-field { position: relative; display: flex; align-items: center; gap: 14px; height: 64px; margin-top: 28px; padding: 0 18px; border-radius: 16px; background: var(--fill); box-shadow: inset 0 0 0 1.5px transparent; transition: box-shadow 160ms ease; }
+.ngx-field:not(.is-busy) { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.ngx-field__prefix { padding-right: 14px; color: var(--ink-2); box-shadow: inset -1px 0 0 #d4d4da; }
+.ngx-field__value { display: flex; align-items: center; color: var(--ink-3); }
+.ngx-field.is-filled .ngx-field__value { color: var(--ink); }
+.ngx-field .ngx-caret { height: 26px; margin-left: 2px; background: var(--ink); }
+.ngx-field:not(.is-filled) .ngx-caret { order: -1; margin: 0 2px 0 0; }
+.ngx-spinner { width: 18px; height: 18px; margin-left: auto; border: 2px solid var(--line); border-top-color: var(--ink); border-radius: 50%; animation: ngx-spin 700ms linear infinite; }
+@keyframes ngx-spin { to { transform: rotate(360deg); } }
+.ngx-fine--icon { display: flex; align-items: flex-start; gap: 6px; }
+.ngx-fine--icon svg { margin-top: 1px; color: var(--ink-3); }
+.ngx-inline { padding: 0; border: 0; background: none; color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--ink-3); }
+
+.ngx-otp { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 28px; }
+.ngx-otp span { display: grid; place-items: center; height: 58px; border-radius: 14px; background: var(--fill); transition: box-shadow 160ms ease, background-color 160ms ease; }
+.ngx-otp span.is-filled { background: #fff; box-shadow: inset 0 0 0 1px var(--line); }
+.ngx-otp span.is-active { background: #fff; box-shadow: inset 0 0 0 1.5px var(--ink); }
+.ngx-resend { margin-top: 16px; color: var(--ink-3); }
+
+.ngx-match { display: flex; align-items: center; gap: 14px; margin-top: 28px; padding: 16px var(--pad); box-shadow: inset 0 0 0 1px var(--line); animation: ngx-in 260ms ease-out both; }
+.ngx-match > span:nth-child(2) { display: grid; flex: 1; gap: 2px; }
+.ngx-match small { color: var(--ink-3); font-weight: 400; }
+.ngx-match__avatar { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--brand-ink); background: var(--brand-soft); font: 600 15px/1 var(--font); }
+.ngx-match__ok { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; color: #fff; background: var(--up); }
+
+.ngx-choices { display: grid; gap: 10px; margin-top: 24px; }
+.ngx-choice { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 72px; padding: 0 16px 0 14px; border: 0; border-radius: 16px; background: #fff; box-shadow: inset 0 0 0 1px var(--line); text-align: left; transition: box-shadow 160ms ease, transform 220ms var(--spring); }
+.ngx-choice:active { transform: scale(.98); }
+.ngx-choice > span:nth-child(2) { display: grid; flex: 1; gap: 2px; }
+.ngx-choice small { color: var(--ink-3); font-weight: 400; }
+.ngx-choice.is-on { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.ngx-choice.is-on .ngx-radio { box-shadow: inset 0 0 0 6px var(--ink); }
+.ngx-choice .ngx-line__icon { color: var(--ink); }
+
+.ngx-pin { display: flex; justify-content: center; gap: 20px; margin-top: 48px; }
+.ngx-pin i { width: 14px; height: 14px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--ink-3); transition: background-color 120ms ease, box-shadow 120ms ease, transform 220ms var(--spring); }
+.ngx-pin i.is-filled { background: var(--ink); box-shadow: none; transform: scale(1.08); }
+.ngx-pin.is-wrong { animation: ngx-shake 320ms ease; }
+
 @media (prefers-reduced-motion: reduce) {
-  .ngx-screen { animation: none; }
+  .ngx-spinner { animation-duration: 2s; }
+  .ngx-match, .ngx-pin.is-wrong { animation: none; }
 }

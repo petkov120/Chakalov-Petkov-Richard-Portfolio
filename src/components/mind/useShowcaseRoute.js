@@ -21,8 +21,7 @@ export default function useShowcaseRoute(projects) {
   const open = useCallback((project, trigger) => {
     if (current.current) return
     returnTo.current = trigger
-    const screen = trigger.querySelector('.mind-studio-preview')?.dataset.screen || project.posterScreen
-    setEntry({ id: project.id, screen, rect: rectOf(trigger.querySelector('.stage__phone')) })
+    setEntry({ id: project.id, rect: rectOf(trigger.querySelector('.stage__phone')) })
     history.pushState({ showcase: true }, '', project.href)
     setClosing(false)
     setId(project.id)

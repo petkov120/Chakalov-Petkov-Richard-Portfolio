@@ -1,5 +1,7 @@
 # Welcome to my mind — first vertical prototype
 
+> **Current flow (Oct 2026).** The entrance states who this is and what shipped, with "See the work" and a "Skip intro" link; it plays once per visit (sessionStorage). The gallery rail (`src/components/stage/`) is grouped, not interleaved: live work, then prototypes, then side projects, so Clinify is first. Every piece carries its work type on the card. `/work` renders the same list from `buildWall`. Nav About goes to `/#about` (facts block); the manga story stays at `/about`. Sections below that describe `CaseStudyBook`, `ZoomTextScene` and the alternating overview are historical.
+
 ## Scope and protected code
 
 The public portfolio now has an independent implementation in `src/pages/MindPortfolioPage.jsx` and `src/components/mind/`. The `/ui` interaction maker, `src/ui/`, `ui/`, its export scripts, dependencies, and Vite configuration are outside this change. Existing case-study evidence, images, fonts, the playground, and legacy pages are preserved.

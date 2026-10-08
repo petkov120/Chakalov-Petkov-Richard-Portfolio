@@ -14,6 +14,8 @@ Opens at http://localhost:5173
 ## Project map
 
 - **`src/pages/MindPortfolioPage.jsx`** — homepage, positioning, about, and contact
+- **`src/data/mind/profile.js`** — roles, dates, skills and links; the About section and `/resume` both read it
+- **`src/pages/ResumePage.jsx`** — `/resume`, a printable resume (Download PDF prints the page)
 - **`src/data/mind/projects.js`** — homepage case studies and interactive projects
 - **`src/data/clinifyEvidence.js`** — Clinify case-study content
 - **`src/data/universityxEvidence.js`** — UniversityX case-study content
@@ -47,7 +49,7 @@ Case-study image objects support descriptive alt text and captions. Keep those p
 
 ### Change the visual system
 
-The homepage system lives in `src/components/mind/mind.css` and `src/components/mind/collage.css`. Shared palette and font tokens also live in `tailwind.config.js`.
+The homepage system lives in `src/components/mind/home.css` and `src/components/mind/entrance.css`; the gallery rail in `src/components/stage/`. Shared palette and font tokens also live in `tailwind.config.js`.
 
 ### Change the fonts
 

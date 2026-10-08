@@ -8,8 +8,8 @@
 .collage-paper { position: relative; overflow: clip; display: flex; flex-direction: column; min-height: 100svh; padding: 22px 3.1vw 18px; background: #fafaf8; transform-origin: var(--portal-x) var(--portal-y); }
 .collage-paper::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .12; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath filter='url(%23n)' opacity='.3' d='M0 0h180v180H0z'/%3E%3C/svg%3E"); }
 .collage-header, .collage-footer { position: relative; z-index: 8; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
-.collage-monogram { font: bold 54px/.85 Georgia, serif; letter-spacing: -.1em; }
-.collage-location, .collage-footer { font: 10px/1.5 'JetBrains Mono', monospace; text-transform: uppercase; }
+.collage-monogram { font: 700 54px/.82 'Geist', Arial, sans-serif; letter-spacing: -.09em; }
+.collage-location, .collage-footer { font: 550 10px/1.25 'Geist', Arial, sans-serif; letter-spacing: -.01em; text-transform: none; }
 .collage-location { display: flex; align-items: center; gap: 32px; overflow: visible; }
 .collage-location__place { display: inline-flex; align-items: center; gap: 8px; }
 .collage-flag { display: inline-flex; width: 32px; height: 22px; flex: none; overflow: visible; }
@@ -19,16 +19,16 @@
 .collage-header i, .collage-footer i { display: inline-block; height: 1px; width: 70px; background: currentColor; }
 .collage-layout { width: 100%; max-width: 1800px; margin: auto; display: grid; grid-template-columns: 41% 59%; align-items: center; flex: 1; min-height: min(750px, calc(100svh - 185px)); }
 .collage-copy { position: relative; z-index: 3; padding: 132px 0 42px 3vw; }
-.mind-site .collage-copy h1 { font: 900 clamp(74px, 8.2vw, 150px)/.83 Inter, Arial, sans-serif; letter-spacing: -.083em; }
+.mind-site .collage-copy h1 { font: 700 clamp(74px, 8.2vw, 150px)/.78 'Geist', Arial, sans-serif; letter-spacing: -.09em; }
 .collage-mind { display: inline-block; position: relative; margin: 18px 0 0 28px; padding: 0 26px 9px 12px; isolation: isolate; transform: rotate(-8deg); }
 .collage-mind::before { content: ''; z-index: -1; position: absolute; inset: 17% -1% 0; background: var(--collage-yellow); clip-path: polygon(1% 9%, 97% 0, 98% 9%, 100% 12%, 97% 18%, 100% 26%, 98% 32%, 100% 40%, 97% 51%, 100% 60%, 98% 74%, 100% 85%, 96% 91%, 0 100%, 1% 85%, 0 78%, 2% 62%, 0 57%, 2% 43%, 0 36%, 2% 23%); }
-.mind-site .collage-mind em { font: italic 600 1.36em/.94 'Instrument Serif', Georgia, serif; letter-spacing: -.05em; }
+.mind-site .collage-mind em { font: italic 650 1.18em/.82 'Geist', Arial, sans-serif; letter-spacing: -.075em; }
 .collage-mind > svg { position: absolute; left: 17%; bottom: -16%; width: 86%; height: 33%; transform: rotate(5deg); }
 .collage-invitation { margin: 36px 0 0 7vw; }
-.collage-invitation p { font: 12px/1.5 'JetBrains Mono', monospace; letter-spacing: -.045em; }
+.collage-invitation p { font: 500 12px/1.3 'Geist', Arial, sans-serif; letter-spacing: -.02em; }
 .collage-invitation mark { color: inherit; background: var(--collage-yellow); padding: 0 2px; }
 .collage-invitation .collage-enter { margin-top: 22px; }
-.collage-stamp { position: absolute; bottom: 14px; left: -1.3vw; display: grid; align-content: center; width: 109px; height: 80px; border: 1px solid; border-radius: 50%; font: 10px/1.4 'JetBrains Mono', monospace; text-transform: uppercase; padding-left: 28px; transform: rotate(-19deg); }
+.collage-stamp { position: absolute; bottom: 14px; left: -1.3vw; display: grid; align-content: center; width: 109px; height: 80px; border: 1px solid; border-radius: 50%; font: 600 10px/1.15 'Geist', Arial, sans-serif; letter-spacing: -.02em; text-transform: none; padding-left: 28px; transform: rotate(-19deg); }
 .collage-stamp::after { content: ''; position: absolute; inset: -3px 2px 2px -3px; border: 1px solid; border-radius: 49%; transform: rotate(13deg); }
 .collage-loop { position: absolute; right: 23%; top: 6%; width: 105px; height: 125px; transform: rotate(-6deg); }
 .collage-art { position: relative; width: 100%; margin-left: -2%; aspect-ratio: 1.08; }
@@ -40,7 +40,7 @@
 .collage-tunnel { position: absolute; inset: 0; width: 100%; height: 100%; transform: skewY(-5deg) scale(1.08); transition: transform 700ms; }
 .collage-screen__glow { position: absolute; inset: 0; background: radial-gradient(ellipse, #fffca033, transparent 70%); box-shadow: inset 0 0 22px #fff95b; }
 .collage-screen__arrow { position: relative; width: 22%; transition: transform 400ms; }
-.collage-screen__hint { position: absolute; bottom: 23%; font: 7px/1 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .07em; opacity: 0; transition: opacity 300ms; }
+.collage-screen__hint { position: absolute; bottom: 23%; font: 600 7px/1 'Geist', Arial, sans-serif; text-transform: none; letter-spacing: -.01em; opacity: 0; transition: opacity 300ms; }
 .collage-computer:hover .collage-tunnel, .collage-computer:focus-visible .collage-tunnel { transform: skewY(-5deg) scale(1.22); }
 .collage-computer:hover .collage-screen__arrow { transform: translateX(5px); }
 .collage-computer:hover .collage-screen__hint, .collage-computer:focus-visible .collage-screen__hint { opacity: 1; }
@@ -148,12 +148,12 @@
 .collage-tool__tile img { display: block; width: 70%; height: 70%; object-fit: contain; filter: drop-shadow(0 3px 2px #0007); }
 .collage-tool--figma img { width: 47%; height: 72%; }
 .collage-tool--cursor img { width: 106%; height: 106%; max-width: none; border-radius: 20%; }
-.collage-tool__label { position: absolute; top: calc(100% + 14px); left: 50%; transform: translate(-50%, 4px); padding: 4px 8px; background: #fafaf8; color: #101010; font: 9px/1.3 'JetBrains Mono', monospace; white-space: nowrap; opacity: 0; transition: opacity 180ms, transform 180ms; }
+.collage-tool__label { position: absolute; top: calc(100% + 14px); left: 50%; transform: translate(-50%, 4px); padding: 4px 8px; background: #fafaf8; color: #101010; font: 550 9px/1.15 'Geist', Arial, sans-serif; white-space: nowrap; opacity: 0; transition: opacity 180ms, transform 180ms; }
 .collage-tool button:hover .collage-tool__label, .collage-tool button:focus-visible .collage-tool__label { opacity: 1; transform: translate(-50%, 0); }
 .collage-computer:focus-visible .collage-screen, .collage-computer:hover .collage-screen { opacity: .96; }
 .collage-pointer { position: absolute; left: 4%; top: 44%; z-index: 6; width: clamp(148px, 18vw, 220px); pointer-events: none; transform: rotate(-28deg); }
 .collage-pointer__drift { transform-origin: 18% 70%; animation: collage-pointer-tap 1.35s cubic-bezier(.22,.8,.28,1) infinite; }
-.collage-pointer__tip { position: absolute; left: -48%; top: 18%; z-index: 1; margin: 0; padding: 9px 11px 10px; background: #fffdf6; color: #111; border: 1.5px solid #111; box-shadow: 3px 3px 0 #111; font: 9px/1.4 'JetBrains Mono', monospace; letter-spacing: .03em; text-transform: uppercase; transform: rotate(22deg); white-space: nowrap; }
+.collage-pointer__tip { position: absolute; left: -48%; top: 18%; z-index: 1; margin: 0; padding: 9px 11px 10px; background: #fffdf6; color: #111; border: 1.5px solid #111; box-shadow: 3px 3px 0 #111; font: 600 9px/1.15 'Geist', Arial, sans-serif; letter-spacing: -.015em; text-transform: none; transform: rotate(22deg); white-space: nowrap; }
 .collage-pointer__tip::after { content: ''; position: absolute; left: 18%; bottom: -6px; width: 9px; height: 9px; background: #fffdf6; border-right: 1.5px solid #111; border-bottom: 1.5px solid #111; transform: rotate(45deg); }
 .collage-pointer__hand { display: block; width: 100%; overflow: visible; filter: drop-shadow(2px 3px 0 #0002); }
 .collage-art:has(.collage-computer:hover) .collage-pointer__drift, .collage-art:has(.collage-computer:focus-visible) .collage-pointer__drift { animation-duration: .72s; }
@@ -170,7 +170,7 @@
 .collage-header { align-items: flex-start; }
 .collage-identity { flex: none; }
 .collage-monogram { display: block; }
-.mind-site .collage-identity__name { margin-top: 16px; font: 500 11px/1.6 'JetBrains Mono', monospace; letter-spacing: .025em; text-transform: uppercase; }
+.mind-site .collage-identity__name { margin-top: 16px; font: 600 11px/1.25 'Geist', Arial, sans-serif; letter-spacing: -.02em; text-transform: none; }
 .collage-identity__name span { display: block; font-weight: 400; color: #55554f; }
 .collage-location { padding-top: 8px; }
 @media (max-width: 760px) {
@@ -209,9 +209,9 @@
   background: var(--collage-ink);
   color: #fff !important;
   border: 0;
-  font: 800 11px/1 Inter, Arial, sans-serif !important;
-  letter-spacing: .1em;
-  text-transform: uppercase;
+  font: 650 11px/1 'Geist', Arial, sans-serif !important;
+  letter-spacing: -.015em;
+  text-transform: none;
   text-decoration: none;
 }
 .collage-enter span { font-size: 16px; letter-spacing: 0; }
@@ -219,3 +219,8 @@
   background: var(--collage-yellow);
   color: var(--collage-ink) !important;
 }
+
+/* A plain way past the intro for visitors who came for the work. */
+.collage-skip { color: inherit; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+.collage-skip:hover, .collage-skip:focus-visible { background: var(--collage-yellow); text-decoration: none; }
+.collage-entrance.is-entering .collage-skip { pointer-events: none; }

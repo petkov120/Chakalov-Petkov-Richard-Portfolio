@@ -12,7 +12,7 @@ function PointingHand() {
   return (
     <div className="collage-pointer" aria-hidden="true">
       <div className="collage-pointer__drift">
-        <p className="collage-pointer__tip">Click the monitor<br />to get in my mind</p>
+        <p className="collage-pointer__tip">Click the monitor<br />to see the work</p>
         <svg className="collage-pointer__hand" viewBox="0 0 180 110" fill="none">
           <path fill="#171717" d="M6 24h38v62H6z" />
           <path fill="#ffe72d" stroke="#111" strokeWidth="3" d="M36 24h18v62H36z" />
@@ -131,21 +131,21 @@ export default function EntranceScene({ onEnter, onPrepare, reduced }) {
     <div ref={paper} className="collage-paper">
       <header className="collage-header">
         <div className="collage-identity"><span className="collage-monogram">P.</span><p className="collage-identity__name">Petkov Chakalov<span>Design Engineer</span></p></div>
-        <div className="collage-location"><span className="collage-location__place"><NigeriaFlag />Lagos, Nigeria</span><i /><span>2026</span></div>
+        <div className="collage-location"><a className="collage-skip" href="/#work" onClick={event => { event.preventDefault(); onEnter() }}>Skip intro →</a><span className="collage-location__place"><NigeriaFlag />Lagos, Nigeria</span><i /><span>2026</span></div>
       </header>
       <div className="collage-layout">
         <div className="collage-copy">
           <FloatingNote {...noteProps} name="ideas note" className="collage-ideas"><span className="collage-note collage-note--yellow">Ideas<br />experiments<br />thoughts<br />in progress…<span className="collage-underline" /></span></FloatingNote>
           <svg className="collage-loop" viewBox="0 0 150 140" fill="none" aria-hidden="true"><path d="M8 25C45-2 102 22 86 61S49 51 86 44s51 51 36 77m-9-19 9 21 17-15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
           <h1 id="entrance-title">Welcome<br />to my<br /><span className="collage-mind"><em>mind</em><svg viewBox="0 0 400 46" aria-hidden="true"><path d="M12 24Q180 2 378 9Q210 16 160 34Q310 17 376 29" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" /></svg></span></h1>
-          <div className="collage-invitation"><p>A space for my thoughts,<br />projects and <mark>everything</mark> in between.</p><button type="button" className="collage-enter" onClick={enter} disabled={entering}>Enter <span aria-hidden="true">→</span></button><div className="collage-quest-slot" ref={setQuestControls} /></div>
+          <div className="collage-invitation"><p>I design and build AI products for<br />healthcare and education, <mark>shipped</mark><br />to paying customers and 3 universities.</p><button type="button" className="collage-enter" onClick={enter} disabled={entering}>See the work <span aria-hidden="true">→</span></button><div className="collage-quest-slot" ref={setQuestControls} /></div>
           <span className="collage-stamp">Built<br />by<br />curiosity.</span>
         </div>
         <div className="collage-art">
           <IdeaQuest controlsTarget={questControls} still={still} reduced={reduced} entering={entering} />
           <span className="collage-tape collage-tape--blue" aria-hidden="true" />
-          <div className="collage-computer-position"><div className="collage-computer-drift"><button type="button" className="collage-computer" onClick={enter} disabled={entering} aria-label="Click the monitor to get in my mind">
-            <img src="/images/entrance/mind-computer.png" alt="" width="1254" height="1254" fetchpriority="high" draggable="false" />
+          <div className="collage-computer-position"><div className="collage-computer-drift"><button type="button" className="collage-computer" onClick={enter} disabled={entering} aria-label="Click the monitor to see the work">
+            <img src="/images/entrance/mind-computer.webp" alt="" width="1254" height="1254" fetchpriority="high" decoding="async" draggable="false" />
             <span ref={screen} className="collage-screen" aria-hidden="true"><svg className="collage-tunnel" viewBox="0 0 300 260" preserveAspectRatio="none"><defs><radialGradient id="portal-light"><stop stopColor="#ffe85a" /><stop offset=".44" stopColor="#ffdb00" /><stop offset=".78" stopColor="#ffff35" /><stop offset="1" stopColor="#d3b900" /></radialGradient></defs><path fill="url(#portal-light)" d="M0 0h300v260H0z" /><g fill="none" stroke="#fffab4" strokeWidth="1.1"><path d="M0 0 120 105M300 0 180 105M300 260 180 155M0 260 120 155M100 0l40 105M200 0l-40 105M0 87l120 34M0 173l120-34M300 87l-120 34M300 173l-120-34M100 260l40-105M200 260l-40-105" /><path d="M24 21h252v218H24zM49 43h202v174H49zM75 65h150v130H75zM99 86h102v88H99zM120 105h60v50h-60z" /></g></svg><span className="collage-screen__glow" /><Arrow className="collage-screen__arrow" /><span className="collage-screen__hint">Come on in</span></span>
           </button></div></div>
           <PointingHand />

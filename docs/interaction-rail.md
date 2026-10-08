@@ -1,5 +1,7 @@
 # Portfolio interaction row
 
+> **Superseded.** The rail now lives in `src/components/stage/` (`Stage.jsx`, `wall.js`). Investment and Notepad appear in it labelled "Early flow study". The notes below describe the older `ZoomExplorations` version.
+
 The horizontal phone row in the opening thought and `/interactions` renders the existing X redesign from the UI maker. It does not cycle screenshots or substitute a new interaction concept.
 
 - `src/data/mind/projects.js`: `zoomExplorations` defines six demonstrations using existing maker screen IDs and controls: newest posts, profile peek, composing/publishing, creator tools, video editing, and splash.
