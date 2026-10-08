@@ -105,7 +105,13 @@ export default function MindPortfolioPage() {
             masthead={<header className="stage__name">
               <p className="stage__eyebrow">Design engineer</p>
               <h1>Petkov Chakalov</h1>
-              <p className="stage__identity"><strong>Founding designer at Clinify</strong><span aria-hidden="true">·</span> Products used by 2 B2B customers and 3 institutions <span aria-hidden="true">·</span> Lagos</p>
+              <p className="stage__identity">
+                <strong>Founding designer at Clinify</strong>
+                <span className="stage__identity-separator" aria-hidden="true">·</span>
+                <span className="stage__identity-proof">Products used by 2 B2B customers and 3 institutions</span>
+                <span className="stage__identity-separator" aria-hidden="true">·</span>
+                <span className="stage__identity-location">Lagos</span>
+              </p>
             </header>} />
         </section>
         <section id="about" className="mind-about mind-about--manga mind-section">

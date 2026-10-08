@@ -94,6 +94,7 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
     </div>
     <p className="stage__guide">Live work first, then prototypes you can use, then side projects. Click a piece to bring it forward, click again to open.</p>
 
+    <div className="stage__rail">
     <ul ref={rail} className="stage__track" aria-label="Selected work. Use the arrow keys to move between pieces." {...railProps}>
       {shown.map((entry, index) => {
         const focused = entry.key === focusKey
@@ -118,6 +119,16 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
       })}
     </ul>
 
+    <div className="stage__mobile-controls" aria-label="Carousel controls">
+      <button type="button" onClick={() => step(-1)} disabled={edge.start} aria-label="Previous project">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5" /></svg>
+      </button>
+      <button type="button" onClick={() => step(1)} disabled={edge.end} aria-label="Next project">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5" /></svg>
+      </button>
+    </div>
+    </div>
+
     {current && <div className="stage__info">
       <div className="stage__text" key={current.key} aria-live="polite">
         <p className="stage__meta"><span>{String(currentIndex + 1).padStart(2, '0')} / {String(shown.length).padStart(2, '0')}</span><span className="stage__group" data-group={current.group}>{current.kind}</span>{current.credit && <span>{current.credit}</span>}</p>
@@ -131,8 +142,12 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
           : <button type="button" className="stage__cta" onClick={openCurrent}>{current.cta} <span aria-hidden="true">↗</span></button>}
         <div className="stage__controls">
           <button type="button" className="stage__pause" onClick={togglePlay} aria-pressed={idle}>{idle ? 'Play' : 'Pause'}</button>
-          <button type="button" onClick={() => step(-1)} disabled={edge.start} aria-label="Previous">←</button>
-          <button type="button" onClick={() => step(1)} disabled={edge.end} aria-label="Next">→</button>
+          <button type="button" onClick={() => step(-1)} disabled={edge.start} aria-label="Previous project">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5" /></svg>
+          </button>
+          <button type="button" onClick={() => step(1)} disabled={edge.end} aria-label="Next project">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5" /></svg>
+          </button>
         </div>
       </div>
     </div>}

@@ -59,14 +59,16 @@
 .stage__guide { position: relative; z-index: 2; box-sizing: content-box; padding: .75rem var(--edge) 0; max-width: 46rem; /* content-box: the wide-screen edge padding must not eat the text width */ font: 400 .8125rem/1.4 var(--font-ui); letter-spacing: -.01em; color: var(--muted); }
 
 /* ---- track ---- */
+.stage__rail { position: relative; display: flex; flex: 1; min-height: 0; }
 .stage__track {
-  position: relative; flex: 1; min-height: 0; container-type: size; display: flex; align-items: center; gap: clamp(1.25rem, 3vw, 3rem);
+  position: relative; flex: 1; width: 100%; min-height: 0; container-type: size; display: flex; align-items: center; gap: clamp(1.25rem, 3vw, 3rem);
   margin: 0; padding: 0; list-style: none; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; overflow-anchor: none;
   scroll-snap-type: x mandatory; scrollbar-width: none; cursor: grab; touch-action: pan-x pan-y pinch-zoom; user-select: none;
 }
 .stage__track::-webkit-scrollbar { display: none; }
 .stage__track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
 .stage__track:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+.stage__mobile-controls { display: none; }
 
 .stage__item {
   --h: calc(100cqh - 1.75rem);
@@ -155,24 +157,126 @@
 .stage__cta:hover { background: var(--glow); transform: translateY(-2px); }
 .stage__controls { display: flex; gap: .5rem; }
 .stage__controls button { min-width: 2.75rem; height: 2.75rem; border: 1px solid var(--line); border-radius: 999px; background: none; color: var(--muted); cursor: pointer; font: 500 .875rem/1 var(--font-ui); letter-spacing: 0; }
+.stage__controls button:not(.stage__pause) {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-color: #3a3a40;
+  color: #f3f3f1;
+  background: linear-gradient(180deg, #343438 0%, #171719 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / .24),
+    inset 0 -7px 10px rgb(0 0 0 / .58),
+    0 7px 14px rgb(0 0 0 / .34);
+  transition: transform .18s var(--ease), box-shadow .18s var(--ease), background .18s ease;
+}
+.stage__controls svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.stage__controls button:not(.stage__pause):active:not(:disabled) {
+  transform: translateY(1px);
+  background: linear-gradient(180deg, #1b1b1e 0%, #29292d 100%);
+  box-shadow: inset 0 3px 7px rgb(0 0 0 / .7), inset 0 1px 0 rgb(255 255 255 / .08);
+}
 .stage__controls button:hover:not(:disabled) { background: rgb(255 255 255 / .08); color: var(--text); }
-.stage__controls button:disabled { opacity: .25; cursor: default; }
+.stage__controls button:not(.stage__pause):hover:not(:disabled) { background: linear-gradient(180deg, #3d3d42 0%, #1d1d20 100%); }
+.stage__controls button:disabled { opacity: .3; cursor: default; }
 .stage__pause { padding: 0 1rem; }
 
 /* ---- small screens ---- */
 @media (max-width: 760px) {
-  /* The rail gets whatever height the header and info panel leave, so both stay compact on phones. */
+  /* On phones the artwork is the primary content. Let the stage scroll vertically and size the
+     rail from the viewport width instead of shrinking it into the height left by the copy. */
+  .stage { height: auto; min-height: 0; overflow: visible; }
   .stage__bar { align-items: flex-start; gap: .875rem; padding-top: 1rem; }
   .stage__name h1 { font-size: clamp(2.5rem, 10.5vw, 3.5rem); }
-  .stage__identity { max-width: 22rem; margin-top: .625rem; }
+  .stage__identity { max-width: 22rem; margin-top: .625rem; font-size: .8125rem; }
+  .stage__identity-proof, .stage__identity-separator:first-of-type { display: none; }
   .stage__guide { display: none; } /* the pieces explain themselves on touch: tap to bring forward, tap again to open */
   .stage__filters { width: 100%; overflow-x: auto; scrollbar-width: none; }
   .stage__filters button { flex: none; }
-  .stage__item--tile { --w: calc(var(--h) * .8); }
-  .stage__info { flex-direction: column; align-items: stretch; gap: .875rem; padding-bottom: 1.25rem; }
+  .stage__rail {
+    flex: none;
+    height: clamp(17rem, 78vw, 21rem);
+  }
+  .stage__track {
+    height: 100%;
+    gap: .875rem;
+    padding-block: .75rem;
+    container-type: inline-size;
+  }
+  .stage__mobile-controls {
+    position: absolute;
+    z-index: 4;
+    top: 1.4rem;
+    right: calc(var(--gutter) + .65rem);
+    display: flex;
+    gap: .375rem;
+    pointer-events: none;
+  }
+  .stage__mobile-controls button {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: 1px solid #3a3a40;
+    border-radius: 999px;
+    color: #fff;
+    background: linear-gradient(180deg, #343438 0%, #171719 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / .24),
+      inset 0 -7px 10px rgb(0 0 0 / .58),
+      0 7px 14px rgb(0 0 0 / .42);
+    backdrop-filter: blur(10px);
+    pointer-events: auto;
+    transition: transform .18s var(--ease), box-shadow .18s var(--ease), background .18s ease;
+  }
+  .stage__mobile-controls svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .stage__mobile-controls button:active:not(:disabled) {
+    transform: translateY(1px);
+    background: linear-gradient(180deg, #1b1b1e 0%, #29292d 100%);
+    box-shadow:
+      inset 0 3px 7px rgb(0 0 0 / .7),
+      inset 0 1px 0 rgb(255 255 255 / .08),
+      0 3px 7px rgb(0 0 0 / .3);
+  }
+  .stage__mobile-controls button:disabled {
+    opacity: .34;
+    box-shadow:
+      inset 0 2px 6px rgb(0 0 0 / .6),
+      inset 0 1px 0 rgb(255 255 255 / .06);
+  }
+  .stage__item { transform: scale(calc(.9 + var(--f, 1) * .1)); }
+  .stage__item--tile {
+    --w: min(calc(100cqw - 2 * var(--gutter)), 34rem);
+    width: var(--w);
+    height: calc(var(--w) * .625);
+  }
+  .stage__item--phone {
+    --h: min(74cqw, 20rem);
+    height: var(--h);
+  }
+  .stage__info { flex-direction: column; align-items: stretch; gap: .875rem; padding-top: .5rem; padding-bottom: .875rem; }
+  .stage__text h3 { white-space: normal; }
   .stage__line { height: 2lh; font-size: .875rem; -webkit-line-clamp: 2; }
   .stage__actions { justify-content: space-between; }
   .stage__cta { flex: 1; justify-content: center; }
+  .stage__controls button:not(.stage__pause) { display: none; }
   .stage__pause { display: none; }
 }
 @media (max-height: 699px) and (min-width: 761px) { .stage__text h3 { margin-bottom: .5rem; } .stage__line { font-size: .9375rem; } }
