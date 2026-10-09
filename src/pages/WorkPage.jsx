@@ -52,7 +52,7 @@ export default function WorkPage() {
                 <strong>{entry.name}</strong>
                 <span>{entry.line}</span>
                 {entry.note && <em>{entry.note}</em>}
-                <b className="wk-card__cta">{entry.cta} <span aria-hidden="true">↗</span></b>
+                <b className="wk-card__cta">{entry.cta} <span aria-hidden="true">↗︎</span></b>
               </span>
             </a>
           ))}

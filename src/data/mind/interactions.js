@@ -50,7 +50,7 @@ export const interactionProjects = [
   },
   {
     id: 'investment', accent: '#8b5cf6', project: 'Investment', title: 'A little more confidence.', name: 'Investment',
-    href: '/interactions/investment', mark: '↗', status: 'Flow study', year: '2026',
+    href: '/interactions/investment', mark: '↗︎', status: 'Flow study', year: '2026',
     category: 'Personal project / Product exploration', posterScreen: 'portfolio', screens: investmentScreens,
     summary: 'From noticing a change to understanding it. A study in making one investment decision feel clear.',
     note: 'Clarity before\ncommitment.',

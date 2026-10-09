@@ -161,7 +161,7 @@ export default function EntranceScene({ onEnter, onPrepare, reduced }) {
           <FloatingNote {...noteProps} name="loading ideas note" className="collage-loading"><span className="collage-note collage-note--pink">Loading ideas…<span className="collage-underline" /></span></FloatingNote>
         </div>
       </div>
-      <footer className="collage-footer"><span className="collage-mantra">Explore <b>\</b> Create <b>\</b> Learn <b>\</b> Repeat <i /></span><button className="collage-motion" type="button" onClick={() => { reset(); setPaused(value => !value) }} aria-pressed={paused} disabled={reduced || entering}>{reduced ? 'Reduced motion' : paused ? 'Resume motion ↗' : 'Pause motion Ⅱ'}</button><span className="collage-signature">Petkov Chakalov <i /></span></footer>
+      <footer className="collage-footer"><span className="collage-mantra">Explore <b>\</b> Create <b>\</b> Learn <b>\</b> Repeat <i /></span><button className="collage-motion" type="button" onClick={() => { reset(); setPaused(value => !value) }} aria-pressed={paused} disabled={reduced || entering}>{reduced ? 'Reduced motion' : paused ? 'Resume motion ↗︎' : 'Pause motion Ⅱ'}</button><span className="collage-signature">Petkov Chakalov <i /></span></footer>
     </div>
     <span className="sr-only" role="status">{entering ? 'Entering the portfolio…' : ''}</span>
   </section>

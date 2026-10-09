@@ -127,7 +127,7 @@ export default function MindPortfolioPage() {
             <dl className="mind-facts">
               {FACTS.map(fact => <div key={fact.label}><dt>{fact.label}</dt><dd><strong>{fact.value}</strong>{fact.role && <em>{fact.role}</em>}{fact.detail && <span>{fact.detail}</span>}</dd></div>)}
             </dl>
-            <p className="mind-about__links"><a className="mind-link" href="/resume">Resume ↗</a><a className="mind-link" href="/about">The longer story ↗</a></p>
+            <p className="mind-about__links"><a className="mind-link" href="/resume">Resume ↗︎</a><a className="mind-link" href="/about">The longer story ↗︎</a></p>
             <p className="mind-skills">{SKILLS.map(skill => <span key={skill}>{skill}</span>)}</p>
           </div>
         </section>

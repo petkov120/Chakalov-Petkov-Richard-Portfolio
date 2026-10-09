@@ -56,7 +56,7 @@ export default function UIStudioPage() {
             type="button"
             onClick={() => { setIsPlaying(false); setExportOpen(true) }}
           >
-            Export ↗
+            Export ↗︎
           </button>
           <button
             className="ui-studio__theme-toggle ui-studio__zoom-toggle"

@@ -9,7 +9,7 @@ export default function GlobalContactCTA() {
       aria-label={`Contact me now via email: ${EMAIL}`}
     >
       <span>Contact me now</span>
-      <span aria-hidden>↗</span>
+      <span aria-hidden>↗︎</span>
     </a>
   )
 }

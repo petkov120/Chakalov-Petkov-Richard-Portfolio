@@ -138,8 +138,8 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
       </div>
       <div className="stage__actions">
         {current.href
-          ? <a className="stage__cta" href={current.href}>{current.cta} <span aria-hidden="true">↗</span></a>
-          : <button type="button" className="stage__cta" onClick={openCurrent}>{current.cta} <span aria-hidden="true">↗</span></button>}
+          ? <a className="stage__cta" href={current.href}>{current.cta} <span aria-hidden="true">↗︎</span></a>
+          : <button type="button" className="stage__cta" onClick={openCurrent}>{current.cta} <span aria-hidden="true">↗︎</span></button>}
         <div className="stage__controls">
           <button type="button" className="stage__pause" onClick={togglePlay} aria-pressed={idle}>{idle ? 'Play' : 'Pause'}</button>
           <button type="button" onClick={() => step(-1)} disabled={edge.start} aria-label="Previous project">
