@@ -1,5 +1,5 @@
 /* On screen the resume is a page of the site; printed, it drops the site chrome and becomes plain black on white. */
-.cv__page { width: min(76rem, 100%); margin: 0 auto; padding: clamp(2.5rem, 6vw, 5rem) var(--edge) clamp(3rem, 7vw, 6rem); }
+.cv__page { width: 100%; margin: 0 auto; padding: clamp(2.5rem, 6vw, 5rem) var(--edge) clamp(3rem, 7vw, 6rem); }
 .cv__head { display: grid; justify-items: start; padding-bottom: 1.75rem; border-bottom: 1px solid var(--line); }
 .cv__head .mind-label { margin-bottom: 1.25rem; }
 .cv h1 { font: 520 clamp(3.5rem, 7vw, 6.5rem)/.88 var(--font-display); letter-spacing: -.035em; }
@@ -8,21 +8,23 @@
 .cv__links a, .cv__case { color: var(--text); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: .2em; }
 .cv__print { display: inline-flex; align-items: center; gap: .625rem; min-height: 3rem; margin-top: 1.5rem; padding: 0 1.375rem; border: 0; border-radius: 999px; background: var(--text); color: var(--bg); font: 500 .9375rem/1 var(--font-ui); cursor: pointer; transition: transform .2s var(--mind-ease); }
 .cv__print:hover { transform: translateY(-1px); }
-.cv__body { display: grid; grid-template-columns: minmax(13rem, 18rem) minmax(0, 1fr); gap: clamp(3rem, 8vw, 8rem); align-items: start; }
-.cv__aside { position: sticky; top: 2rem; }
+.cv__body { display: block; }
+.cv__aside { display: grid; grid-template-columns: minmax(20rem, 1.5fr) minmax(15rem, 1fr) minmax(15rem, 1fr); gap: clamp(2rem, 5vw, 5rem); padding-bottom: 2.75rem; border-bottom: 1px solid var(--line); }
 .cv section { margin-top: 2.25rem; }
 .cv h2 { margin-bottom: .875rem; font: 400 .875rem/1.4 var(--font-ui); color: var(--muted); }
 .cv section > p { max-width: 40rem; font-size: 1rem; line-height: 1.6; color: #d0d0d5; }
-.cv__job + .cv__job { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--line); }
-.cv__job-head { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem 1rem; flex-wrap: wrap; }
+.cv__experience { margin-top: 3.5rem !important; }
+.cv__job { display: grid; grid-template-columns: minmax(13rem, 17rem) minmax(0, 1fr); column-gap: clamp(2.5rem, 6vw, 6rem); align-items: start; padding: 2.25rem 0; border-top: 1px solid var(--line); }
+.cv__job + .cv__job { margin-top: 0; }
+.cv__job-head { grid-column: 1; grid-row: 1 / span 4; display: flex; flex-direction: column; align-items: flex-start; gap: .75rem; }
 .cv h3 { font: 540 clamp(1.7rem, 2.8vw, 2.2rem)/1 var(--font-display); letter-spacing: -.025em; }
 .cv h3 span { display: block; margin-top: .375rem; font: 400 1rem/1.4 var(--font-ui); letter-spacing: 0; color: #c4c4ca; }
 .cv__job-head p { font-size: .875rem; color: var(--muted); white-space: nowrap; }
-.cv__summary { margin-top: .75rem; max-width: 40rem; line-height: 1.6; color: #d0d0d5; }
-.cv ul { display: grid; gap: .5rem; max-width: 40rem; margin-top: .875rem; padding: 0; list-style: none; }
+.cv__summary { grid-column: 2; margin-top: 0; max-width: 48rem; line-height: 1.6; color: #d0d0d5; }
+.cv ul { grid-column: 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem 2rem; max-width: 52rem; margin-top: 1.125rem; padding: 0; list-style: none; }
 .cv li { position: relative; padding-left: 1.25rem; font-size: .9375rem; line-height: 1.55; color: #b4b4bb; }
 .cv li::before { content: '–'; position: absolute; left: 0; color: var(--muted); }
-.cv__case { display: inline-block; margin-top: 1rem; font-size: .875rem; }
+.cv__case { grid-column: 2; justify-self: start; display: inline-block; margin-top: 1.25rem; font-size: .875rem; }
 .cv__skill-list { display: flex; flex-wrap: wrap; gap: .5rem; }
 .cv__skill-list span {
   display: inline-flex; align-items: center; min-height: 2.25rem; padding: 0 .875rem;
@@ -32,9 +34,12 @@
   font: 500 .8125rem/1 var(--font-ui);
 }
 
-@media (max-width: 767px) {
-  .cv__body { display: block; }
-  .cv__aside { position: static; }
+@media (max-width: 900px) {
+  .cv__aside { grid-template-columns: 1fr; gap: 0; }
+  .cv__job { display: block; }
+  .cv__job-head { flex-direction: row; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
+  .cv__summary { margin-top: .75rem; }
+  .cv ul { grid-template-columns: 1fr; }
 }
 
 @media print {
@@ -43,7 +48,7 @@
   .cv .site-nav, .cv .mind-footer, .cv__print, .cv .mind-label { display: none !important; }
   .cv__page { width: auto; padding: 0; font-size: 12.5px; }
   .cv__body { display: grid; grid-template-columns: 28% 1fr; gap: 24px; }
-  .cv__aside { position: static; }
+  .cv__aside { display: block; padding: 0; border: 0; }
   .cv__head { border-color: #151517; }
   .cv h1 { font-size: 34px; color: #151517; }
   .cv__title, .cv section > p, .cv__summary, .cv li, .cv h3 span, .cv__job-head p { color: #333; }
@@ -64,7 +69,8 @@
   .cv__summary { margin-top: 4px; }
   .cv ul { gap: 2px; margin-top: 4px; }
   .cv__case { margin-top: 4px; font-size: 10.5px; }
-  .cv__job + .cv__job { margin-top: 12px; padding-top: 12px; }
+  .cv__job { display: block; padding: 0; border-top: 0; }
+  .cv__job + .cv__job { margin-top: 12px; padding-top: 12px; border-top: 1px solid #ddd; }
   .cv__skill-list { gap: 3px; }
   .cv__skill-list span { min-height: 0; padding: 2px 5px; border-color: #aaa; color: #333; background: none; box-shadow: none; }
 }
