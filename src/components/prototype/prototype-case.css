@@ -33,8 +33,9 @@
   position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   height: var(--bar-h); padding: 0 var(--edge); border-bottom: 1px solid var(--line);
   background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
-.pcase__bar, .pcase__layout, .pcase__mobile-cta { z-index: 1; }
+.pcase__bar, .pcase__layout, .pcase__mobile-cta, .pcase__mobile-back { z-index: 1; }
 :where(.pcase) button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
 .pcase__back {
   display: inline-flex; align-items: center; gap: .5rem; min-height: 2.5rem; padding: 0 .875rem 0 .625rem;
@@ -135,7 +136,7 @@
 .pcase__next > span:first-child { color: var(--muted); font-size: .875rem; }
 .pcase__next strong { font: 520 2.5rem/.95 var(--display); letter-spacing: -.025em; }
 
-.pcase__mobile-cta { display: none; }
+.pcase__mobile-cta, .pcase__mobile-back { display: none; }
 
 /* ---- narrow: the prototype fills the screen; the story reads below it ---- */
 /* ---- tap guide: a pulsing dot on the next thing to press; the label sits beside the phone ---- */
@@ -166,8 +167,7 @@
   .tap-guide[data-low='true'] .tap-guide__label { top: auto; bottom: calc(100% - var(--y) + 1.75rem); }
   .pcase::before { position: absolute; height: 100svh; background: radial-gradient(70% 45% at 50% 45%, color-mix(in srgb, var(--accent-c) 22%, transparent), transparent 72%); }
   .pcase__artifact { position: absolute; left: -24vw; top: 6.5rem; width: 148vw; max-width: none; opacity: .075; }
-  .pcase__back { width: 2.5rem; padding: 0; justify-content: center; }
-  .pcase__back-label { display: none; }
+  .pcase__back { padding-right: .75rem; justify-content: center; }
   .pcase__switch button { padding: .5rem .75rem; }
   .pcase__layout { display: block; padding: 0 var(--gutter); }
   .pcase__stage { position: relative; top: 0; height: auto; min-height: calc(100svh - var(--bar-h)); padding: 1rem 0 5.5rem; scroll-margin-top: var(--bar-h); }
@@ -192,6 +192,13 @@
     transition: opacity .25s, translate .3s var(--ease);
   }
   .pcase__mobile-cta[data-hidden='true'] { opacity: 0; translate: -50% 1rem; pointer-events: none; }
+  .pcase__mobile-back {
+    position: fixed; left: 50%; bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 10; translate: -50% 1rem;
+    gap: .5rem; padding: .875rem 1.25rem; border: 1px solid #414148; border-radius: 999px; white-space: nowrap;
+    background: rgb(20 20 22 / .94); color: var(--text); font-weight: 550; box-shadow: 0 10px 30px rgb(0 0 0 / .55);
+    opacity: 0; pointer-events: none; transition: opacity .25s, translate .3s var(--ease);
+  }
+  .pcase__mobile-back[data-visible='true'] { display: inline-flex; opacity: 1; translate: -50% 0; pointer-events: auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   .pcase *, .pcase *::before, .pcase *::after { transition: none !important; }
@@ -206,10 +213,10 @@
 .mind-showcase .pcase { background-color: transparent; }
 .mind-showcase__motion { will-change: transform; }
 /* the phone flies in from the gallery; everything else arrives once it lands, and leaves first */
-.mind-showcase :is(.pcase__bar, .pcase__column, .pcase__caption, .pcase__mobile-cta) { transition: opacity .35s ease; }
-.mind-showcase[data-phase='entering'] :is(.pcase__bar, .pcase__column, .pcase__caption, .pcase__mobile-cta),
-.mind-showcase[data-phase='closing'] :is(.pcase__bar, .pcase__column, .pcase__caption, .pcase__mobile-cta) { opacity: 0; }
-.mind-showcase[data-phase='closing'] :is(.pcase__bar, .pcase__column, .pcase__caption, .pcase__mobile-cta) { transition-duration: .18s; }
+.mind-showcase :is(.pcase__bar, .pcase__column, .pcase__caption, .pcase__mobile-cta, .pcase__mobile-back) { transition: opacity .35s ease; }
+.mind-showcase[data-phase='entering'] :is(.pcase__bar, .pcase__column, .pcase__caption, .pcase__mobile-cta, .pcase__mobile-back),
+.mind-showcase[data-phase='closing'] :is(.pcase__bar, .pcase__column, .pcase__caption, .pcase__mobile-cta, .pcase__mobile-back) { opacity: 0; }
+.mind-showcase[data-phase='closing'] :is(.pcase__bar, .pcase__column, .pcase__caption, .pcase__mobile-cta, .pcase__mobile-back) { transition-duration: .18s; }
 .mind-showcase[data-phase='closing'] .pcase::before { opacity: 0; transition: opacity .3s; }
 .mind-showcase[data-phase='closing'] .pcase::after,
 .mind-showcase[data-phase='closing'] .pcase__artifact { opacity: 0; }

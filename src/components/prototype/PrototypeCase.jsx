@@ -74,9 +74,9 @@ export default function PrototypeCase({ item, projects, interactive, deviceRef, 
   const meta = item.screens.find(state => state.id === screen) ?? item.screens[0]
 
   return <div className="pcase" style={{ '--accent-c': item.accent }}>
-    <img className="pcase__artifact" src="/images/prototype/reaching-hands-marble.png" alt="" aria-hidden="true" />
+    <img className="pcase__artifact" src="/images/prototype/reaching-hands-marble.webp" alt="" aria-hidden="true" decoding="async" />
     <header className="pcase__bar">
-      <button type="button" className="pcase__back" onClick={onClose} aria-label="Close, back to all work">
+      <button type="button" className="pcase__back" onClick={onClose} aria-label="Close prototype and return to all work">
         <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5" /></svg>
         <span className="pcase__back-label">All work</span>
       </button>
@@ -143,5 +143,8 @@ export default function PrototypeCase({ item, projects, interactive, deviceRef, 
     </div>
 
     <button type="button" className="pcase__mobile-cta" data-hidden={storyInView} onClick={() => story.current.scrollIntoView({ behavior: 'smooth', block: 'start' })}>How I designed this <span aria-hidden="true">↓</span></button>
+    <button type="button" className="pcase__mobile-back" data-visible={storyInView} onClick={onClose}>
+      <span aria-hidden="true">←</span> All work
+    </button>
   </div>
 }
