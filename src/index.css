@@ -4009,5 +4009,25 @@
 }
 
 .site-nav__monogram { display: grid; place-items: center; width: 2.625rem; height: 2.625rem; flex: none; border-radius: .625rem; background: #f3f3f1; color: #0b0b0c; font: 800 1.375rem/.8 Inter, Arial, sans-serif; letter-spacing: -.1em; }
-/* Route chunks render into the established page shell; keep the loading state tiny and dependency-free. */
-.app-route-loading { min-height: 100svh; display: grid; place-items: center; color: #aaaab0; background: #0b0b0c; font: 500 .75rem/1.4 'Geist Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
+/* Route chunks render into the established page shell; the skeleton mirrors the case-study layout so the swap doesn't jump. */
+.route-skeleton { --sk: #1a1a1d; --sk-hi: #242428; min-height: 100svh; background: #0b0b0c; }
+.route-skeleton i { display: block; border-radius: .5rem; background: linear-gradient(90deg, var(--sk) 0 40%, var(--sk-hi) 50%, var(--sk) 60% 100%) 0 0 / 300% 100%; animation: route-skeleton-shimmer 1.6s ease-in-out infinite; }
+.route-skeleton__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.route-skeleton__nav { display: flex; align-items: center; justify-content: space-between; height: 4rem; padding: 0 clamp(1rem, 5.5vw, 5rem); border-bottom: 1px solid #1d1d20; }
+.route-skeleton__nav span { display: flex; gap: 1.75rem; }
+.route-skeleton__brand { width: 9.5rem; height: 1.25rem; }
+.route-skeleton__nav span i { width: 3.25rem; height: .875rem; }
+.route-skeleton__body { display: grid; gap: 1.25rem; padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5.5vw, 5rem) 4rem calc(clamp(1rem, 5.5vw, 5rem) + clamp(11rem, 18vw, 17rem) + clamp(2rem, 5vw, 5rem)); }
+.route-skeleton__eyebrow { width: 15rem; height: .875rem; }
+.route-skeleton__title { width: min(28rem, 100%); height: clamp(4.5rem, 9vw, 8rem); border-radius: .75rem; }
+.route-skeleton__line { width: min(36rem, 100%); height: 1rem; }
+.route-skeleton__line--short { width: min(24rem, 80%); }
+.route-skeleton__chips { display: flex; flex-wrap: wrap; gap: .625rem; margin-top: .5rem; }
+.route-skeleton__chips i { width: 13rem; height: 2.25rem; border-radius: 999px; }
+.route-skeleton__plate { width: 100%; aspect-ratio: 16 / 9; margin-top: 1.5rem; border-radius: 1rem; }
+@keyframes route-skeleton-shimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+@media (max-width: 900px) {
+  .route-skeleton__body { padding-left: clamp(1rem, 5.5vw, 5rem); }
+  .route-skeleton__nav span i:nth-child(n + 2) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .route-skeleton i { animation: none; } }

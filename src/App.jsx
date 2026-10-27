@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from 'react'
 import MindPortfolioPage from './pages/MindPortfolioPage'
 import { roomThemes } from './data/investigations'
 import { normalizePathname } from './siteRoutes'
+import RouteSkeleton from './components/layout/RouteSkeleton'
 
 const ClinifyPage = lazy(() => import('./pages/ClinifyPage'))
 const UniversityXPage = lazy(() => import('./pages/UniversityXPage'))
@@ -88,7 +89,7 @@ export default function App({ initialPathname }) {
   }, [pathname, Page])
 
   return (
-    <Suspense fallback={<div className="app-route-loading" role="status">Loading…</div>}>
+    <Suspense fallback={<RouteSkeleton />}>
       <Page initialPathname={pathname} />
       {Page !== MindPortfolioPage && Page !== HydraPage && Page !== KestbookPage && Page !== EfootballPage && Page !== QuickHandPage && Page !== NotesPage && Page !== WorkPage && Page !== ClinifyPage && Page !== UniversityXPage && pathname !== '/ui' && Page !== ResumePage && <GlobalContactCTA />}
     </Suspense>
