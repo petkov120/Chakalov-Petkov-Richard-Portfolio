@@ -24,4 +24,4 @@ Thank you. Kindly retain this receipt for your records.`),e(3,"ten-1",2,9,"remin
     #kb-demo i{width:8px;height:8px;border-radius:50%;background:#7fb069;display:block;box-shadow:0 0 0 3px rgba(127,176,105,.25)}
     #kb-demo button{all:unset;cursor:pointer;background:#e8c98a;color:#2b2018;border-radius:999px;padding:7px 12px;font-weight:600}
     #kb-demo button:hover{background:#f2d9a5}
-    @media(max-width:640px){#kb-demo{right:8px;bottom:8px;font-size:11px}#kb-demo span{display:none}}`,document.head.appendChild(t);let n=document.createElement("div");n.id="kb-demo",n.innerHTML='<i></i><span>Interactive demo \xB7 sample data</span><button type="button">Reset</button>',n.querySelector("button").onclick=()=>{location.href="/dashboard"},document.body.appendChild(n)});})();
+    @media(max-width:640px){#kb-demo{right:8px;bottom:8px;font-size:11px}#kb-demo span{display:none}}`,document.head.appendChild(t);let n=document.createElement("div");n.id="kb-demo",n.innerHTML='<i></i><span>Interactive demo \xB7 sample data</span><button type="button">Reset</button>',n.querySelector("button").onclick=()=>{location.href=location.pathname},document.body.appendChild(n)});})();

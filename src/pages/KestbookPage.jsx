@@ -7,6 +7,20 @@ import '../components/mind/home.css'
 import '../components/hydra/hydra.css'
 
 const IMG = '/images/kestbook-new-ledger-replacement/'
+const DEMO_SRC = '/kestbook-demo/index.html'
+
+// Browsers restore an iframe's last URL on reload; if an older demo build left it
+// outside /kestbook-demo, the portfolio itself would render inside the frame.
+function keepDemoInFrame(event) {
+  const frame = event.currentTarget
+  try {
+    if (!frame.contentWindow.location.pathname.startsWith('/kestbook-demo')) {
+      frame.contentWindow.location.replace(DEMO_SRC)
+    }
+  } catch {
+    // Cross-origin frame: nothing to correct.
+  }
+}
 
 const screens = [
   { id: 'dashboard', file: '01-dashboard.png', label: 'Dashboard', note: 'Overdue', purpose: 'The morning desk. Collected, due, and net sit above the people who need attention.' },
@@ -28,7 +42,7 @@ function KestbookInteractiveDemo() {
           A usable Kestbook flow embedded directly into the case page, with the same hands-on
           prototype energy as Hydra Race.
         </p>
-        <a href="/kestbook-demo/" target="_blank" rel="noreferrer">
+        <a href={DEMO_SRC} target="_blank" rel="noreferrer">
           <ExternalLink size={17} />
           Open full demo
         </a>
@@ -40,7 +54,8 @@ function KestbookInteractiveDemo() {
         </div>
         <iframe
           title="Kestbook interactive demo"
-          src="/kestbook-demo/"
+          src={DEMO_SRC}
+          onLoad={keepDemoInFrame}
           loading="lazy"
           allow="clipboard-write"
         />

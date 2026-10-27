@@ -9,7 +9,7 @@
 .hp-shots { display: grid; gap: clamp(2.5rem, 6vw, 5.5rem); padding: 0 var(--edge) clamp(3rem, 7vw, 6rem); }
 .hp-shot { margin: 0; }
 .hp-shot figcaption { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: .5rem 1.25rem; padding-top: 1rem; }
-.hp-shot figcaption small { font: 400 .75rem/1.4 var(--font-mono); letter-spacing: .04em; color: var(--muted); }
+.hp-shot figcaption small { font: 400 .9375rem/1.4 var(--font-mono); letter-spacing: .02em; color: #b4b4bb; }
 .hp-shot figcaption strong { font: 600 clamp(1.5rem, 2.6vw, 2rem)/1.1 var(--font-display); letter-spacing: -.035em; }
 .hp-shot figcaption p { grid-column: 2 / -1; max-width: 40rem; font-size: .9375rem; line-height: 1.55; color: #b4b4bb; }
 .hp-shot figcaption em { font: italic 400 .9375rem/1 var(--font-ui); color: var(--accent); }
