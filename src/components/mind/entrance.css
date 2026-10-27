@@ -1,3 +1,4 @@
+html[data-entered] .collage-entrance { display: none; }
 .collage-entrance {
   --collage-yellow: #ffe72d;
   --collage-pink: #ff4a9a;

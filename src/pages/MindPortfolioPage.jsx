@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import SiteNav from '../components/layout/SiteNav'
 import EntranceScene from '../components/mind/EntranceScene'
 import Stage from '../components/stage/Stage'
@@ -12,21 +12,27 @@ import '../components/mind/home.css'
 
 const InteractionShowcase = lazy(() => import('../components/mind/InteractionShowcase'))
 const ENTERED_KEY = 'mind-entered'
+const useBeforePaint = typeof window === 'undefined' ? useEffect : useLayoutEffect
 const seenEntrance = () => { try { return typeof sessionStorage !== 'undefined' && sessionStorage.getItem(ENTERED_KEY) === '1' } catch { return false } }
 
 export default function MindPortfolioPage({ initialPathname = '/' }) {
   const reduced = useReducedMotion()
   // Onboarding plays only on the bare homepage URL, once per visit; any deep link goes straight in.
   const [entered, setEntered] = useState(() => initialPathname !== '/')
-  const [preparing, setPreparing] = useState(false) // the interior mounts under the entrance portal
+  // The prerendered homepage carries the interior so the Home link and returning visitors paint it straight away;
+  // first-time visitors drop it again before paint and the intro owns the screen as before.
+  const [preparing, setPreparing] = useState(true)
   const work = useRef(null)
   const interior = useRef(null)
   const backdrop = useRef(null)
   const atmosphereFrame = useRef(0)
   const showcase = useShowcaseRoute(zoomExplorations, initialPathname)
 
-  useEffect(() => {
-    if (initialPathname === '/' && (location.hash || seenEntrance())) setEntered(true)
+  useBeforePaint(() => { // index.html already hid the entrance for these visitors; React takes over from its flag
+    if (initialPathname !== '/') return
+    if (location.hash || seenEntrance()) setEntered(true)
+    else setPreparing(false)
+    delete document.documentElement.dataset.entered
   }, [initialPathname])
 
   const setAtmosphere = useCallback(values => {
@@ -100,7 +106,7 @@ export default function MindPortfolioPage({ initialPathname = '/' }) {
   return <div className="mind-site" data-reduced={reduced} data-active-project={project?.id}>
     {!entered && <EntranceScene onEnter={enter} onPrepare={() => setPreparing(true)} reduced={reduced} />}
     {(entered || preparing) && <div ref={interior} className="mind-interior" inert={entered ? undefined : ''}>
-      <div ref={backdrop} className="mind-work-bg" aria-hidden="true"><picture><source srcSet="/images/entrance/statue-floral-cutout-512.avif 512w, /images/entrance/statue-floral-cutout-768.avif 768w, /images/entrance/statue-floral-cutout.avif 1024w" sizes="(max-width: 760px) 86vw, 70vw" type="image/avif" /><img className="mind-work-bg__statue" src="/images/entrance/statue-floral-cutout.webp" alt="" width="1024" height="1536" decoding="async" fetchpriority="high" /></picture></div>
+      <div ref={backdrop} className="mind-work-bg" aria-hidden="true"><picture><source srcSet="/images/entrance/statue-floral-cutout-512.avif 512w, /images/entrance/statue-floral-cutout-768.avif 768w, /images/entrance/statue-floral-cutout.avif 1024w" sizes="(max-width: 760px) 86vw, 70vw" type="image/avif" /><img className="mind-work-bg__statue" src="/images/entrance/statue-floral-cutout.webp" alt="" width="1024" height="1536" decoding="async" /></picture></div>
       <a className="mind-skip" href="#gallery">Skip to the work</a>
       <SiteNav theme="mind" current="home" />
       <main id="work" ref={work} tabIndex={-1}>

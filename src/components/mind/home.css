@@ -76,7 +76,7 @@ body.theme-mind:has(.mind-interior) { background: #0b0b0c; }
 /* ---- nav ---- */
 .site-nav--mind {
   position: sticky; top: 0; z-index: 30; height: var(--nav-h); margin: 0; padding: 0 var(--edge);
-  background: rgb(11 11 12 / .82); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line);
+  background: rgb(11 11 12 / .82); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line);
 }
 .site-nav--mind::before, .site-nav--mind::after { display: none; }
 .site-nav--mind .site-nav__brand { gap: .45rem; font: 540 1.375rem/.95 var(--font-display); letter-spacing: -.02em; }
@@ -98,11 +98,15 @@ body.theme-mind:has(.mind-interior) { background: #0b0b0c; }
 .site-nav--mind .site-nav__contact :is(a, button):hover { background: none; color: var(--text); }
 @media (max-width: 760px) { .site-nav--mind { padding: 0 var(--gutter); } }
 @media (max-width: 767px) {
+  /* frosted while scrolling, like desktop; solid only while the menu sheet is open beneath it */
   .mind-interior > .site-nav--mind {
     z-index: 50;
     isolation: isolate;
-    background: #0b0b0c;
+    background: rgb(11 11 12 / .72);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
   }
+  .mind-interior > .site-nav--mind:has(.site-nav__links[data-open='true']) { background: #0b0b0c; }
   .site-nav--mind .site-nav__toggle {
     width: 2.5rem;
     height: 2.5rem;

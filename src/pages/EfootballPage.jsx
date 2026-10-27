@@ -1,4 +1,5 @@
 import SiteNav from '../components/layout/SiteNav'
+import BackToWork from '../components/layout/BackToWork'
 import MindFooter from '../components/layout/MindFooter'
 import ScrollReveal from '../components/motion/ScrollReveal'
 import Artboard from '../components/hydra/Artboard'
@@ -47,6 +48,7 @@ export default function EfootballPage() {
     <div className="mind-site">
       <div className="mind-interior" style={{ '--accent': '#43d46b' }}>
         <SiteNav theme="mind" current="work" />
+        <BackToWork />
         <header className="hp-intro hp-intro--race">
           <span className="mind-label">eFootball UI / Console game screens / 2026</span>
           <h1>eFootball <span>UI</span></h1>

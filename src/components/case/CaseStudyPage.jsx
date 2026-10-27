@@ -1,4 +1,5 @@
 import SiteNav from '../layout/SiteNav'
+import BackToWork from '../layout/BackToWork'
 import MindFooter from '../layout/MindFooter'
 import ScrollReveal from '../motion/ScrollReveal'
 import SlackThread from '../evidence/SlackThread'
@@ -101,6 +102,7 @@ export default function CaseStudyPage({ investigation, content }) {
     <div className="mind-site">
       <div className="mind-interior cs" data-case={investigation.slug} style={{ '--accent': card?.accent ?? '#ffe72d' }}>
         <SiteNav theme="mind" current="work" />
+        <BackToWork />
 
         <header className="hp-intro cs-intro">
           <div className="cs-intro__copy">

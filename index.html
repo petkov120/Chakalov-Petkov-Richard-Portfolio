@@ -16,6 +16,8 @@
         if (!usesMindHomepage) return
         let hasEntered = pathname !== '/' || !!location.hash
         try { hasEntered ||= sessionStorage.getItem('mind-entered') === '1' } catch { /* storage may be unavailable */ }
+        // The homepage prerenders the work under the entrance; skip straight to it before first paint.
+        if (hasEntered && pathname === '/') document.documentElement.dataset.entered = ''
         const preload = document.createElement('link')
         preload.rel = 'preload'
         preload.as = 'image'

@@ -1,4 +1,5 @@
 import SiteNav from '../components/layout/SiteNav'
+import BackToWork from '../components/layout/BackToWork'
 import MindFooter from '../components/layout/MindFooter'
 import ScrollReveal from '../components/motion/ScrollReveal'
 import '../components/mind/home.css'
@@ -50,6 +51,7 @@ export default function QuickHandPage() {
     <div className="mind-site">
       <div className="mind-interior" style={{ '--accent': '#ff6a2b' }}>
         <SiteNav theme="mind" current="work" />
+        <BackToWork />
         <header className="hp-intro hp-intro--race">
           <span className="mind-label">QuickHand / Service providers / 2026</span>
           <h1>Quick<span>Hand</span></h1>

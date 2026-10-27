@@ -1,4 +1,5 @@
 import SiteNav from '../components/layout/SiteNav'
+import BackToWork from '../components/layout/BackToWork'
 import MindFooter from '../components/layout/MindFooter'
 import ScrollReveal from '../components/motion/ScrollReveal'
 import Artboard from '../components/hydra/Artboard'
@@ -69,6 +70,7 @@ export default function KestbookPage() {
     <div className="mind-site">
       <div className="mind-interior" style={{ '--accent': '#c9a46c' }}>
         <SiteNav theme="mind" current="work" />
+        <BackToWork />
         <header className="hp-intro hp-intro--race">
           <span className="mind-label">Kestbook / Property books / 2026</span>
           <h1>Kest<span>book</span></h1>
