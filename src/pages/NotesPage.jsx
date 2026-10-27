@@ -35,7 +35,7 @@ export default function NotesPage() {
             <Annotation tone="pink">A builder, before anything.</Annotation>
           </div>
           <div className="mind-about__story">
-            <img src="/images/notes/nigeria-childhood.png" alt="Petkov as a child, smiling on a lawn in Nigeria" width="240" height="280" />
+            <picture><source srcSet="/images/notes/nigeria-childhood-480.avif" type="image/avif" /><img src="/images/notes/nigeria-childhood.png" alt="Petkov as a child, smiling on a lawn in Nigeria" width="240" height="280" /></picture>
             <p>{notesIntro.sublead}</p>
             <p>I grew up around systems that fail and people who find a way through anyway. This is the longer story behind how that shaped the builder I am becoming.</p>
             <div className="manga-about-hero__chapter-note">
