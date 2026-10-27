@@ -12,6 +12,25 @@ import './case.css'
 
 const EVIDENCE_TYPE = { shipped: 'Shipped', killed: 'Rejected', wireframe: 'Early wireframe', slack: 'Thread' }
 
+const MOBILE_IMAGE = {
+  '/images/ai-agent-calls.webp': '/images/optimized/ai-agent-calls-720.avif',
+  '/images/clinify/member-communications.png': '/images/optimized/clinify-member-communications-720.avif',
+  '/images/clinify/calling-ui.png': '/images/optimized/clinify-calling-ui-720.avif',
+  '/images/universityx/new-ai-tutor-interface.webp': '/images/optimized/universityx-new-ai-tutor-interface-720.avif',
+  '/images/universityx/new-course-setup.webp': '/images/optimized/universityx-new-course-setup-720.avif',
+  '/images/universityx/new-quiz-interaction.webp': '/images/optimized/universityx-new-quiz-interaction-720.avif',
+  '/images/universityx/new-analytics-dashboard.webp': '/images/optimized/universityx-new-analytics-dashboard-720.avif',
+  '/images/universityx/ai-generated-video.webp': '/images/optimized/universityx-ai-generated-video-720.avif',
+}
+
+function CaseImage({ src, alt = '', eager = false }) {
+  const mobile = MOBILE_IMAGE[src]
+  return <picture>
+    {mobile && <source srcSet={mobile} media="(max-width: 900px)" type="image/avif" />}
+    <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />
+  </picture>
+}
+
 function Figure({ figure, date, type, caption, src, alt, slackThread }) {
   const meta = [figure && `Fig. ${figure}`, date, EVIDENCE_TYPE[type]].filter(Boolean).join(' · ')
   return (
@@ -19,7 +38,7 @@ function Figure({ figure, date, type, caption, src, alt, slackThread }) {
       {slackThread
         ? <div className="cs-figure__plate cs-figure__plate--light"><SlackThread {...slackThread} /></div>
         : <a className="cs-figure__plate" href={src} target="_blank" rel="noreferrer" aria-label={`Open full size: ${alt ?? caption}`}>
-            <img src={src} alt={alt ?? ''} loading="lazy" decoding="async" />
+            <CaseImage src={src} alt={alt ?? ''} />
           </a>}
       {(meta || caption) && <figcaption><small>{meta}</small>{caption && <span>{caption}</span>}</figcaption>}
     </figure>
@@ -98,7 +117,7 @@ export default function CaseStudyPage({ investigation, content }) {
         <main className="cs-main">
           <ScrollReveal as="figure" className="cs-hero">
             <div className="cs-figure__plate">
-              <img src={hero.src} alt={hero.alt ?? ''} fetchpriority="high" />
+              <CaseImage src={hero.src} alt={hero.alt ?? ''} eager />
             </div>
             {(heroStage?.headline || hero.caption) && (
               <figcaption>
@@ -123,7 +142,7 @@ export default function CaseStudyPage({ investigation, content }) {
               <div className="hp-shots cs-shots">
                 {screenGallery.map((screen, index) => (
                   <ScrollReveal as="figure" className="hp-shot" key={screen.id}>
-                    <div className="cs-figure__plate"><img src={screen.src} alt={screen.alt ?? ''} loading="lazy" decoding="async" /></div>
+                    <div className="cs-figure__plate"><CaseImage src={screen.src} alt={screen.alt ?? ''} /></div>
                     <figcaption>
                       <small>{String(index + 1).padStart(2, '0')}</small>
                       <div>

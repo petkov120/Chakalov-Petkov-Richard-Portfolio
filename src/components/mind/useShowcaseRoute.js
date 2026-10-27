@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-const readId = projects => projects.find(project => project.href === location.pathname)?.id ?? null
+const readId = (projects, pathname = typeof location === 'undefined' ? '/' : location.pathname) => projects.find(project => project.href === pathname)?.id ?? null
 const rectOf = element => {
   const { left, top, width, height } = element.getBoundingClientRect()
   return { left, top, width, height }
@@ -10,8 +10,8 @@ const rectOf = element => {
  * Each prototype has its own URL (/interactions/social ...) but opens as an overlay on the homepage.
  * Handles deep links, the back button, and animating the overlay back into the piece it came from.
  */
-export default function useShowcaseRoute(projects) {
-  const [id, setId] = useState(() => readId(projects))
+export default function useShowcaseRoute(projects, initialPathname) {
+  const [id, setId] = useState(() => readId(projects, initialPathname))
   const [closing, setClosing] = useState(false)
   const [entry, setEntry] = useState(null) // where the overlay opens from
   const current = useRef(id)

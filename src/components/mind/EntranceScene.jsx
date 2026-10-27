@@ -66,7 +66,7 @@ function FloatingNote({ name, className, children, reduced, paused }) {
 export default function EntranceScene({ onEnter, onPrepare, reduced }) {
   const [entering, setEntering] = useState(false)
   const [paused, setPaused] = useState(false)
-  const [hidden, setHidden] = useState(document.hidden)
+  const [hidden, setHidden] = useState(false)
   const [questControls, setQuestControls] = useState(null)
   const root = useRef(null)
   const paper = useRef(null)
@@ -147,14 +147,14 @@ export default function EntranceScene({ onEnter, onPrepare, reduced }) {
           <IdeaQuest controlsTarget={questControls} still={still} reduced={reduced} entering={entering} />
           <span className="collage-tape collage-tape--blue" aria-hidden="true" />
           <div className="collage-computer-position"><div className="collage-computer-drift"><button type="button" className="collage-computer" onClick={enter} disabled={entering} aria-label="Click the monitor to see the work">
-            <img src="/images/entrance/mind-computer.webp" alt="" width="1254" height="1254" fetchpriority="high" decoding="async" draggable="false" />
+            <picture className="collage-computer__image"><source srcSet="/images/entrance/mind-computer-640.avif 640w, /images/entrance/mind-computer.avif 1254w" sizes="(max-width: 760px) 82vw, 59vw" type="image/avif" /><img src="/images/entrance/mind-computer.webp" alt="" width="1254" height="1254" fetchpriority="high" decoding="async" draggable="false" /></picture>
             <span ref={screen} className="collage-screen" aria-hidden="true"><svg className="collage-tunnel" viewBox="0 0 300 260" preserveAspectRatio="none"><defs><radialGradient id="portal-light"><stop stopColor="#ffe85a" /><stop offset=".44" stopColor="#ffdb00" /><stop offset=".78" stopColor="#ffff35" /><stop offset="1" stopColor="#d3b900" /></radialGradient></defs><path fill="url(#portal-light)" d="M0 0h300v260H0z" /><g fill="none" stroke="#fffab4" strokeWidth="1.1"><path d="M0 0 120 105M300 0 180 105M300 260 180 155M0 260 120 155M100 0l40 105M200 0l-40 105M0 87l120 34M0 173l120-34M300 87l-120 34M300 173l-120-34M100 260l40-105M200 260l-40-105" /><path d="M24 21h252v218H24zM49 43h202v174H49zM75 65h150v130H75zM99 86h102v88H99zM120 105h60v50h-60z" /></g></svg><span className="collage-screen__glow" /><Arrow className="collage-screen__arrow" /><span className="collage-screen__hint">Come on in</span></span>
           </button></div></div>
           <PointingHand />
           {[
             { id: 'figma', name: 'Figma', image: 'figma.svg' },
-            { id: 'cursor', name: 'Cursor', image: 'cursor.png' },
-            { id: 'vscode', name: 'VS Code', image: 'vscode.png' },
+            { id: 'cursor', name: 'Cursor', image: 'cursor-128.avif' },
+            { id: 'vscode', name: 'VS Code', image: 'vscode-128.avif' },
           ].map(tool => <FloatingNote key={tool.id} {...noteProps} name={`${tool.name} logo`} className={`collage-tool collage-tool--${tool.id}`}><span className="collage-tool__tile"><img src={`/images/entrance/${tool.image}`} alt="" width="100" height="100" draggable="false" /><span className="collage-tool__label">{tool.name}</span></span></FloatingNote>)}
           <FloatingNote {...noteProps} name="same mind note" className="collage-same"><span className="collage-note collage-note--pink">Same mind.<br />Different day.<span className="collage-underline" /></span></FloatingNote>
           <FloatingNote {...noteProps} name="creative problem solver note" className="collage-solver"><span className="collage-note collage-note--white">Creative<br />problem<br />solver<br /><small>( still )</small><span className="collage-note__smile">☺</span></span></FloatingNote>

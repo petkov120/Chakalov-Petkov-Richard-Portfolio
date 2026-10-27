@@ -86,6 +86,7 @@
 .cs-figure { display: grid; grid-column: var(--cs-full); grid-template-columns: var(--cs-cols); column-gap: var(--story-gap); row-gap: .875rem; align-items: start; margin: 0; }
 .cs-figure__plate { grid-column: var(--cs-copy); display: grid; place-items: center; min-width: 0; overflow: hidden; border-radius: 1rem; border: 1px solid var(--line); background: #101012; box-shadow: 0 40px 90px rgb(0 0 0 / .5); }
 .cs-figure__plate:not(.cs-figure__plate--light) img { display: block; width: 100%; height: auto; object-fit: contain; transition: transform .6s cubic-bezier(.22, .8, .2, 1); }
+.cs-figure__plate picture { display: block; }
 a.cs-figure__plate:hover img { transform: scale(1.01); }
 a.cs-figure__plate:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .cs-figure__plate--light { aspect-ratio: auto; display: block; height: auto; padding: clamp(1rem, 3vw, 2rem); background: #fff; }

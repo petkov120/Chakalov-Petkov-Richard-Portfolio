@@ -1,0 +1,16 @@
+# Petkov Chakalov — Design Engineer
+
+Portfolio of Petkov Chakalov, a design engineer in Lagos building AI products for healthcare and education. The site contains shipped product case studies, interactive prototypes, engineering experiments, a résumé and an extended personal story.
+
+## Primary pages
+
+- [Selected work](https://petkov.name.ng/work)
+- [Clinify case study](https://petkov.name.ng/clinify)
+- [UniversityX case study](https://petkov.name.ng/universityx)
+- [About](https://petkov.name.ng/about)
+- [Résumé](https://petkov.name.ng/resume)
+- [Interactive playground](https://petkov.name.ng/playground)
+
+## Contact
+
+- [Portfolio homepage](https://petkov.name.ng/)

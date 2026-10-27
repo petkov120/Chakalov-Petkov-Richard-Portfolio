@@ -7,9 +7,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Petkov Chakalov — Design Engineer</title>
     <meta name="description" content="Product design investigations into complex healthcare, AI and digital systems." />
+    <script>
+      // Preload the image that can become LCP before the React bundle runs.
+      // First-time visitors see the entrance; returning/deep-link visitors go straight to the work.
+      (() => {
+        const pathname = location.pathname.replace(/\/$/, '') || '/'
+        const usesMindHomepage = pathname === '/' || pathname === '/interactions' || pathname.startsWith('/interactions/')
+        if (!usesMindHomepage) return
+        let hasEntered = pathname !== '/' || !!location.hash
+        try { hasEntered ||= sessionStorage.getItem('mind-entered') === '1' } catch { /* storage may be unavailable */ }
+        const preload = document.createElement('link')
+        preload.rel = 'preload'
+        preload.as = 'image'
+        preload.type = 'image/avif'
+        preload.href = hasEntered
+          ? '/images/entrance/statue-floral-cutout-768.avif'
+          : '/images/entrance/mind-computer-640.avif'
+        preload.imageSrcset = hasEntered
+          ? '/images/entrance/statue-floral-cutout-512.avif 512w, /images/entrance/statue-floral-cutout-768.avif 768w, /images/entrance/statue-floral-cutout.avif 1024w'
+          : '/images/entrance/mind-computer-640.avif 640w, /images/entrance/mind-computer.avif 1254w'
+        preload.imageSizes = hasEntered
+          ? '(max-width: 760px) 86vw, 70vw'
+          : '(max-width: 760px) 82vw, 59vw'
+        preload.fetchPriority = 'high'
+        document.head.appendChild(preload)
+      })()
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Exo+2:ital,wght@0,500;0,600;0,700;1,700;1,800;1,900&family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Exo+2:ital,wght@0,500;0,600;0,700;1,700;1,800;1,900&family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Exo+2:ital,wght@0,500;0,600;0,700;1,700;1,800;1,900&family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" /></noscript>
   </head>
   <body>
     <div id="root"></div>

@@ -8,6 +8,7 @@ import './stage.css'
 // The live prototype runtime is heavy; it loads only once a phone is near the centre.
 // After that every phone renders its real (paused) screen, so wide screens never show a blank device.
 const Preview = lazy(() => import('../mind/StudioInteractionPreview'))
+const useBrowserLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect
 
 const modified = event => event.metaKey || event.ctrlKey || event.shiftKey || event.altKey
 
@@ -69,7 +70,7 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
     return () => { cancelAnimationFrame(frame); node.removeEventListener('scroll', update) }
   }, [keys, onAtmosphere, reduced])
 
-  useLayoutEffect(() => { rail.current?.scrollTo({ left: 0, behavior: 'instant' }) }, [filter]) // a new list starts at its first piece
+  useBrowserLayoutEffect(() => { rail.current?.scrollTo({ left: 0, behavior: 'instant' }) }, [filter]) // a new list starts at its first piece
   const openCurrent = () => {
     const link = rail.current?.querySelector(`[data-key="${current.key}"] .stage__link`)
     if (link) onOpen(current.data, link)
@@ -132,7 +133,7 @@ export default function Stage({ prototypes, cases, reduced, suspended, masthead,
     {current && <div className="stage__info">
       <div className="stage__text" key={current.key} aria-live="polite">
         <p className="stage__meta"><span>{String(currentIndex + 1).padStart(2, '0')} / {String(shown.length).padStart(2, '0')}</span><span className="stage__group" data-group={current.group}>{current.kind}</span>{current.credit && <span>{current.credit}</span>}</p>
-        <h3>{current.name}</h3>
+        <h2>{current.name}</h2>
         <p className="stage__line">{current.line}</p>
         <p className="stage__note">{current.note}</p>
       </div>

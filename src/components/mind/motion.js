@@ -4,10 +4,11 @@ export const timing = { enter: 1250, lift: 420, cover: 650, turn: 720, close: 65
 export const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value))
 
 export function useReducedMotion() {
-  const [reduced, setReduced] = useState(() => matchMedia('(prefers-reduced-motion: reduce)').matches)
+  const [reduced, setReduced] = useState(false)
   useEffect(() => {
     const query = matchMedia('(prefers-reduced-motion: reduce)')
     const change = () => setReduced(query.matches)
+    change()
     query.addEventListener('change', change)
     return () => query.removeEventListener('change', change)
   }, [])

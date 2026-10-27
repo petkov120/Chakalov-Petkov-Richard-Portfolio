@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "vite build",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir .prerender --emptyOutDir && node scripts/prerender.mjs",
     "preview": "vite preview",
     "test:ui-export": "node --test scripts/ui-export-plugin.test.mjs",
     "test:efootball": "node --test scripts/efootball-physics.test.mjs && node scripts/efootball-training-check.mjs",

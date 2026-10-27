@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react'
 import MindPortfolioPage from './pages/MindPortfolioPage'
 import { roomThemes } from './data/investigations'
+import { normalizePathname } from './siteRoutes'
 
 const ClinifyPage = lazy(() => import('./pages/ClinifyPage'))
 const UniversityXPage = lazy(() => import('./pages/UniversityXPage'))
@@ -41,14 +42,13 @@ const routes = {
   '/resume': ResumePage,
 }
 
-function getPathname() {
-  const path = window.location.pathname.replace(/\/$/, '') || '/'
-  if (path === '/investigations') return '/'
+function getPathname(initialPathname) {
+  const path = normalizePathname(initialPathname ?? (typeof window === 'undefined' ? '/' : window.location.pathname))
   return routes[path] ? path : '/'
 }
 
-export default function App() {
-  const pathname = getPathname()
+export default function App({ initialPathname }) {
+  const pathname = getPathname(initialPathname)
   const Page = routes[pathname]
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function App() {
 
   return (
     <Suspense fallback={<div className="app-route-loading" role="status">Loading…</div>}>
-      <Page />
+      <Page initialPathname={pathname} />
       {Page !== MindPortfolioPage && Page !== HydraPage && Page !== KestbookPage && Page !== EfootballPage && Page !== QuickHandPage && Page !== NotesPage && Page !== WorkPage && Page !== ClinifyPage && Page !== UniversityXPage && pathname !== '/ui' && Page !== ResumePage && <GlobalContactCTA />}
     </Suspense>
   )

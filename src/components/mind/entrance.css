@@ -35,7 +35,8 @@
 .collage-computer-position { position: absolute; inset: 0 0 auto; transform: translate(var(--float-x, 0px), var(--float-y, 0px)); transition: transform 600ms ease-out; }
 .collage-computer-drift { width: 100%; height: 100%; animation: collage-computer-float 7s ease-in-out infinite; }
 .mind-site .collage-computer { display: block; position: relative; width: 100%; aspect-ratio: 1; padding: 0; border: 0; background: none; overflow: hidden; }
-.collage-computer > img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; }
+.collage-computer__image { position: absolute; inset: 0; display: block; }
+.collage-computer__image > img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; }
 .collage-screen { position: absolute; left: 25.5%; top: 26%; width: 36.5%; height: 33.5%; display: grid; place-items: center; background: #ffe41c; opacity: 0; transition: opacity 250ms; clip-path: polygon(0 1%, 89% 10%, 100% 89%, 5% 100%); }
 .collage-tunnel { position: absolute; inset: 0; width: 100%; height: 100%; transform: skewY(-5deg) scale(1.08); transition: transform 700ms; }
 .collage-screen__glow { position: absolute; inset: 0; background: radial-gradient(ellipse, #fffca033, transparent 70%); box-shadow: inset 0 0 22px #fff95b; }

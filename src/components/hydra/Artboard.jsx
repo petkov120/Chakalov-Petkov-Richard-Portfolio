@@ -1,10 +1,12 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+
+const useBrowserLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect
 
 /** A 1920×1080 design that scales to whatever width it is given, so every screen reads as the real artboard. */
 export default function Artboard({ label, children }) {
   const box = useRef(null)
   const [scale, setScale] = useState(0.5)
-  useLayoutEffect(() => {
+  useBrowserLayoutEffect(() => {
     const fit = () => setScale(box.current.clientWidth / 1920)
     fit()
     const observer = new ResizeObserver(fit)

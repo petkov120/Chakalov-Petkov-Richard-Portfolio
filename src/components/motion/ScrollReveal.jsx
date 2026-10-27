@@ -7,7 +7,8 @@ export default function ScrollReveal({
   as: Tag = 'div',
 }) {
   const ref = useRef(null)
-  const [visible, setVisible] = useState(false)
+  // Keep content paintable in prerendered HTML; the observer remains for older cached shells.
+  const [visible, setVisible] = useState(true)
 
   useEffect(() => {
     const el = ref.current
