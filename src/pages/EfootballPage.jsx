@@ -62,7 +62,7 @@ export default function EfootballPage() {
           {screens.map((screen, index) => (
             <ScrollReveal as="figure" className="hp-shot" key={screen.id}>
               <Artboard label={`${screen.label}: ${screen.purpose}`}>
-                <img className="hg-original" src={IMG + screen.file} alt="" />
+                <img className="hg-original" src={IMG + screen.file} alt="" loading="lazy" decoding="async" />
               </Artboard>
               <figcaption>
                 <small>{String(index + 1).padStart(2, '0')}</small>

@@ -5,7 +5,7 @@ export default function CarArt({ car, type, color }) {
 
   return (
     <span className="hg-car hg-car--rendered" style={{ '--car-color': color ?? car?.color }}>
-      <img src={CAR_ASSET + src?.replace(/\.png$/, '.webp')} alt="" aria-hidden="true" />
+      <img src={CAR_ASSET + src?.replace(/\.png$/, '.webp')} alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <i aria-hidden="true" />
     </span>
   )

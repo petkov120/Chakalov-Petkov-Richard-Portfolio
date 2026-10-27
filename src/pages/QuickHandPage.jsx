@@ -8,8 +8,9 @@ import '../components/hydra/quickhand.css'
 
 const IMG = '/images/playground/'
 
-const Win = ({ src, className = '', style, children }) => (
-  <div className={`qh-win ${className}`} style={style}>{children ?? <img src={IMG + src} alt="" />}</div>
+// The first stage is the page's LCP, so it loads straight away; every other screen waits for the viewport.
+const Win = ({ src, className = '', style, children, priority = false }) => (
+  <div className={`qh-win ${className}`} style={style}>{children ?? <img src={IMG + src} alt="" loading={priority ? 'eager' : 'lazy'} decoding="async" fetchpriority={priority ? 'high' : undefined} />}</div>
 )
 
 const screens = [
@@ -17,7 +18,7 @@ const screens = [
     id: 'offerings', label: 'Offerings', note: 'Setup',
     purpose: 'A provider describes what they do, what they charge, and where they work, one step at a time.',
     tag: 'Step 01 / Create offerings',
-    stage: <Win src="quickhand-onboard-2.webp" style={{ left: '15%', top: '9.5%', width: '70%' }} />,
+    stage: <Win src="quickhand-onboard-2.webp" style={{ left: '15%', top: '9.5%', width: '70%' }} priority />,
   },
   {
     id: 'onboarding', label: 'Choose a trade', note: 'Mobile + desktop',
@@ -25,9 +26,9 @@ const screens = [
     tag: 'Step 02 / Pick categories',
     stage: <>
       <Win src="quickhand-onboarding-grid.webp" className="qh-win--crop" style={{ left: '31%', top: '10%', width: '58%', height: '73%' }}>
-        <div className="qh-view"><img src={IMG + 'quickhand-onboarding-grid.webp'} alt="" /></div>
+        <div className="qh-view"><img src={IMG + 'quickhand-onboarding-grid.webp'} alt="" loading="lazy" decoding="async" /></div>
       </Win>
-      <div className="qh-phone" style={{ left: '12%', top: '11%', width: '19%' }}><img src={IMG + 'quickhand-mobile-onboarding.webp'} alt="" /></div>
+      <div className="qh-phone" style={{ left: '12%', top: '11%', width: '19%' }}><img src={IMG + 'quickhand-mobile-onboarding.webp'} alt="" loading="lazy" decoding="async" /></div>
     </>,
   },
   {
@@ -36,7 +37,7 @@ const screens = [
     tag: 'Step 03 / Book with confidence',
     stage: <>
       <Win src="quickhand-carpenter-profile.webp" className="qh-win--crop" style={{ left: '8%', top: '9%', width: '66%', height: '78%' }}>
-        <div className="qh-view"><img src={IMG + 'quickhand-carpenter-profile.webp'} alt="" /></div>
+        <div className="qh-view"><img src={IMG + 'quickhand-carpenter-profile.webp'} alt="" loading="lazy" decoding="async" /></div>
       </Win>
       <div className="qh-card" style={{
         right: '5%', bottom: '8%', width: '25%', aspectRatio: '1.054',

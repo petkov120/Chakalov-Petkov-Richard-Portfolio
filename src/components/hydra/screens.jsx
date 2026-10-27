@@ -14,7 +14,7 @@ const Prompts = ({ items = [['A', 'Select'], ['B', 'Back'], ['Y', 'Options']] })
 const Backdrop = ({ photo, shade = .72 }) => (
   <><div className={`hg-bg hg-bg--${photo}`} /><div className="hg-shade" style={{ opacity: shade }} /></>
 )
-const Original = ({ src, alt }) => <img className="hg-original" src={IMG + src} alt={alt} />
+const Original = ({ src, alt }) => <img className="hg-original" src={IMG + src} alt={alt} loading="lazy" decoding="async" />
 
 const Bar = ({ label, value, accent }) => (
   <li><span>{label}</span><i><b style={{ width: `${value}%`, background: accent }} /></i><em>{value}</em></li>
